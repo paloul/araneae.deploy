@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: araneae
+  namespace: araneae-dashboard
+spec:
+  gateways:
+  - araneae-gateway
+  hosts:
+  - <<__subdomain_dashboard__>>.<<__domain__>>
+  http:
+  - route:
+    - destination:
+        host: araneae.araneae-dashboard.svc.cluster.local
+        port:
+          number: 80

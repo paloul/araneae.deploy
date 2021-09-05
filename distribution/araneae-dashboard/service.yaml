@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: araneae
+  namespace: araneae-dashboard
+spec:
+  selector:
+    app: araneae
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80

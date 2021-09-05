@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: araneae
+  labels:
+    app: araneae
+  namespace: araneae-dashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: araneae
+  template:
+    metadata:
+      labels:
+        app: araneae
+      annotations:
+        sidecar.istio.io/inject: "false"
+    spec:
+      containers:
+        - name: araneae
+          securityContext: {}
+          image: "image:0.0.1"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources: 
+            requests:
+              memory: "500Mi"
+              cpu: "1000m"
+            limits:
+              memory: "1.25Gi"
+              cpu: "1900m"
+      nodeSelector:
+        node-class: "front-end"
+      tolerations:
+      - key: "only-frontend"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+
