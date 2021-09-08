@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: araneae-reasoner-api
+  namespace: araneae-reasoner
+spec:
+  gateways:
+  - araneae-reasoner-gateway
+  hosts:
+  - <<__subdomain_reasoner__>>.<<__domain__>>
+  http:
+  - route:
+    - destination:
+        host: araneae-reasoner-api.araneae-reasoner.svc.cluster.local
+        port:
+          number: 5000

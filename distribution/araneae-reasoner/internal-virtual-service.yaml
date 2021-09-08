@@ -1,0 +1,27 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  labels:
+    app: araneae-reasoner
+  name: araneae-reasoner-internal
+  namespace: araneae-reasoner
+spec:
+  hosts:
+  - araneae-reasoner-internal.araneae-reasoner.svc.cluster.local
+  http:
+  - name: "management"
+    match:
+    - port: 8558
+    route:
+    - destination:
+        host: araneae-reasoner-internal.araneae-reasoner.svc.cluster.local
+        port:
+          number: 8558
+  - name: "remoting"
+    match:
+    - port: 2550
+    route:
+    - destination:
+        host: araneae-reasoner-internal.araneae-reasoner.svc.cluster.local
+        port:
+          number: 2550

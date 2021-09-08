@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: araneae-reasoner
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: araneae-reasoner-internal
+  namespace: araneae-reasoner
+spec:
+  ports:
+    - name: management
+      port: 8558
+      protocol: TCP
+      targetPort: 8558
+    - name: remoting
+      port: 2550
+      protocol: TCP
+      targetPort: 2550
+  selector:
+    app: araneae-reasoner
+  clusterIP: None
+  publishNotReadyAddresses: true

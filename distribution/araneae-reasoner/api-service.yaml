@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels: 
+    app: araneae-reasoner
+  name: araneae-reasoner-api
+  namespace: araneae-reasoner
+spec:
+  selector:
+    app: araneae-reasoner
+  type: ClusterIP
+  ports:
+    - port: 5000
+      targetPort: 5000

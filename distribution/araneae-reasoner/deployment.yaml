@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: araneae-reasoner
+  labels:
+    app: araneae-reasoner
+  namespace: araneae-reasoner
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: araneae-reasoner
+  strategy:
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 3
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: araneae-reasoner
+        actorSystemName: araneae-reasoner
+      annotations:
+        sidecar.istio.io/inject: "false"
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: araneae-reasoner
+          securityContext: {}
+          image: "araneae-reasoner:0.0.1"
+          imagePullPolicy: Always
+          resources: 
+            requests:
+              memory: "1Gi"
+              cpu: "1850m"
+            limits:
+              memory: "3Gi"
+              cpu: "1950m"
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8558
+          livenessProbe:
+            httpGet:
+              path: /alive
+              port: 8558
+          env:
+            - name: CLUSTER.DEPLOY.CLOUD
+              value: "true"
+            # Value needs to match the Deployment app labels. 
+            # Used by Discovery kubernetes-api for lookup.
+            - name: CLUSTER.NAME
+              value: "araneae-reasoner" 
+            - name: CLUSTER.TIMEOUT
+              value: "20 seconds"
+            - name: CLUSTER.MAX.NUM.NODES
+              value: "3"
+            - name: HTTP.SERVER-HEADER
+              value: "araneae-reasoner"
+            - name: ACTOR.SERIALIZE-MESSAGES
+              value: "off"
+            - name: PASSIVATE-IDLE-ENTITIES
+              value: "15 minutes"
+            - name: REMEMBER-ENTITIES
+              value: "on"
+          ports:
+            - containerPort: 5000
+              name: http
+              protocol: TCP
+            - containerPort: 8558
+              name: management
+              protocol: TCP
+            - containerPort: 2550
+              name: remoting
+              protocol: TCP
+          volumeMounts: []
+      nodeSelector:
+        node-class: "reasoner"
+      tolerations:
+      - key: "only-reasoner"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+
