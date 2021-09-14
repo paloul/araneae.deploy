@@ -9,7 +9,21 @@ spec:
   hosts:
   - <<__subdomain_dashboard__>>.<<__domain__>>
   http:
-  - route:
+  - name: "reasoner-route"
+    match:
+    - uri:
+        prefix: "/reasoner/"
+    - uri:
+        prefix: "/reasoner"
+    rewrite:
+      uri: "/"
+    route:
+    - destination:
+        host: araneae-reasoner-api.araneae-reasoner.svc.cluster.local
+        port: 
+          number: 5000
+  - name: "dashboard-route"
+    route:
     - destination:
         host: araneae.araneae-dashboard.svc.cluster.local
         port:
