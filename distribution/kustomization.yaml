@@ -18,6 +18,8 @@ resources:
   - argocd-applications/aws-load-balancer-controller.yaml
   - argocd-applications/external-dns.yaml
   - argocd-applications/external-secrets.yaml
+
+  ## Monitoring
   - argocd-applications/metrics-server.yaml
 
   ## Araneae
