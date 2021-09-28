@@ -6,6 +6,7 @@ metadata:
 spec:
   project: default
   source:
+    # https://artifacthub.io/packages/helm/oauth2-proxy/oauth2-proxy
     chart: oauth2-proxy
     helm:
       parameters:
@@ -35,6 +36,8 @@ spec:
         value: _oauth2_proxy
       - name: extraArgs.email-domain
         value: "*"
+      - name: extraArgs.insecure-oidc-allow-unverified-email
+        value: "true"
       - name: extraArgs.upstream
         value: "static://200"
       - name: extraArgs.skip-provider-button
@@ -45,32 +48,18 @@ spec:
         value: .<<__domain__>>
       - name: extraArgs.oidc-issuer-url
         value: <<__oidc.issuer__>>
-      # - name: extraArgs.login-url
-      #   value: "https://<<__subdomain_auth__>>.<<__oidc.issuer__>>/auth/realms/kubeflow/protocol/openid-connect/auth"
-      # - name: extraArgs.oidc-jwks-url
-      #   value: "https://<<__oidc.issuer__>>/keys"
-      # - name: extraArgs.redeem-url
-      #   value: "https://<<__subdomain_auth__>>.<<__oidc.issuer__>>/auth/realms/kubeflow/protocol/openid-connect/token"
-      # - name: extraArgs.profile-url
-      #   value: "https://<<__subdomain_auth__>>.<<__oidc.issuer__>>/auth/realms/kubeflow/protocol/openid-connect/userinfo"
-      # - name: extraArgs.validate-url
-      #   value: "https://<<__subdomain_auth__>>.<<__oidc.issuer__>>.nl/auth/realms/kubeflow/protocol/openid-connect/userinfo"
-      # - name: extraArgs.scope
-      #   value: email
-      # - name: extraArgs.scope
-      #   value: profile
-      # - name: extraArgs.scope
-      #   value: openid
-      # - name: extraArgs.skip-oidc-discovery
-      #   value: "true"
-      - name: extraArgs.insecure-oidc-allow-unverified-email
-        value: "true"
-      - name: extraArgs.session-store-type
-        value: "redis"
-      - name: extraArgs.redis-connection-url
+      - name: extraArgs.scope
+        value: <<__oidc.scope__>>
+      - name: extraArgs.user-id-claim
+        value: <<__oidc.user_id_claim__>>
+      - name: sessionStorage.type
+        value: redis
+      - name: sessionStorage.redis.standalone.clientType
+        value: standalone
+      - name: sessionStorage.redis.standalone.connectionUrl
         value: <<__oidc.redis.connection_url__>>
     repoURL: https://oauth2-proxy.github.io/manifests
-    targetRevision: 3.3.2
+    targetRevision: 4.1.1
   destination:
     namespace: auth
     server: https://kubernetes.default.svc
