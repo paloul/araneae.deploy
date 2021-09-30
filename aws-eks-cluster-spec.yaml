@@ -100,6 +100,18 @@ nodeGroups:
     volumeType: gp3
     instanceType: t3a.medium
     availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+    asgMetricsCollection:
+      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+      - granularity: 1Minute
+        metrics:
+          - GroupMinSize
+          - GroupMaxSize
+          - GroupDesiredCapacity
+          - GroupInServiceInstances
+          - GroupPendingInstances
+          - GroupStandbyInstances
+          - GroupTerminatingInstances
+          - GroupTotalInstances
     labels:
       node-class: "reasoner"
     taints:
@@ -108,6 +120,45 @@ nodeGroups:
       # EC2 tags required for cluster-autoscaler auto-discovery
       k8s.io/cluster-autoscaler/node-template/label/node-class: reasoner
       k8s.io/cluster-autoscaler/node-template/taint/only-reasoner: "true:NoSchedule"
+      k8s.io/cluster-autoscaler/enabled: "true"
+      k8s.io/cluster-autoscaler/araneae: "owned"
+    iam:
+      withAddonPolicies:
+        ebs: true
+        fsx: true
+        efs: true
+        albIngress: true
+        autoScaler: true
+        cloudWatch: true
+
+  - name: ng-databases
+    desiredCapacity: 1
+    minSize: 1
+    maxSize: 6
+    volumeSize: 80
+    volumeType: gp3
+    instanceType: m5ad.large # EBS + 1 x 75Gib NVMe SSD, 2 core, 8 gb mem
+    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+    asgMetricsCollection:
+      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+      - granularity: 1Minute
+        metrics:
+          - GroupMinSize
+          - GroupMaxSize
+          - GroupDesiredCapacity
+          - GroupInServiceInstances
+          - GroupPendingInstances
+          - GroupStandbyInstances
+          - GroupTerminatingInstances
+          - GroupTotalInstances
+    labels:
+      node-class: "database"
+    taints:
+      only-database: "true:NoSchedule"
+    tags:
+      # EC2 tags required for cluster-autoscaler auto-discovery
+      k8s.io/cluster-autoscaler/node-template/label/node-class: database
+      k8s.io/cluster-autoscaler/node-template/taint/only-database: "true:NoSchedule"
       k8s.io/cluster-autoscaler/enabled: "true"
       k8s.io/cluster-autoscaler/araneae: "owned"
     iam:
