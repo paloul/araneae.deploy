@@ -3,6 +3,8 @@ kind: Kustomization
 
 resources:
 - namespace.yaml
+- redis/configmap.yaml
+- redis/pod.yaml
 - auth-authorizationpolicy.yaml
 - auth-certificate.yaml
 - auth-gateway.yaml

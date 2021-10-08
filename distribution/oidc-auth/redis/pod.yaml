@@ -1,11 +1,14 @@
 # Basic Pod that hosts a single Redis Master instance
 # For authentication session store this is plenty 
 # In the future this might want to be a cluster spread
-# across the three availability zones in vpc
+# across the three availability zones in vpc. Though
+# if this goes down, since it only handles the auth
+# session cookie, it is not detrimental to user experience.
 apiVersion: v1
 kind: Pod
 metadata:
   name: redis
+  namespace: auth
 spec:
   containers:
   - name: redis
