@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: redis-cluster
-  namespace: cache
+  namespace: redis
 data:
   update-node.sh: |
     #!/bin/sh

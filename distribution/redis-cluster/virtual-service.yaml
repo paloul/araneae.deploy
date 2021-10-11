@@ -4,17 +4,17 @@ metadata:
   labels:
     app: redis-cluster
   name: redis-cluster
-  namespace: cache
+  namespace: redis
 spec:
   hosts:
-  - redis-cluster.cache.svc.cluster.local
+  - redis-cluster.redis.svc.cluster.local
   http:
   - name: "client"
     match:
     - port: 6379
     route:
     - destination:
-        host: redis-cluster.cache.svc.cluster.local
+        host: redis-cluster.redis.svc.cluster.local
         port:
           number: 6379
   - name: "gossip"
@@ -22,6 +22,6 @@ spec:
     - port: 16379
     route:
     - destination:
-        host: redis-cluster.cache.svc.cluster.local
+        host: redis-cluster.redis.svc.cluster.local
         port:
           number: 16379
