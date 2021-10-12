@@ -232,7 +232,9 @@ nodeGroups:
         albIngress: true
         autoScaler: true
         cloudWatch: true
-    # preBootstrapCommands:
+    # Prebootstrap Commands set up the file system on the instance drive, 
+    #  but Rook-Ceph needs to know only the device path, it formats itself
+    # preBootstrapCommands: 
     #   - "mkfs -t ext4 /dev/nvme1n1"
     #   - "mkdir -p /ephemeral"
     #   - "mount /dev/nvme1n1 /ephemeral"
