@@ -232,8 +232,8 @@ nodeGroups:
         albIngress: true
         autoScaler: true
         cloudWatch: true
-    preBootstrapCommands:
-      - "mkfs -t ext4 /dev/nvme1n1"
-      - "mkdir -p /ephemeral"
-      - "mount /dev/nvme1n1 /ephemeral"
-      - "chown ec2-user:ec2-user /ephemeral"
+    # preBootstrapCommands:
+    #   - "mkfs -t ext4 /dev/nvme1n1"
+    #   - "mkdir -p /ephemeral"
+    #   - "mount /dev/nvme1n1 /ephemeral"
+    #   - "chown ec2-user:ec2-user /ephemeral"
