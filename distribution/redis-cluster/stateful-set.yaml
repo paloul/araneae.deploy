@@ -13,10 +13,13 @@ spec:
     metadata:
       labels:
         app: redis-cluster
+      annotations:
+        sidecar.istio.io/inject: "false"
     spec:
       containers:
       - name: redis
-        image: redis:5.0.14-alpine
+        image: redis:5.0.14-alpine # https://hub.docker.com/_/redis
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 6379
           name: client
@@ -40,6 +43,13 @@ spec:
         configMap:
           name: redis-cluster
           defaultMode: 0755
+      nodeSelector:
+        node-class: "cache"
+      tolerations:
+      - key: "only-cache"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
   volumeClaimTemplates:
   - metadata:
       name: data
