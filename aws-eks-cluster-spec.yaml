@@ -200,7 +200,7 @@ nodeGroups:
     maxSize: 12
     volumeSize: 30
     volumeType: gp3
-    instanceType: m5ad.large # EBS + 1 x 75Gib NVMe SSD, 2 core, 8 gb mem
+    instanceType: m5dn.large # EBS + 1 x 75Gib NVMe SSD, 2 core, 8 gb mem, Up to 25gbps net, Up to 4750Mbps EBS 
     availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
     asgMetricsCollection:
       # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
