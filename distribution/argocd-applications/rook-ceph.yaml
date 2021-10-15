@@ -12,7 +12,7 @@ spec:
     kustomize:
       version: v4.0.5
   destination:
-    namespace: rook-ceph
+    namespace: rook-ceph # Defined in common.yaml under rook-ceph target directory
     server: https://kubernetes.default.svc
   syncPolicy:
     automated:
