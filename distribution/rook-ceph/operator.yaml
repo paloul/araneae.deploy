@@ -9,6 +9,14 @@
 # - operator-openshift.yaml: Common settings for running in OpenShift
 ###############################################################################################################
 
+###############################################################################################################
+# Helpful documentation
+
+# Limit Rook and Ceph to specific nodes
+# https://documentation.suse.com/sbp/all/html/SBP-rook-ceph-kubernetes/index.html#sec-limit-ceph-specifc-nodes
+# https://documentation.suse.com/sbp/all/html/SBP-rook-ceph-kubernetes/index.html#sec-segregate-ceph-user-app
+###############################################################################################################
+
 # Rook Ceph Operator Config ConfigMap
 # Use this ConfigMap to override Rook-Ceph Operator configurations.
 # NOTE! Precedence will be given to this config if the same Env Var config also exists in the
@@ -105,11 +113,14 @@ data:
   # ROOK_CSI_RBD_POD_LABELS: "key1=value1,key2=value2"
 
   # (Optional) CephCSI provisioner NodeAffinity(applied to both CephFS and RBD provisioner).
-  # CSI_PROVISIONER_NODE_AFFINITY: "role=storage-node; storage=rook, ceph"
+  CSI_PROVISIONER_NODE_AFFINITY: "storage-node=true"
   # (Optional) CephCSI provisioner tolerations list(applied to both CephFS and RBD provisioner).
   # Put here list of taints you want to tolerate in YAML format.
   # CSI provisioner would be best to start on the same nodes as other ceph daemons.
-  # CSI_PROVISIONER_TOLERATIONS: |
+  CSI_PROVISIONER_TOLERATIONS: |
+    - effect: NoSchedule
+      key: storage-node
+      operator: Exists
   #   - effect: NoSchedule
   #     key: node-role.kubernetes.io/controlplane
   #     operator: Exists
@@ -117,7 +128,7 @@ data:
   #     key: node-role.kubernetes.io/etcd
   #     operator: Exists
   # (Optional) CephCSI plugin NodeAffinity(applied to both CephFS and RBD plugin).
-  # CSI_PLUGIN_NODE_AFFINITY: "role=storage-node; storage=rook, ceph"
+  CSI_PLUGIN_NODE_AFFINITY: "storage-node=false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
   # (Optional) CephCSI plugin tolerations list(applied to both CephFS and RBD plugin).
   # Put here list of taints you want to tolerate in YAML format.
   # CSI plugins need to be started on all the nodes where the clients need to mount the storage.
@@ -390,8 +401,11 @@ spec:
             # - name: AGENT_TOLERATION_KEY
             #   value: "<KeyOfTheTaintToTolerate>"
             # (Optional) Rook Agent tolerations list. Put here list of taints you want to tolerate in YAML format.
-            # - name: AGENT_TOLERATIONS
-            #   value: |
+            - name: AGENT_TOLERATIONS
+              value: |
+                - effect: NoSchedule
+                  key: storage-node
+                  operator: Exists
             #     - effect: NoSchedule
             #       key: node-role.kubernetes.io/controlplane
             #       operator: Exists
@@ -402,8 +416,8 @@ spec:
             # - name: AGENT_PRIORITY_CLASS_NAME
             #   value: "<PriorityClassName>"
             # (Optional) Rook Agent NodeAffinity.
-            # - name: AGENT_NODE_AFFINITY
-            #   value: "role=storage-node; storage=rook,ceph"
+            - name: AGENT_NODE_AFFINITY
+              value: "storage-node=true"
             # (Optional) Rook Agent mount security mode. Can by `Any` or `Restricted`.
             # `Any` uses Ceph admin credentials by default/fallback.
             # For using `Restricted` you must have a Ceph secret in each namespace storage should be consumed from and
@@ -428,8 +442,11 @@ spec:
             # - name: DISCOVER_TOLERATION_KEY
             #   value: "<KeyOfTheTaintToTolerate>"
             # (Optional) Rook Discover tolerations list. Put here list of taints you want to tolerate in YAML format.
-            # - name: DISCOVER_TOLERATIONS
-            #   value: |
+            - name: DISCOVER_TOLERATIONS
+              value: |
+                - effect: NoSchedule
+                  key: storage-node
+                  operator: Exists
             #     - effect: NoSchedule
             #       key: node-role.kubernetes.io/controlplane
             #       operator: Exists
@@ -440,8 +457,8 @@ spec:
             # - name: DISCOVER_PRIORITY_CLASS_NAME
             #   value: "<PriorityClassName>"
             # (Optional) Discover Agent NodeAffinity.
-            # - name: DISCOVER_AGENT_NODE_AFFINITY
-            #   value: "role=storage-node; storage=rook, ceph"
+            - name: DISCOVER_AGENT_NODE_AFFINITY
+              value: "storage-node=true"
             # (Optional) Discover Agent Pod Labels.
             # - name: DISCOVER_AGENT_POD_LABELS
             #   value: "key1=value1,key2=value2"

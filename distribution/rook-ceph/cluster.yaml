@@ -8,6 +8,14 @@
 #   kubectl create -f cluster.yaml
 #################################################################################################################
 
+###############################################################################################################
+# Helpful documentation
+
+# Limit Rook and Ceph to specific nodes
+# https://documentation.suse.com/sbp/all/html/SBP-rook-ceph-kubernetes/index.html#sec-limit-ceph-specifc-nodes
+# https://documentation.suse.com/sbp/all/html/SBP-rook-ceph-kubernetes/index.html#sec-segregate-ceph-user-app
+###############################################################################################################
+
 apiVersion: ceph.rook.io/v1
 kind: CephCluster
 metadata:
@@ -135,22 +143,22 @@ spec:
   # To control where various services will be scheduled by kubernetes, use the placement configuration sections below.
   # The example under 'all' would have all services scheduled on kubernetes nodes labeled with 'role=storage-node' and
   # tolerate taints with a key of 'storage-node'.
-#  placement:
-#    all:
-#      nodeAffinity:
-#        requiredDuringSchedulingIgnoredDuringExecution:
-#          nodeSelectorTerms:
-#          - matchExpressions:
-#            - key: role
-#              operator: In
-#              values:
-#              - storage-node
+  placement:
+    all:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: storage-node
+              operator: In
+              values:
+              - "true"
 #      podAffinity:
 #      podAntiAffinity:
 #      topologySpreadConstraints:
-#      tolerations:
-#      - key: storage-node
-#        operator: Exists
+      tolerations:
+      - key: storage-node
+        operator: Exists
 # The above placement information can also be specified for mon, osd, and mgr components
 #    mon:
 # Monitor deployments may contain an anti-affinity rule for avoiding monitor

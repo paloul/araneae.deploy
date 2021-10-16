@@ -63,6 +63,7 @@ nodeGroups:
           - GroupTotalInstances
     labels:
       node-class: "utility"
+      storage-node: "false" #  The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
     tags:
       # EC2 tags required for cluster-autoscaler auto-discovery
       k8s.io/cluster-autoscaler/node-template/label/node-class: utility
@@ -99,6 +100,7 @@ nodeGroups:
           - GroupTotalInstances
     labels:
       node-class: "front-end"
+      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
     taints:
       only-frontend: "true:NoSchedule"
     tags:
@@ -138,6 +140,7 @@ nodeGroups:
           - GroupTotalInstances
     labels:
       node-class: "reasoner"
+      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
     taints:
       only-reasoner: "true:NoSchedule"
     tags:
@@ -177,6 +180,7 @@ nodeGroups:
           - GroupTotalInstances
     labels:
       node-class: "cache"
+      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
     taints:
       only-cache: "true:NoSchedule"
     tags:
@@ -216,12 +220,14 @@ nodeGroups:
           - GroupTotalInstances
     labels:
       node-class: "data"
+      storage-node: "true" 
     taints:
-      only-data: "true:NoSchedule"
+      storage-node: "true:NoSchedule"
     tags:
       # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: data
-      k8s.io/cluster-autoscaler/node-template/taint/only-data: "true:NoSchedule"
+      k8s.io/cluster-autoscaler/node-template/label/node-class: "data"
+      k8s.io/cluster-autoscaler/node-template/label/storage-node: "true"
+      k8s.io/cluster-autoscaler/node-template/taint/storage-node: "true:NoSchedule"
       k8s.io/cluster-autoscaler/enabled: "true"
       k8s.io/cluster-autoscaler/araneae: "owned"
     iam:
