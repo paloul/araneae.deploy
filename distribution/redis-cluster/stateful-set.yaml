@@ -58,4 +58,4 @@ spec:
       storageClassName: "rook-ceph-block" # Persistent Volume Claim from on-cluster rook-ceph block storage
       resources:
         requests:
-          storage: 1Gi
+          storage: 2Gi
