@@ -7,9 +7,12 @@ resources:
   - argocd-applications/istio.yaml    
   - argocd-applications/istio-resources.yaml
   - argocd-applications/cert-manager-dns-01.yaml
+  - argocd-applications/rook-ceph.yaml
+  - argocd-applications/redis-cluster.yaml
 
   # Auth 
   - argocd-applications/oidc-auth-external.yaml
+  # - argocd-applications/oidc-auth-keycloak.yaml
 
   ## System
   - argocd-applications/cluster-autoscaler.yaml
