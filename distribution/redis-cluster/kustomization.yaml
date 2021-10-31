@@ -8,3 +8,6 @@ resources:
 - stateful-set.yaml
 - service.yaml
 - virtual-service.yaml
+
+# Monitoring
+- monitoring/redis-insight

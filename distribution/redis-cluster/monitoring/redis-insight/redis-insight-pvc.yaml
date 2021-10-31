@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-insight-pvc
+  labels:
+    app: redis-insight
+    namespace: redis
+spec:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: "rook-ceph-block" # Persistent Volume Claim from on-cluster rook-ceph block storage
+  resources:
+    requests:
+      storage: 1Gi

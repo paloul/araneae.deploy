@@ -3,6 +3,10 @@ kind: Service
 metadata:
   name: redis-cluster
   namespace: redis
+  labels:
+    app: redis-cluster
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "false"
 spec:
   type: ClusterIP
   ports:
