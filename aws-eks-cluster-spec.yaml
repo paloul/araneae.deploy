@@ -220,7 +220,7 @@ nodeGroups:
           - GroupTotalInstances
     labels:
       node-class: "data"
-      storage-node: "true" 
+      storage-node: "true" # Rook-Ceph CSI plugin pods will not run on nodes where Storage-Node is true
     taints:
       storage-node: "true:NoSchedule"
     tags:
