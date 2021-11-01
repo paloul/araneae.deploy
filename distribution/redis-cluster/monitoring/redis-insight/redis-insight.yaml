@@ -1,0 +1,55 @@
+# Redis Insight application to get "insight" into the Redis Cluster
+# A Service-free deployment is defined here. That means that a port-forward
+# will be needed from a kubectl terminal that has access rights to the cluster. 
+# https://docs.redis.com/latest/ri/installing/install-k8s/#create-the-redisinsight-deployment-without-a-service
+# Execute `kubectl port-forward deployment/redis-insight 8001` 
+# Then visit http://localhost:8001 to access the Web UI
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-insight # Deployment name
+  labels:
+    app: redis-insight # Deployment label
+spec:
+  replicas: 1 # Single replica pod
+  selector:
+    matchLabels:
+      app: redis-insight 
+  template: # pod template
+    metadata:
+      labels:
+        app: redis-insight # label for pod/s
+    spec:
+      containers:
+      # https://developer.redis.com/explore/redisinsight/getting-started/
+      # https://developer.redis.com/explore/redisinsight
+      # https://docs.redis.com/latest/ri/
+      - name:  redis-insight #Container name (DNS_LABEL, unique)
+        image: redislabs/redisinsight:latest #repo/image
+        imagePullPolicy: IfNotPresent #Always pull image
+        env:
+          # If there's a service named 'redisinsight' that exposes the
+          # deployment, we manually set `REDISINSIGHT_HOST` and
+          # `REDISINSIGHT_PORT` to override the service environment
+          # variables.
+          - name: REDISINSIGHT_HOST
+            value: "0.0.0.0"
+          - name: REDISINSIGHT_PORT
+            value: "8001"
+        volumeMounts:
+        - name: db # Pod volumes to mount into the container's filesystem. Cannot be updated.
+          mountPath: /db # Redis Insight uses a local db to store/cache monitoring data of Redis
+        ports:
+        - containerPort: 8001 #exposed conainer port and protocol
+          protocol: TCP
+        livenessProbe:
+           httpGet:
+              path : /healthcheck/ # exposed RI endpoint for healthcheck
+              port: 8001 # exposed container port
+           initialDelaySeconds: 5 # number of seconds to wait after the container starts to perform liveness probe
+           periodSeconds: 5 # period in seconds after which liveness probe is performed
+           failureThreshold: 1 # number of liveness probe failures after which container restarts
+      volumes:
+      - name: db
+        persistentVolumeClaim:
+          claimName: redis-insight-pvc # Use the PVC so that restarts have persistent monitoring data
