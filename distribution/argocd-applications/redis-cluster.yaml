@@ -1,22 +1,57 @@
+# Installs the Redis Cluster Helm chart from Bitnami. 
+# This installed the cluster mode of Redis. If you want the
+# single master version look at redis.yaml.
+# Two key points with Redis Cluster
+# 1. Supports only one database. Better if you have a big dataset
+# 2. Multiple write points (multiple masters)
+# https://artifacthub.io/packages/helm/bitnami/redis-cluster
+# https://github.com/bitnami/charts/tree/master/bitnami/redis-cluster
+#
+# Look below at cluster.nodes and cluster.replices. This definition will
+# create a cluster with 3 masters each with 1 replica.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: redis-cluster
   namespace: argocd
 spec:
-  project: default
-  source:
-    repoURL: <<__git_repo.url__>>
-    targetRevision: <<__git_repo.target_revision__>>
-    path: distribution/redis-cluster
-    kustomize:
-      version: v4.0.5
   destination:
     namespace: redis
     server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: redis-cluster
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 7.0.9 # Chart version 7.0.9, Redis version 6.2.6
+    helm:
+      parameters:
+      - name: commonLabels
+        value: {
+          "app": "redis-cluster"
+        }
+      - name: persistence.enabled
+        value: "true"
+      - name: persistence.path
+        value: "/redis/data"
+      - name: persistence.accessModes
+        value: ["ReadWriteOnce"]
+      - name: persistence.size
+        value: "2Gi"
+      - name: cluster.nodes
+        value: 3 # The number of master nodes. Should always be >= 3
+      - name: cluster.replicas
+        value: 1 # Number of replicas for every master in the cluster
+      - name: cluster.externalAccess.enabled
+        value: "false"
+      - name: redis.nodeSelector
+        value: {
+          "node-class": "cache"
+        }
+      - name: redis.tolerations
+        value: [
+          "only-cache=true:NoSchedule"
+        ]
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=false

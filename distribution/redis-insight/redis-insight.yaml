@@ -53,3 +53,5 @@ spec:
       - name: db
         persistentVolumeClaim:
           claimName: redis-insight-pvc # Use the PVC so that restarts have persistent monitoring data
+      nodeSelector:
+        node-class: "utility" # Put this pod only on utility nodes
