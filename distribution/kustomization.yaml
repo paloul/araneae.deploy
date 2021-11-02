@@ -10,7 +10,9 @@ resources:
   - argocd-applications/rook-ceph.yaml
 
   ## Databases
-  - argocd-applications/redis-cluster.yaml
+  # Choose one Redis deployment type: Cluster or Server
+  - argocd-applications/redis-cluster.yaml # Redis Cluster with 6 nodes total, 3 masters and 3 read-only replicas
+  # - argocd-applications/redis-server.yaml # Redis Standalone with just one Master and its read-only Slave
 
   # Auth 
   - argocd-applications/oidc-auth-external.yaml
