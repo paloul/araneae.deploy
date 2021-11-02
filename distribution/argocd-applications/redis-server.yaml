@@ -1,0 +1,65 @@
+# Installs the Redis Helm chart from Bitnami. 
+# This installs the non-cluster version of Redis. This setup
+# is only a typical master-slave configuration. There can be 
+# only one master, but multiple slaves. 
+# Two key points with Redis 
+# 1. Supports multiple databases
+# 2. Single write point (single master)
+# https://artifacthub.io/packages/helm/bitnami/redis
+# https://github.com/bitnami/charts/tree/master/bitnami/redis
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redis-server
+  namespace: argocd
+spec:
+  destination:
+    namespace: redis
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: redis-server
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 15.5.3 # Chart version 15.5.3, Redis version 6.2.6
+    helm:
+      parameters:
+      - name: commonLabels
+        value: {
+          "app": "redis-server"
+        }
+      - name: persistence.enabled
+        value: "true"
+      - name: persistence.path
+        value: "/redis/data"
+      - name: persistence.accessModes
+        value: ["ReadWriteOnce"]
+      - name: persistence.size
+        value: "2Gi"
+      - name: persistence.storageClass
+        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+      - name: redis.nodeSelector
+        value: {
+          "node-class": "cache"
+        }
+      - name: redis.tolerations
+        value: [
+          "only-cache=true:NoSchedule"
+        ]
+      - name: redis.affinity
+        value: {
+          # Pod Anti Affinity will try to avoid putting pods that have labels defined here
+          # This definition will try and avoid co-locating pods on the same node
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - redis-server
+              topologyKey: "kubernetes.io/hostname"
+        }
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
