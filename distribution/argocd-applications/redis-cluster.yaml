@@ -37,6 +37,8 @@ spec:
         value: ["ReadWriteOnce"]
       - name: persistence.size
         value: "2Gi"
+      - name: persistence.storageClass
+        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
       - name: cluster.nodes
         value: 3 # The number of master nodes. Should always be >= 3
       - name: cluster.replicas
@@ -51,6 +53,20 @@ spec:
         value: [
           "only-cache=true:NoSchedule"
         ]
+      - name: redis.affinity
+        value: {
+          # Pod Anti Affinity will try to avoid putting pods that have labels defined here
+          # This definition will try and avoid co-locating pods on the same node
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - redis-cluster
+              topologyKey: "kubernetes.io/hostname"
+        }
   syncPolicy:
     automated:
       prune: true
