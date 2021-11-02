@@ -1,18 +1,16 @@
-# Installs the Redis Cluster Helm chart from Bitnami. 
-# This installed the cluster mode of Redis. If you want the
-# single master version look at redis.yaml.
-# Two key points with Redis Cluster
-# 1. Supports only one database. Better if you have a big dataset
-# 2. Multiple write points (multiple masters)
-# https://artifacthub.io/packages/helm/bitnami/redis-cluster
-# https://github.com/bitnami/charts/tree/master/bitnami/redis-cluster
-#
-# Look below at cluster.nodes and cluster.replices. This definition will
-# create a cluster with 3 masters each with 1 replica.
+# Installs the Redis Helm chart from Bitnami. 
+# This installs the non-cluster version of Redis. This setup
+# is only a typical master-slave configuration. There can be 
+# only one master, but multiple slaves. 
+# Two key points with Redis 
+# 1. Supports multiple databases
+# 2. Single write point (single master)
+# https://artifacthub.io/packages/helm/bitnami/redis
+# https://github.com/bitnami/charts/tree/master/bitnami/redis
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: redis-cluster
+  name: redis-server
   namespace: argocd
 spec:
   destination:
@@ -20,14 +18,14 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    chart: redis-cluster
+    chart: redis-server
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 7.0.9 # Chart version 7.0.9, Redis version 6.2.6
+    targetRevision: 15.5.3 # Chart version 15.5.3, Redis version 6.2.6
     helm:
       parameters:
       - name: commonLabels
         value: {
-          "app": "redis-cluster"
+          "app": "redis-server"
         }
       - name: persistence.enabled
         value: "true"
@@ -39,12 +37,6 @@ spec:
         value: "2Gi"
       - name: persistence.storageClass
         value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
-      - name: cluster.nodes
-        value: 3 # The number of master nodes. Should always be >= 3
-      - name: cluster.replicas
-        value: 1 # Number of replicas for every master in the cluster
-      - name: cluster.externalAccess.enabled
-        value: "false"
       - name: redis.nodeSelector
         value: {
           "node-class": "cache"
@@ -64,7 +56,7 @@ spec:
                 - key: app
                   operator: In
                   values:
-                  - redis-cluster
+                  - redis-server
               topologyKey: "kubernetes.io/hostname"
         }
   syncPolicy:
