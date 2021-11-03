@@ -199,9 +199,9 @@ nodeGroups:
         cloudWatch: true
 
   - name: ng-mongo
-    desiredCapacity: 6
-    minSize: 6
-    maxSize: 6
+    desiredCapacity: 3
+    minSize: 3
+    maxSize: 3
     volumeSize: 30
     volumeType: gp3
     instanceType: t3a.medium
@@ -239,8 +239,8 @@ nodeGroups:
         cloudWatch: true
 
   - name: ng-data
-    desiredCapacity: 1
-    minSize: 1
+    desiredCapacity: 3
+    minSize: 3
     maxSize: 12
     volumeSize: 30
     volumeType: gp3
