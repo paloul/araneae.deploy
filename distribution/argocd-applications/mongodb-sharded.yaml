@@ -77,6 +77,34 @@ spec:
                   - mongos
               topologyKey: "kubernetes.io/hostname"
         }
+      - name: shardsvr.dataNode.replicas # Number of nodes in each shard replica set (the first node will be primary)
+        value: 1 # Increase for failover, but make sure replicas are not on same AZ as primaries
+      - name: shardsvr.dataNode.podLabels
+        value: {
+          "mongo-component": "datashard"
+        }
+      - name: shardsvr.dataNode.nodeSelector
+        value: {
+          "node-class": "mongo"
+        }
+      - name: shardsvr.dataNode.tolerations
+        value: [
+          "only-mongo=true:NoSchedule"
+        ]
+      - name: shardsvr.dataNode.affinity
+        value: {
+          # Pod Anti Affinity will try to avoid putting pods that have labels defined here
+          # This definition will try and avoid co-locating data shard pods on the same node
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: mongo-component
+                  operator: In
+                  values:
+                  - datashard
+              topologyKey: "kubernetes.io/hostname"
+        }
   syncPolicy:
     automated:
       prune: true
