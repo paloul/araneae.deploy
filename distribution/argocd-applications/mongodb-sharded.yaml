@@ -1,0 +1,121 @@
+# This chart uses the sharding method for distributing data across multiple machines. 
+# This is meant for deployments with very large data sets and high throughput operations.
+# 
+# https://docs.mongodb.com/manual/sharding/
+# https://artifacthub.io/packages/helm/bitnami/mongodb-sharded
+# https://github.com/bitnami/charts/tree/master/bitnami/mongodb-sharded
+#
+# Look at the following link to understand the setup of the cluster:
+# https://docs.mongodb.com/manual/sharding/#sharded-cluster
+# There are three main component types.
+# 1. The mongos pods act as query routers, providing an interface between client applications and the sharded cluster
+# 2. The shard pods contains a subset of the sharded data. Each shard can be deployed as a replica set.
+# 3. The config pods store metadata and configuration settings for the cluster
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mongodb-sharded
+  namespace: argocd
+spec:
+  destination:
+    namespace: mongodb
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: mongodb-sharded
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 3.9.14 # Chart version 3.9.14, Mongo version 4.4.10
+    helm:
+      parameters:
+      - name: commonLabels
+        value: {
+          "app": "mongodb-sharded"
+        }
+      - name: global.storageClass # Config Srv and Data Shards use persistent volumes
+        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+      - name: shards # Number of shards to be created
+        value: 3 # Create 3 data shards in cluster. Leads to three main data shard pods. We can have x replicas of each shard
+      - name: configsvr.replicas # Number of configsvr replicas
+        value: 3 # Three configsvr pods spread out the cluster
+      - name: configsvr.podLabels
+        value: {
+          "mongo-component": "configsvr" # Pod Label only for configsvr pods. This will be used in affinity below
+        }
+      - name: configsvr.nodeSelector
+        value: {
+          "node-class": "utility" # Locate configsvr pods on node-class:utility nodes as they just maintain cluster meta state
+        }
+      - name: configsvr.affinity
+        value: {
+          # Pod Anti Affinity will try to avoid putting pods that have labels defined here
+          # This definition will try and avoid co-locating configsvr pods on the same node
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: mongo-component
+                  operator: In
+                  values:
+                  - configsvr
+              topologyKey: "kubernetes.io/hostname"
+        }
+      - name: mongos.replicas # Number of mongos replicas
+        value: 3 # Three mongos pods spread out the cluster
+      - name: mongos.podLabels
+        value: {
+          "mongo-component": "mongos" # Pod Label only for mongos pods. This will be used in affinity below
+        }
+      - name: mongos.nodeSelector
+        value: {
+          "node-class": "mongo" # Co-locate mongos pods with data shard pods by assigning them to node-class:mongo nodes
+        }
+      - name: mongos.tolerations
+        value: [
+          "only-mongo=true:NoSchedule"
+        ]
+      - name: mongos.affinity
+        value: {
+          # Pod Anti Affinity will try to avoid putting pods that have labels defined here
+          # This definition will try and avoid co-locating mongos pods on the same node
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: mongo-component
+                  operator: In
+                  values:
+                  - mongos
+              topologyKey: "kubernetes.io/hostname"
+        }
+      - name: shardsvr.dataNode.replicas # Number of nodes in each shard replica set (the first node will be primary)
+        value: 1 # Increase for failover, but make sure replicas are not on same AZ as primaries
+      - name: shardsvr.dataNode.podLabels
+        value: {
+          "mongo-component": "datashard" # Pod Label only for data shard pods. This will be used in affinity below
+        }
+      - name: shardsvr.dataNode.nodeSelector
+        value: {
+          "node-class": "mongo" # Co-locate data shard pods with mongos pods by assigning them to node-class:mongo nodes
+        }
+      - name: shardsvr.dataNode.tolerations
+        value: [
+          "only-mongo=true:NoSchedule"
+        ]
+      - name: shardsvr.dataNode.affinity
+        value: {
+          # Pod Anti Affinity will try to avoid putting pods that have labels defined here
+          # This definition will try and avoid co-locating data shard pods on the same node
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: mongo-component
+                  operator: In
+                  values:
+                  - datashard
+              topologyKey: "kubernetes.io/hostname"
+        }
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

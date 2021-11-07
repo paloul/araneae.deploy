@@ -13,6 +13,7 @@ resources:
   # Choose one Redis deployment type: Cluster or Server
   - argocd-applications/redis-cluster.yaml # Redis Cluster with 6 nodes total, 3 masters and 3 read-only replicas
   # - argocd-applications/redis-server.yaml # Redis Standalone with just one Master and its read-only Slave
+  - argocd-applications/mongodb-sharded.yaml # MongoDB Sharded cluster with 1 configsrv, 3 mongos router, 3 data shards
 
   # Auth 
   - argocd-applications/oidc-auth-external.yaml
