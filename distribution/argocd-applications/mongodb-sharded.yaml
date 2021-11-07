@@ -34,30 +34,40 @@ spec:
       - name: global.storageClass # Config Srv and Data Shards use persistent volumes
         value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
       - name: shards # Number of shards to be created
-        value: 3
+        value: 3 # Create 3 data shards in cluster. Leads to three main data shard pods. We can have x replicas of each shard
       - name: configsvr.replicas # Number of configsvr replicas
-        value: 1
+        value: 3 # Three configsvr pods spread out the cluster
       - name: configsvr.podLabels
         value: {
-          "mongo-component": "configsvr"
+          "mongo-component": "configsvr" # Pod Label only for configsvr pods. This will be used in affinity below
         }
       - name: configsvr.nodeSelector
         value: {
-          "node-class": "mongo"
+          "node-class": "utility" # Locate configsvr pods on node-class:utility nodes as they just maintain cluster meta state
         }
-      - name: configsvr.tolerations
-        value: [
-          "only-mongo=true:NoSchedule"
-        ]
-      - name: mongos.replicas # Number of mongos/router replicas
-        value: 3
+      - name: configsvr.affinity
+        value: {
+          # Pod Anti Affinity will try to avoid putting pods that have labels defined here
+          # This definition will try and avoid co-locating configsvr pods on the same node
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: mongo-component
+                  operator: In
+                  values:
+                  - configsvr
+              topologyKey: "kubernetes.io/hostname"
+        }
+      - name: mongos.replicas # Number of mongos replicas
+        value: 3 # Three mongos pods spread out the cluster
       - name: mongos.podLabels
         value: {
-          "mongo-component": "mongos"
+          "mongo-component": "mongos" # Pod Label only for mongos pods. This will be used in affinity below
         }
       - name: mongos.nodeSelector
         value: {
-          "node-class": "mongo"
+          "node-class": "mongo" # Co-locate mongos pods with data shard pods by assigning them to node-class:mongo nodes
         }
       - name: mongos.tolerations
         value: [
@@ -81,11 +91,11 @@ spec:
         value: 1 # Increase for failover, but make sure replicas are not on same AZ as primaries
       - name: shardsvr.dataNode.podLabels
         value: {
-          "mongo-component": "datashard"
+          "mongo-component": "datashard" # Pod Label only for data shard pods. This will be used in affinity below
         }
       - name: shardsvr.dataNode.nodeSelector
         value: {
-          "node-class": "mongo"
+          "node-class": "mongo" # Co-locate data shard pods with mongos pods by assigning them to node-class:mongo nodes
         }
       - name: shardsvr.dataNode.tolerations
         value: [

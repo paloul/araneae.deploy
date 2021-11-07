@@ -42,8 +42,8 @@ availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
 
 nodeGroups:
   - name: ng-util
-    desiredCapacity: 1
-    minSize: 1
+    desiredCapacity: 3
+    minSize: 3
     maxSize: 9
     volumeSize: 30
     volumeType: gp3
