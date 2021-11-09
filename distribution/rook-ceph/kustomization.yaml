@@ -7,4 +7,5 @@ resources:
 - common.yaml
 - operator.yaml
 - cluster.yaml
-- storageclass.yaml
+- storageclass-block.yaml
+- storageclass-object.yaml
