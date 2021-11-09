@@ -1,3 +1,8 @@
+#################################################################################################################
+# Create a Storage Class that utilizes the object store setup with rook-ceph
+#  https://github.com/rook/rook/blob/master/Documentation/ceph-object-bucket-claim.md#storageclass
+#################################################################################################################
+
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -9,7 +14,7 @@ reclaimPolicy: Delete
 parameters:
    objectStoreName: object-replica-pool
    objectStoreNamespace: rook-ceph # namespace:cluster
-   #region: us-east-1 # Not sure why this needs to be defined. Uncomment if we need it
+   region: us-west-1
    # To accommodate brownfield cases reference the existing bucket name here instead
    # of in the ObjectBucketClaim (OBC). In this case the provisioner will grant
    # access to the bucket by creating a new user, attaching it to the bucket, and
