@@ -18,6 +18,6 @@ spec:
     image: redis
     envFrom:
     - configMapRef:
-        name: araneae-general-bucket-claim
+        name: araneae-general-bucket-claim # This should match name of the Object Bucket Claim
     - secretRef:
-        name: araneae-general-bucket-claim
+        name: araneae-general-bucket-claim # This should match name of the Object Bucket Claim
