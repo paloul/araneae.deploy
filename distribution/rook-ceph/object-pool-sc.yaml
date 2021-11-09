@@ -1,5 +1,6 @@
 #################################################################################################################
 # Create a Storage Class that utilizes the object store setup with rook-ceph
+#
 #  https://github.com/rook/rook/blob/master/Documentation/ceph-object-bucket-claim.md#storageclass
 #################################################################################################################
 
