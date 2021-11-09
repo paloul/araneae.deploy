@@ -7,4 +7,8 @@ resources:
 - common.yaml
 - operator.yaml
 - cluster.yaml
-- storageclass.yaml
+- block-pool.yaml
+- block-pool-sc.yaml
+- object-pool.yaml
+- object-pool-sc.yaml
+- object-bucket-claim.yaml
