@@ -1,0 +1,98 @@
+# This chart uses the basic Bitnami Postgres cluster helm chart. 
+# This chart does not setup a HA Postgres cluster as with K8 and
+# the underlying rook-ceph block storage, its not needed to be HA.
+# With Rook-Ceph handling replication of PVCs, making Postgres HA
+# is redundant. This Chart will still setup a master with read replicas
+# 
+# https://artifacthub.io/packages/helm/bitnami/postgresql
+# https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+#
+# Get the postgresql password and setup port-forward for access
+# `export POSTGRES_PASSWORD=$(kubectl get secret --namespace postgresql postgresql 
+#   -o jsonpath="{.data.postgresql-password}" | base64 --decode)`
+# `kubectl port-forward --namespace postgresql svc/postgresql 5432:5432`
+# 
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: postgresql
+  namespace: argocd
+spec:
+  destination:
+    namespace: postgresql
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: postgresql
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 10.13.7 # Chart version 10.13.7, Postgresql version 11.13.0
+    helm:
+      parameters:
+      - name: commonLabels
+        value: {
+          "app": "postgresql"
+        }
+      - name: global.storageClass # Config Srv and Data Shards use persistent volumes
+        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+      - name: persistence.enabled
+        value: true
+      - name: persistence.storageClass # Redundant to global.storageClass, but here anyway
+        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+      - name: persistence.accessModes
+        value: ["ReadWriteOnce"]
+      - name: primary.podLabels
+        value: {
+          "postgres-component": "primary" # Pod Label only for primary pods. This will be used in affinity below
+        }
+      - name: primary.nodeSelector
+        value: {
+          "node-class": "postgres" # Restrict all postgres pods to postgres labeled nodes
+        }
+      - name: primary.tolerations
+        value: [
+          "only-postgres=true:NoSchedule" # Tolerate postgres 
+        ]
+      - name: readReplicas.podLabels
+        value: {
+          "postgres-component": "readReplica" # Pod Label only for readReplica pods. This will be used in affinity below
+        }
+      - name: readReplicas.nodeSelector
+        value: {
+          "node-class": "postgres" # Restrict all postgres pods to postgres labeled nodes
+        }
+      - name: readReplicas.tolerations
+        value: [
+          "only-postgres=true:NoSchedule" # Tolerate postgres 
+        ]
+      - name: readReplicas.affinity
+        value: {
+          # Pod Anti Affinity will try to avoid putting pods that have labels defined here
+          # This definition will try and avoid co-locating readReplica pods on the same node
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: postgres-component
+                  operator: In
+                  values:
+                  - readReplica
+                - key: postgres-component
+                  operator: In
+                  values:
+                  - primary
+              topologyKey: "kubernetes.io/hostname"
+        }
+        - name: replication.enabled
+          value: true
+        - name: replication.readReplicas
+          value: 2
+        - name: replication.numSynchronousReplicas
+          value: 0
+        - name: replication.applicationName
+          value: "araneae-postgres"
+        - name: replication.singleService
+          value: true
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
