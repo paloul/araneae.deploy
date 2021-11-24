@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keda
+  namespace: argocd
+spec:
+  project: default
+  source:
+
+    # https://github.com/kedacore/keda
+    # https://artifacthub.io/packages/helm/kedacore/keda
+
+    repoURL: https://kedacore.github.io/charts
+    targetRevision: 2.4.0 # Chart version 2.4.0, App Version 2.4.0
+    chart: kedacore
+    helm:
+      parameters:
+      - name: nodeSelector
+        value: {
+          "node-class": "utility"
+        }
+      - name: tolerations
+        value: [
+          "only-utility=true:NoSchedule"
+        ]
+      - name: crds.install # Defines whether the KEDA CRDs have to be installed or not.
+        value: true
+        
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
