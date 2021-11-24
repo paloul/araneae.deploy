@@ -28,7 +28,8 @@ resources:
   - argocd-applications/external-secrets.yaml
 
   ## Monitoring
-  - argocd-applications/metrics-server.yaml
+  - argocd-applications/metrics-server.yaml 
+  - argocd-applications/keda.yaml 
   - argocd-applications/redis-insight.yaml
 
   ## Araneae
