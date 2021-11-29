@@ -1,0 +1,66 @@
+# Installs the RabbitMQ Cluster from bitnami
+# 
+# https://www.rabbitmq.com/
+# https://artifacthub.io/packages/helm/bitnami/rabbitmq
+# https://github.com/bitnami/charts/tree/master/bitnami/rabbitmq
+# https://github.com/bitnami/bitnami-docker-rabbitmq
+#
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rabbitmq
+  namespace: argocd
+spec:
+  destination:
+    namespace: rabbitmq
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: rabbitmq
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 8.24.8 # Chart version 8.24.8, RabbitMQ version 3.9.10
+    helm:
+      parameters:
+      - name: commonLabels
+        value: {
+          "app": "rabbitmq"
+        }
+      - name: global.storageClass
+        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+      - name: persistence.enabled
+        value: "true"
+      - name: persistence.accessModes
+        value: ["ReadWriteOnce"]
+      - name: persistence.size
+        value: "2Gi"
+      - name: persistence.storageClass
+        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+      - name: replicaCount # Number of RabbitMQ replicas to deploy
+        value: 3
+      - name: nodeSelector
+        value: {
+          "node-class": "queue"
+        }
+      - name: tolerations
+        value: [
+          "only-queue=true:NoSchedule"
+        ]
+      - name: affinity
+        value: {
+          # Pod Anti Affinity will try to avoid putting pods that have labels defined here
+          # This definition will try and avoid co-locating pods on the same node
+          # The value needs to match the app:rabbitmq defined in the common labels env var above
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - rabbitmq
+              topologyKey: "kubernetes.io/hostname"
+        }
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
