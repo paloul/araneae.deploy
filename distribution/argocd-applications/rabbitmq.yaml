@@ -49,6 +49,7 @@ spec:
         value: {
           # Pod Anti Affinity will try to avoid putting pods that have labels defined here
           # This definition will try and avoid co-locating pods on the same node
+          # The value needs to match the app:rabbitmq defined in the common labels env var above
           podAntiAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
