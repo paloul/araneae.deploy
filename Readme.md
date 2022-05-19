@@ -31,3 +31,83 @@ This repo contains instructions and scripts to create the infrastructure and dep
     * `sudo mv /tmp/kustomize /usr/local/bin`
     * `kustomize version`
 
+### Install Instructions
+--------------------------------------------
+Before you deploy, you must have a k8s cluster up and running. We have AWS EKS  
+cluster specification as part of the repo, `aws-eks-cluster-spec.yaml`. This  
+makes it very easy to deploy an AWS EKS cluster for you to use in a public cloud.  
+Use the `eksctl` tool to create a specific cluster up on AWS for your needs.  
+## Step 1 - Configure `awscli`
+Define your key and secret in `~/.aws/credentials`
+```
+[default]
+aws_access_key_id = SOMETHING
+aws_secret_access_key = SOMETHINGLONGER
+
+[paloul]
+aws_access_key_id = SOMETHING
+aws_secret_access_key = SOMETHINGLONGER
+```
+Define your profile information (AWS Organization) in `~/.aws/config`.
+```
+[default]
+region = us-west-2
+output = json
+
+[profile some-name]
+region = us-west-2
+output = json
+role_arn = arn:aws:iam::113113113456:role/subaccount-access
+source_profile = paloul
+```
+
+You must execute `awscli` or `eksctl` commands while assuming the correct role in order  
+to deploy the cluster under the right account. This is done with either the `--profile` option  
+or the use of an environment variable `AWS_PROFILE`, i.e. `export AWS_PROFILE=profile1`,  
+before executing any commands. Visit [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html#using-profiles) for information.
+
+Execute the following command to verify you configured `awscli` and `eksctl` correctly:
+```
+╰─❯ eksctl get cluster --verbose 4 --profile some-name
+2022-05-19 15:13:08 [▶]  role ARN for the current session is "arn:aws:sts::113113113456:assumed-role/subaccount-access/aws-go-sdk-1652998387669703569"
+2022-05-19 15:13:08 [ℹ]  eksctl version 0.97.0
+2022-05-19 15:13:08 [ℹ]  using region us-west-2
+No clusters found
+```
+You will see any existing EKS clusters listed in that account that you have access to.
+
+----
+
+## Step 2 - Create EKS Cluster - [Additional Info](https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html)
+Execute the following `eksctl` command to create a cluster under the AWS account. You should  
+be in the same directory as the file `aws-eks-cluster.yaml`. 
+```
+eksctl create cluster -f aws-eks-cluster-spec.yaml --profile some-name
+```
+This command will take several minutes as `eksctl` creates the entire stack with  
+supporting services inside AWS, i.e. VPC, Subnets, Security Groups, Route Tables,  
+in addition to the cluster itself. Once completed you should see the following:
+```
+[✓]  EKS cluster "araneae" in "us-west-2" region is ready
+```
+With nothing else running on the cluster you can check `kubectl` and see similar output:  
+```
+╰─❯ kubectl get nodes
+NAME                                           STATUS   ROLES    AGE   VERSION
+ip-192-168-2-226.us-west-2.compute.internal    Ready    <none>   17m   v1.19.6-eks-49a6c0
+ip-192-168-26-228.us-west-2.compute.internal   Ready    <none>   17m   v1.19.6-eks-49a6c0
+
+╰─❯ kubectl get pods -n kube-system
+NAME                       READY   STATUS    RESTARTS   AGE
+aws-node-2ssm5             1/1     Running   0          19m
+aws-node-xj5sb             1/1     Running   0          19m
+coredns-6548845887-fg74h   1/1     Running   0          25m
+coredns-6548845887-vlzff   1/1     Running   0          25m
+kube-proxy-hjgd5           1/1     Running   0          19m
+kube-proxy-jm2m9           1/1     Running   0          19m
+```
+### <u>Delete the EKS Cluster When Not Needed</u>
+In order to avoid being charged while not in use please use the following command to delete your cluster:
+```
+eksctl delete cluster -f aws-eks-cluster-spec.yaml --profile some-name
+```
