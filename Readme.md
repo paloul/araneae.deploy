@@ -8,21 +8,23 @@ This repo contains instructions and scripts to create the infrastructure and dep
     * [Github page](https://github.com/mikefarah/yq)
         * `curl --silent --location "https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64.tar.gz" | tar xz && sudo mv yq_linux_amd64 /usr/local/bin/yq`
 * kubectl - *(official CLI for generic Kubernetes)*
-    * [Install kubectl - Linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/) 
-        * `curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"`
-        * `chmod +x kubectl`
-        *  `sudo mv ./kubectl /usr/local/bin/kubectl`
+    * [Install kubectl - OSX/Linux/Windows](https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html)
+    * Install kubectl version `1.23.7`
+        * `curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.7/2022-06-29/bin/linux/amd64/kubectl`
+        * `chmod +x ./kubectl`
+        * `sudo mv kubectl /usr/local/bin/kubectl`
         * `kubectl version --short --client`
-* kops - *kubectl for clusters*
-    * [Install kops - Linux](https://kops.sigs.k8s.io/getting_started/install/#linux)
-        * `KOPSVERSION=$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)`
-        * `echo "https://github.com/kubernetes/kops/releases/download/$KOPSVERSION/kops-linux-amd64"`
-        * `curl -Lo kops https://github.com/kubernetes/kops/releases/download/$KOPSVERSION/kops-linux-amd64`
-        * `chmod +x kops`
-        * `sudo mv kops /usr/local/bin/kops`
+* eksctl - *(official CLI for Amazon EKS)*
+    * [Install/Upgrade eksctl - OSX/Linux/Windows](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html)
 * AWS CLI - *(official CLI for AWS)*
     * [Install AWS CLI - Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-install)
     * [Upgrade AWS CLI - Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)
+* AWS IAM Authenticator - *(helper tool to provide authentication to Kube cluster)*
+    * Linux Installation - v1.19.6
+        * `curl -o /tmp/aws-iam-authenticator "https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator"`
+        * `sudo mv /tmp/aws-iam-authenticator /usr/local/bin`
+        * `sudo chmod +x /usr/local/bin/aws-iam-authenticator`
+        * `aws-iam-authenticator help`
 
 
 ### Install Instructions
