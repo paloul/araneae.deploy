@@ -13,6 +13,13 @@ This repo contains instructions and scripts to create the infrastructure and dep
         * `chmod +x kubectl`
         *  `sudo mv ./kubectl /usr/local/bin/kubectl`
         * `kubectl version --short --client`
+* kops - *kubectl for clusters*
+    * [Install kops - Linux](https://kops.sigs.k8s.io/getting_started/install/#linux)
+        * `KOPSVERSION=$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)`
+        * `echo "https://github.com/kubernetes/kops/releases/download/$KOPSVERSION/kops-linux-amd64"`
+        * `curl -Lo kops https://github.com/kubernetes/kops/releases/download/$KOPSVERSION/kops-linux-amd64`
+        * `chmod +x kops`
+        * `sudo mv kops /usr/local/bin/kops`
 * AWS CLI - *(official CLI for AWS)*
     * [Install AWS CLI - Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-install)
     * [Upgrade AWS CLI - Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)
