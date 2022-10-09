@@ -50,10 +50,10 @@ Define your profile information (AWS Organization) in `~/.aws/config`.
 region = us-west-2
 output = json
 
-[profile some-name]
+[profile araneae]
 region = us-west-2
 output = json
-role_arn = arn:aws:iam::113113113456:role/subaccount-access
+role_arn = arn:aws:iam::113113113456:role/subaccount-araneae
 source_profile = paloul
 ```
 
@@ -64,7 +64,7 @@ before executing any commands. Visit [here](https://docs.aws.amazon.com/cli/late
 
 Execute the following command to verify you configured `awscli` and `eksctl` correctly:
 ```
-╰─❯ eksctl get cluster --verbose 4 --profile some-name
+╰─❯ eksctl get cluster --verbose 4 --profile araneae
 2022-05-19 15:13:08 [▶]  role ARN for the current session is "arn:aws:sts::113113113456:assumed-role/subaccount-access/aws-go-sdk-1652998387669703569"
 2022-05-19 15:13:08 [ℹ]  eksctl version 0.97.0
 2022-05-19 15:13:08 [ℹ]  using region us-west-2
@@ -78,7 +78,7 @@ You will see any existing EKS clusters listed in that account that you have acce
 Execute the following `eksctl` command to create a cluster under the AWS account. You should  
 be in the same directory as the file `aws-eks-cluster.yaml`. 
 ```
-eksctl create cluster -f aws-eks-cluster-spec.yaml --profile some-name
+eksctl create cluster -f aws-eks-cluster-spec.yaml --profile araneae
 ```
 This command will take several minutes as `eksctl` creates the entire stack with  
 supporting services inside AWS, i.e. VPC, Subnets, Security Groups, Route Tables,  
@@ -105,5 +105,5 @@ kube-proxy-jm2m9           1/1     Running   0          19m
 ### <u>Delete the EKS Cluster When Not Needed</u>
 In order to avoid being charged while not in use please use the following command to delete your cluster:
 ```
-eksctl delete cluster -f aws-eks-cluster-spec.yaml --profile some-name
+eksctl delete cluster -f aws-eks-cluster-spec.yaml --profile araneae
 ```
