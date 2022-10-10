@@ -6,8 +6,11 @@ resources:
   - argocd-applications/istio-operator.yaml
   - argocd-applications/istio.yaml    
   - argocd-applications/istio-resources.yaml
-  - argocd-applications/cert-manager-dns-01.yaml
   - argocd-applications/rook-ceph.yaml 
+
+  ## Certificates
+  - argocd-applications/cert-manager-dns-01.yaml
+  - argocd-applications/certificates.yaml
 
   ## Databases
   - argocd-applications/postgres.yaml # Postgresql Database with Primary and 2 Read Replicas
@@ -24,19 +27,27 @@ resources:
   - argocd-applications/rabbitmq.yaml
 
   ## Auth 
-  - argocd-applications/oidc-auth-external.yaml
-  # - argocd-applications/oidc-auth-keycloak.yaml
+  # Pick *one* of the following applications:
+  - argocd-applications/oidc-auth-on-cluster-keycloak.yaml
+  # - argocd-applications/oidc-auth-external.yaml
 
   ## System
   - argocd-applications/cluster-autoscaler.yaml
   - argocd-applications/aws-load-balancer-controller.yaml
+  - argocd-applications/aws-eks-resources.yaml
   - argocd-applications/external-dns.yaml
   - argocd-applications/external-secrets.yaml
+  - argocd-applications/sealed-secrets.yaml
   - argocd-applications/keda.yaml
 
   ## Monitoring
   - argocd-applications/metrics-server.yaml 
   - argocd-applications/redis-insight.yaml
+  - argocd-applications/monitoring-resources.yaml
+  - argocd-applications/kube-prometheus-stack.yaml
+  - argocd-applications/loki-stack.yaml
+  - argocd-applications/kiali.yaml
+  - argocd-applications/jaeger.yaml
 
   ## Araneae
   - argocd-applications/araneae-dashboard.yaml
