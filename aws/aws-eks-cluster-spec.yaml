@@ -47,7 +47,7 @@ nodeGroups:
     maxSize: 16
     volumeSize: 30
     volumeType: gp3
-    instanceType: t3.medium 
+    instanceType: t3.large 
     availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
     enableDetailedMonitoring: true
     asgMetricsCollection:
