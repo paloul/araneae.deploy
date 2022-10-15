@@ -79,333 +79,333 @@ nodeGroups:
         autoScaler: true
         cloudWatch: true
 
-  - name: ng-frontend
-    desiredCapacity: 1
-    minSize: 1
-    maxSize: 4
-    volumeSize: 30
-    volumeType: gp3
-    instanceType: t3.medium
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
-    enableDetailedMonitoring: true
-    asgMetricsCollection:
-      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
-      - granularity: 1Minute
-        metrics:
-          - GroupMinSize
-          - GroupMaxSize
-          - GroupDesiredCapacity
-          - GroupInServiceInstances
-          - GroupPendingInstances
-          - GroupStandbyInstances
-          - GroupTerminatingInstances
-          - GroupTotalInstances
-    labels:
-      node-class: "front-end"
-      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
-    taints:
-      only-frontend: "true:NoSchedule"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: front-end
-      k8s.io/cluster-autoscaler/node-template/taint/only-frontend: "true:NoSchedule"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
-    iam:
-      withAddonPolicies:
-        ebs: true
-        fsx: true
-        efs: true
-        albIngress: true
-        autoScaler: true
-        cloudWatch: true
+  # - name: ng-frontend
+  #   desiredCapacity: 1
+  #   minSize: 1
+  #   maxSize: 4
+  #   volumeSize: 30
+  #   volumeType: gp3
+  #   instanceType: t3.medium
+  #   availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+  #   enableDetailedMonitoring: true
+  #   asgMetricsCollection:
+  #     # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+  #     - granularity: 1Minute
+  #       metrics:
+  #         - GroupMinSize
+  #         - GroupMaxSize
+  #         - GroupDesiredCapacity
+  #         - GroupInServiceInstances
+  #         - GroupPendingInstances
+  #         - GroupStandbyInstances
+  #         - GroupTerminatingInstances
+  #         - GroupTotalInstances
+  #   labels:
+  #     node-class: "front-end"
+  #     storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
+  #   taints:
+  #     only-frontend: "true:NoSchedule"
+  #   tags:
+  #     # EC2 tags required for cluster-autoscaler auto-discovery
+  #     k8s.io/cluster-autoscaler/node-template/label/node-class: front-end
+  #     k8s.io/cluster-autoscaler/node-template/taint/only-frontend: "true:NoSchedule"
+  #     k8s.io/cluster-autoscaler/enabled: "true"
+  #     k8s.io/cluster-autoscaler/araneae: "owned"
+  #   iam:
+  #     withAddonPolicies:
+  #       ebs: true
+  #       fsx: true
+  #       efs: true
+  #       albIngress: true
+  #       autoScaler: true
+  #       cloudWatch: true
 
-  - name: ng-reasoner
-    desiredCapacity: 3
-    minSize: 3
-    maxSize: 12
-    volumeSize: 30
-    volumeType: gp3
-    instanceType: r5n.2xlarge
-    availabilityZones: ["us-west-2a"]
-    enableDetailedMonitoring: true
-    asgMetricsCollection:
-      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
-      - granularity: 1Minute
-        metrics:
-          - GroupMinSize
-          - GroupMaxSize
-          - GroupDesiredCapacity
-          - GroupInServiceInstances
-          - GroupPendingInstances
-          - GroupStandbyInstances
-          - GroupTerminatingInstances
-          - GroupTotalInstances
-    labels:
-      node-class: "reasoner"
-      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
-    taints:
-      only-reasoner: "true:NoSchedule"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: reasoner
-      k8s.io/cluster-autoscaler/node-template/taint/only-reasoner: "true:NoSchedule"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
-    iam:
-      withAddonPolicies:
-        ebs: true
-        fsx: true
-        efs: true
-        albIngress: true
-        autoScaler: true
-        cloudWatch: true
+  # - name: ng-reasoner
+  #   desiredCapacity: 3
+  #   minSize: 3
+  #   maxSize: 12
+  #   volumeSize: 30
+  #   volumeType: gp3
+  #   instanceType: r5n.2xlarge
+  #   availabilityZones: ["us-west-2a"]
+  #   enableDetailedMonitoring: true
+  #   asgMetricsCollection:
+  #     # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+  #     - granularity: 1Minute
+  #       metrics:
+  #         - GroupMinSize
+  #         - GroupMaxSize
+  #         - GroupDesiredCapacity
+  #         - GroupInServiceInstances
+  #         - GroupPendingInstances
+  #         - GroupStandbyInstances
+  #         - GroupTerminatingInstances
+  #         - GroupTotalInstances
+  #   labels:
+  #     node-class: "reasoner"
+  #     storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
+  #   taints:
+  #     only-reasoner: "true:NoSchedule"
+  #   tags:
+  #     # EC2 tags required for cluster-autoscaler auto-discovery
+  #     k8s.io/cluster-autoscaler/node-template/label/node-class: reasoner
+  #     k8s.io/cluster-autoscaler/node-template/taint/only-reasoner: "true:NoSchedule"
+  #     k8s.io/cluster-autoscaler/enabled: "true"
+  #     k8s.io/cluster-autoscaler/araneae: "owned"
+  #   iam:
+  #     withAddonPolicies:
+  #       ebs: true
+  #       fsx: true
+  #       efs: true
+  #       albIngress: true
+  #       autoScaler: true
+  #       cloudWatch: true
 
-  - name: ng-cache
-    desiredCapacity: 6
-    minSize: 6
-    maxSize: 6
-    volumeSize: 30
-    volumeType: gp3
-    instanceType: r5n.large
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
-    enableDetailedMonitoring: true
-    asgMetricsCollection:
-      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
-      - granularity: 1Minute
-        metrics:
-          - GroupMinSize
-          - GroupMaxSize
-          - GroupDesiredCapacity
-          - GroupInServiceInstances
-          - GroupPendingInstances
-          - GroupStandbyInstances
-          - GroupTerminatingInstances
-          - GroupTotalInstances
-    labels:
-      node-class: "cache"
-      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
-    taints:
-      only-cache: "true:NoSchedule"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: cache
-      k8s.io/cluster-autoscaler/node-template/taint/only-cache: "true:NoSchedule"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
-    iam:
-      withAddonPolicies:
-        ebs: true
-        fsx: true
-        efs: true
-        albIngress: true
-        autoScaler: true
-        cloudWatch: true
+  # - name: ng-cache
+  #   desiredCapacity: 6
+  #   minSize: 6
+  #   maxSize: 6
+  #   volumeSize: 30
+  #   volumeType: gp3
+  #   instanceType: r5n.large
+  #   availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+  #   enableDetailedMonitoring: true
+  #   asgMetricsCollection:
+  #     # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+  #     - granularity: 1Minute
+  #       metrics:
+  #         - GroupMinSize
+  #         - GroupMaxSize
+  #         - GroupDesiredCapacity
+  #         - GroupInServiceInstances
+  #         - GroupPendingInstances
+  #         - GroupStandbyInstances
+  #         - GroupTerminatingInstances
+  #         - GroupTotalInstances
+  #   labels:
+  #     node-class: "cache"
+  #     storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
+  #   taints:
+  #     only-cache: "true:NoSchedule"
+  #   tags:
+  #     # EC2 tags required for cluster-autoscaler auto-discovery
+  #     k8s.io/cluster-autoscaler/node-template/label/node-class: cache
+  #     k8s.io/cluster-autoscaler/node-template/taint/only-cache: "true:NoSchedule"
+  #     k8s.io/cluster-autoscaler/enabled: "true"
+  #     k8s.io/cluster-autoscaler/araneae: "owned"
+  #   iam:
+  #     withAddonPolicies:
+  #       ebs: true
+  #       fsx: true
+  #       efs: true
+  #       albIngress: true
+  #       autoScaler: true
+  #       cloudWatch: true
 
-  - name: ng-queue
-    desiredCapacity: 3
-    minSize: 3
-    maxSize: 3
-    volumeSize: 30
-    volumeType: gp3
-    instanceType: r5n.large
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
-    enableDetailedMonitoring: true
-    asgMetricsCollection:
-      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
-      - granularity: 1Minute
-        metrics:
-          - GroupMinSize
-          - GroupMaxSize
-          - GroupDesiredCapacity
-          - GroupInServiceInstances
-          - GroupPendingInstances
-          - GroupStandbyInstances
-          - GroupTerminatingInstances
-          - GroupTotalInstances
-    labels:
-      node-class: "queue"
-      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
-    taints:
-      only-queue: "true:NoSchedule"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: queue
-      k8s.io/cluster-autoscaler/node-template/taint/only-queue: "true:NoSchedule"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
-    iam:
-      withAddonPolicies:
-        ebs: true
-        fsx: true
-        efs: true
-        albIngress: true
-        autoScaler: true
-        cloudWatch: true
+  # - name: ng-queue
+  #   desiredCapacity: 3
+  #   minSize: 3
+  #   maxSize: 3
+  #   volumeSize: 30
+  #   volumeType: gp3
+  #   instanceType: r5n.large
+  #   availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+  #   enableDetailedMonitoring: true
+  #   asgMetricsCollection:
+  #     # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+  #     - granularity: 1Minute
+  #       metrics:
+  #         - GroupMinSize
+  #         - GroupMaxSize
+  #         - GroupDesiredCapacity
+  #         - GroupInServiceInstances
+  #         - GroupPendingInstances
+  #         - GroupStandbyInstances
+  #         - GroupTerminatingInstances
+  #         - GroupTotalInstances
+  #   labels:
+  #     node-class: "queue"
+  #     storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
+  #   taints:
+  #     only-queue: "true:NoSchedule"
+  #   tags:
+  #     # EC2 tags required for cluster-autoscaler auto-discovery
+  #     k8s.io/cluster-autoscaler/node-template/label/node-class: queue
+  #     k8s.io/cluster-autoscaler/node-template/taint/only-queue: "true:NoSchedule"
+  #     k8s.io/cluster-autoscaler/enabled: "true"
+  #     k8s.io/cluster-autoscaler/araneae: "owned"
+  #   iam:
+  #     withAddonPolicies:
+  #       ebs: true
+  #       fsx: true
+  #       efs: true
+  #       albIngress: true
+  #       autoScaler: true
+  #       cloudWatch: true
 
-  - name: ng-stream
-    desiredCapacity: 3
-    minSize: 3
-    maxSize: 6
-    volumeSize: 30
-    volumeType: gp3
-    instanceType: r5n.xlarge
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
-    enableDetailedMonitoring: true
-    asgMetricsCollection:
-      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
-      - granularity: 1Minute
-        metrics:
-          - GroupMinSize
-          - GroupMaxSize
-          - GroupDesiredCapacity
-          - GroupInServiceInstances
-          - GroupPendingInstances
-          - GroupStandbyInstances
-          - GroupTerminatingInstances
-          - GroupTotalInstances
-    labels:
-      node-class: "stream"
-      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
-    taints:
-      only-stream: "true:NoSchedule"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: stream
-      k8s.io/cluster-autoscaler/node-template/taint/only-stream: "true:NoSchedule"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
-    iam:
-      withAddonPolicies:
-        ebs: true
-        fsx: true
-        efs: true
-        albIngress: true
-        autoScaler: true
-        cloudWatch: true
+  # - name: ng-stream
+  #   desiredCapacity: 3
+  #   minSize: 3
+  #   maxSize: 6
+  #   volumeSize: 30
+  #   volumeType: gp3
+  #   instanceType: r5n.xlarge
+  #   availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+  #   enableDetailedMonitoring: true
+  #   asgMetricsCollection:
+  #     # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+  #     - granularity: 1Minute
+  #       metrics:
+  #         - GroupMinSize
+  #         - GroupMaxSize
+  #         - GroupDesiredCapacity
+  #         - GroupInServiceInstances
+  #         - GroupPendingInstances
+  #         - GroupStandbyInstances
+  #         - GroupTerminatingInstances
+  #         - GroupTotalInstances
+  #   labels:
+  #     node-class: "stream"
+  #     storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
+  #   taints:
+  #     only-stream: "true:NoSchedule"
+  #   tags:
+  #     # EC2 tags required for cluster-autoscaler auto-discovery
+  #     k8s.io/cluster-autoscaler/node-template/label/node-class: stream
+  #     k8s.io/cluster-autoscaler/node-template/taint/only-stream: "true:NoSchedule"
+  #     k8s.io/cluster-autoscaler/enabled: "true"
+  #     k8s.io/cluster-autoscaler/araneae: "owned"
+  #   iam:
+  #     withAddonPolicies:
+  #       ebs: true
+  #       fsx: true
+  #       efs: true
+  #       albIngress: true
+  #       autoScaler: true
+  #       cloudWatch: true
 
-  - name: ng-mongo
-    desiredCapacity: 3
-    minSize: 3
-    maxSize: 6
-    volumeSize: 30
-    volumeType: gp3
-    instanceType: r5n.large
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
-    enableDetailedMonitoring: true
-    asgMetricsCollection:
-      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
-      - granularity: 1Minute
-        metrics:
-          - GroupMinSize
-          - GroupMaxSize
-          - GroupDesiredCapacity
-          - GroupInServiceInstances
-          - GroupPendingInstances
-          - GroupStandbyInstances
-          - GroupTerminatingInstances
-          - GroupTotalInstances
-    labels:
-      node-class: "mongo"
-      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
-    taints:
-      only-mongo: "true:NoSchedule"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: mongo
-      k8s.io/cluster-autoscaler/node-template/taint/only-mongo: "true:NoSchedule"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
-    iam:
-      withAddonPolicies:
-        ebs: true
-        fsx: true
-        efs: true
-        albIngress: true
-        autoScaler: true
-        cloudWatch: true
+  # - name: ng-mongo
+  #   desiredCapacity: 3
+  #   minSize: 3
+  #   maxSize: 6
+  #   volumeSize: 30
+  #   volumeType: gp3
+  #   instanceType: r5n.large
+  #   availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+  #   enableDetailedMonitoring: true
+  #   asgMetricsCollection:
+  #     # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+  #     - granularity: 1Minute
+  #       metrics:
+  #         - GroupMinSize
+  #         - GroupMaxSize
+  #         - GroupDesiredCapacity
+  #         - GroupInServiceInstances
+  #         - GroupPendingInstances
+  #         - GroupStandbyInstances
+  #         - GroupTerminatingInstances
+  #         - GroupTotalInstances
+  #   labels:
+  #     node-class: "mongo"
+  #     storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
+  #   taints:
+  #     only-mongo: "true:NoSchedule"
+  #   tags:
+  #     # EC2 tags required for cluster-autoscaler auto-discovery
+  #     k8s.io/cluster-autoscaler/node-template/label/node-class: mongo
+  #     k8s.io/cluster-autoscaler/node-template/taint/only-mongo: "true:NoSchedule"
+  #     k8s.io/cluster-autoscaler/enabled: "true"
+  #     k8s.io/cluster-autoscaler/araneae: "owned"
+  #   iam:
+  #     withAddonPolicies:
+  #       ebs: true
+  #       fsx: true
+  #       efs: true
+  #       albIngress: true
+  #       autoScaler: true
+  #       cloudWatch: true
 
-  - name: ng-postgres
-    desiredCapacity: 3
-    minSize: 3
-    maxSize: 6
-    volumeSize: 30
-    volumeType: gp3
-    instanceType: r5n.xlarge
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
-    enableDetailedMonitoring: true
-    asgMetricsCollection:
-      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
-      - granularity: 1Minute
-        metrics:
-          - GroupMinSize
-          - GroupMaxSize
-          - GroupDesiredCapacity
-          - GroupInServiceInstances
-          - GroupPendingInstances
-          - GroupStandbyInstances
-          - GroupTerminatingInstances
-          - GroupTotalInstances
-    labels:
-      node-class: "postgres"
-      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
-    taints:
-      only-postgres: "true:NoSchedule"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: postgres
-      k8s.io/cluster-autoscaler/node-template/taint/only-postgres: "true:NoSchedule"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
-    iam:
-      withAddonPolicies:
-        ebs: true
-        fsx: true
-        efs: true
-        albIngress: true
-        autoScaler: true
-        cloudWatch: true
+  # - name: ng-postgres
+  #   desiredCapacity: 3
+  #   minSize: 3
+  #   maxSize: 6
+  #   volumeSize: 30
+  #   volumeType: gp3
+  #   instanceType: r5n.xlarge
+  #   availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+  #   enableDetailedMonitoring: true
+  #   asgMetricsCollection:
+  #     # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+  #     - granularity: 1Minute
+  #       metrics:
+  #         - GroupMinSize
+  #         - GroupMaxSize
+  #         - GroupDesiredCapacity
+  #         - GroupInServiceInstances
+  #         - GroupPendingInstances
+  #         - GroupStandbyInstances
+  #         - GroupTerminatingInstances
+  #         - GroupTotalInstances
+  #   labels:
+  #     node-class: "postgres"
+  #     storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
+  #   taints:
+  #     only-postgres: "true:NoSchedule"
+  #   tags:
+  #     # EC2 tags required for cluster-autoscaler auto-discovery
+  #     k8s.io/cluster-autoscaler/node-template/label/node-class: postgres
+  #     k8s.io/cluster-autoscaler/node-template/taint/only-postgres: "true:NoSchedule"
+  #     k8s.io/cluster-autoscaler/enabled: "true"
+  #     k8s.io/cluster-autoscaler/araneae: "owned"
+  #   iam:
+  #     withAddonPolicies:
+  #       ebs: true
+  #       fsx: true
+  #       efs: true
+  #       albIngress: true
+  #       autoScaler: true
+  #       cloudWatch: true
 
-  - name: ng-cassandra
-    desiredCapacity: 3
-    minSize: 3
-    maxSize: 6
-    volumeSize: 30
-    volumeType: gp3
-    instanceType: r5n.xlarge
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
-    enableDetailedMonitoring: true
-    asgMetricsCollection:
-      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
-      - granularity: 1Minute
-        metrics:
-          - GroupMinSize
-          - GroupMaxSize
-          - GroupDesiredCapacity
-          - GroupInServiceInstances
-          - GroupPendingInstances
-          - GroupStandbyInstances
-          - GroupTerminatingInstances
-          - GroupTotalInstances
-    labels:
-      node-class: "cassandra"
-      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
-    taints:
-      only-cassandra: "true:NoSchedule"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: cassandra
-      k8s.io/cluster-autoscaler/node-template/taint/only-cassandra: "true:NoSchedule"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
-    iam:
-      withAddonPolicies:
-        ebs: true
-        fsx: true
-        efs: true
-        albIngress: true
-        autoScaler: true
-        cloudWatch: true
+  # - name: ng-cassandra
+  #   desiredCapacity: 3
+  #   minSize: 3
+  #   maxSize: 6
+  #   volumeSize: 30
+  #   volumeType: gp3
+  #   instanceType: r5n.xlarge
+  #   availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+  #   enableDetailedMonitoring: true
+  #   asgMetricsCollection:
+  #     # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+  #     - granularity: 1Minute
+  #       metrics:
+  #         - GroupMinSize
+  #         - GroupMaxSize
+  #         - GroupDesiredCapacity
+  #         - GroupInServiceInstances
+  #         - GroupPendingInstances
+  #         - GroupStandbyInstances
+  #         - GroupTerminatingInstances
+  #         - GroupTotalInstances
+  #   labels:
+  #     node-class: "cassandra"
+  #     storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
+  #   taints:
+  #     only-cassandra: "true:NoSchedule"
+  #   tags:
+  #     # EC2 tags required for cluster-autoscaler auto-discovery
+  #     k8s.io/cluster-autoscaler/node-template/label/node-class: cassandra
+  #     k8s.io/cluster-autoscaler/node-template/taint/only-cassandra: "true:NoSchedule"
+  #     k8s.io/cluster-autoscaler/enabled: "true"
+  #     k8s.io/cluster-autoscaler/araneae: "owned"
+  #   iam:
+  #     withAddonPolicies:
+  #       ebs: true
+  #       fsx: true
+  #       efs: true
+  #       albIngress: true
+  #       autoScaler: true
+  #       cloudWatch: true
 
   - name: ng-data
     desiredCapacity: 3
