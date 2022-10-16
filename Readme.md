@@ -14,6 +14,11 @@ This repo contains instructions and scripts to create the infrastructure and dep
         * `chmod +x ./kubectl`
         * `sudo mv kubectl /usr/local/bin/kubectl`
         * `kubectl version --short --client`
+* kustomize - *(Customize kubernetes YML configurations)*
+    * You will need 4.0.5 for use with ArgoFlow for AWS
+    * `curl --silent --location "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.0.5/kustomize_v4.0.5_linux_amd64.tar.gz" | tar xz -C /tmp`
+    * `sudo mv /tmp/kustomize /usr/local/bin`
+    * `kustomize version`
 * eksctl - *(official CLI for Amazon EKS)*
     * [Install/Upgrade eksctl - OSX/Linux/Windows](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html)
 * AWS CLI - *(official CLI for AWS)*
