@@ -20,6 +20,9 @@ This repo contains instructions and scripts to create the infrastructure and dep
     * `kustomize version`
 * eksctl - *(official CLI for Amazon EKS)*
     * [Install/Upgrade eksctl - OSX/Linux/Windows](https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html)
+    * `curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp`
+    * `sudo mv /tmp/eksctl /usr/local/bin`
+    * `eksctl version`
 * AWS CLI - *(official CLI for AWS)*
     * [Install AWS CLI - Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-install)
     * [Upgrade AWS CLI - Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)
