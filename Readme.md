@@ -26,12 +26,6 @@ This repo contains instructions and scripts to create the infrastructure and dep
 * AWS CLI - *(official CLI for AWS)*
     * [Install AWS CLI - Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-install)
     * [Upgrade AWS CLI - Linux](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html#cliv2-linux-upgrade)
-* AWS IAM Authenticator - *(helper tool to provide authentication to Kube cluster)*
-    * Linux Installation - v1.19.6
-        * `curl -o /tmp/aws-iam-authenticator "https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/aws-iam-authenticator"`
-        * `sudo mv /tmp/aws-iam-authenticator /usr/local/bin`
-        * `sudo chmod +x /usr/local/bin/aws-iam-authenticator`
-        * `aws-iam-authenticator help`
 
 
 ### Install Instructions
@@ -51,7 +45,7 @@ aws_secret_access_key = SOMETHINGLONGER
 aws_access_key_id = SOMETHING
 aws_secret_access_key = SOMETHINGLONGER
 ```
-Define your profile information (AWS Organization) in `~/.aws/config`.
+If using AWS Organization sub-accounts, then define your profile information (AWS Organization) in `~/.aws/config`.
 ```
 [default]
 region = us-west-2
