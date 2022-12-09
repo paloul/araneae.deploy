@@ -2,18 +2,19 @@
 
 This project offers a complete platform distribution that has the following characteristics:
 - It follows a fully declarative, GitOps approach using [ArgoCD](https://argoproj.github.io/argo-cd/). No other middleware is injected. All manifests are defined either as vanilla Kubernetes YAML specs, Kustomize specs, or Helm charts.
-- Maximum effort to deploy all dependent services within the k8s cluster. These include block storage, service mesh, cache, databases, message queues, certificate managers, secret key managers and authentication/authorization. There are obvious certain dependencies such as auto-scaling and external load balancing that are unique to each underylying cloud platform. We integrate accordingly for the intended cloud platform. See below for each native integrations.
+- Maximum effort to deploy all dependent services within the k8s cluster. These include block storage, service mesh, cache, databases, message queues, certificate managers, secret key managers and authentication/authorization. There are obvious certain dependencies such as auto-scaling and external load balancing that are unique to each underlying cloud platform. We integrate accordingly for the intended cloud platform. See below for each native integrations.
 - A very simple [init script](./setup_repo.sh) and accompanying [config file](./examples/setup.conf). We have intentionally kept this a simple "find-and-replace" script (in favour using using a stricter approach, such as encoding the entire distribution as a Helm chart) in order to make the repo easy to extend.
-- One particular area where we have chosen a fundamentally different approach relates to authentication and authorization. We have replaced the [oidc-authservice](https://github.com/arrikto/oidc-authservice) entirely, preferring instead to use [oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy) due to its wide adoption and active user base.
+- For authentication and authorization, we use [oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy) and [Keycloak](https://www.keycloak.org/) due to their wide adoption and active user base.
 
 #
 ## **AWS Integrations**
 
 This distribution assumes that you will be making use of the following AWS services:
-- An [EKS](https://aws.amazon.com/eks/) Kubernetes cluster
-- [Autoscaling Groups](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html) as Worker Nodes in the EKS cluster. We use the [cluster-autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) application to automatically scales nodes up or down depening on usage.
+- An [EKS](https://aws.amazon.com/eks/) Kubernetes cluster built with `eksctl`. The [aws-eks-cluster-spec.yaml](./aws-eks-cluster-spec.yaml) file defines the EKS cluster created with `eksctl`.
+- [Autoscaling Groups](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html) for Worker Nodes in the EKS cluster. We use the [cluster-autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) application to automatically scale nodes up or down depending on usage.
 - A [Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) via external ingress/egress is facilitated. We use the [aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) application in order to automatically provision NLB's in the correct subnets.
 - [Route53](https://aws.amazon.com/route53/) for DNS routing. We use the [external-dns](https://github.com/kubernetes-sigs/external-dns) application to automatically create records sets in Route53 in order to route from a public DNS to the NLB endpoint, as well as a [LetsEncrypt](https://letsencrypt.org/) DNS-01 solver to certify the domain with Route53.
+- [Secrets Manager](https://aws.amazon.com/secrets-manager/) for secret management working with the Kubernetes operator [External Secrets](https://external-secrets.io/).
 - [IAM Roles for Service Accounts (IRSA)](https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/) to define the IAM Roles that may be assumed by specific Pods, by attaching a specific ServiceAccount to them. For example, we attach to the `external-dns` Pod a ServiceAccount that uses an IAM Role allowing certain actions in Route53. See the section below for a detailed listing of IRSA policies that are needed.
 
 In the future we may develop overlays that would make some of these services optional, but for the current release if you wish to take them out this needs to be done after forking the repo.
