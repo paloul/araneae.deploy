@@ -184,14 +184,11 @@ The init script will look for all occurences in the ./distribution folder of the
 
 You may add any additional placeholder/value pairs you want. The naming convention `<<__...__>> ` has no functional purpose other than to aid readability and minimise the risk of a "find-and-replace" being performed on a value that was not meant as a placeholder.
 
-
-
-
 ## Deployment steps
 
 To initialise your repository, do the following:
 - fork this repo
-- modify the kustomizations for your purpose. You may in particular wish to edit `distribution/kubeflow.yaml` with the selection of applications you wish to roll out
+- modify the kustomizations for your purpose. You may in particular wish to edit `distribution/araneae.yaml` with the selection of applications you wish to roll out
 - set up a "setup.conf" file (or do a manual "find-and-replace" if you prefer) such as [this](./examples/setup.conf) one in the root of the repository
 - run `./setup_repo.sh setup.conf`
 - commit and push your changes
@@ -205,54 +202,19 @@ kustomize build distribution/argocd/ | kubectl apply -f -
 
 Finally, roll out kubeflow with:
 ```bash
-kubectl apply -f distribution/kubeflow.yaml
+kubectl apply -f distribution/araneae.yaml
 ```
 
-## Customizing the Jupyter Web App
-
-To customize the list of images presented in the Jupyter Web App
-and other related setting such as allowing custom images,
-edit the [spawner_ui_config.yaml](./distibution/kubeflow/notebooks/jupyter-web-app/spawner_ui_config.yaml)
-file.
-
-
-## Bonus: Extending the Volumes Web App with a File Browser
-
-A large problem for many people is how to easily upload or download data to and from the
-PVCs mounted as their workspace volumes for Notebook Servers. To make this easier
-a simple PVCViewer Controller was created (a slightly modified version of
-the tensorboard-controller). This feature was not ready in time for 1.3,
-and thus I am only documenting it here as an experimental feature as I believe
-many people would like to have this functionality. The images are grabbed from my
-personal dockerhub profile, but I can provide instructions for people that would
-like to build the images themselves. Also, it is important to note that
-the PVC Viewer will work with ReadWriteOnce PVCs, even when they are mounted
-to an active Notebook Server.
-
-Here is an example of the PVC Viewer in action:
-
-![PVCViewer in action](./docs/images/vwa-pvcviewer-demo.gif)
-
-To use the PVCViewer Controller, it must be deployed along with an updated version
-of the Volumes Web App. To do so, deploy
-[experimental-pvcviewer-controller.yaml](./distibution/argocd-applications/experimental-pvcviewer-controller.yaml) and
-[experimental-volumes-web-app.yaml](./distibution/argocd-application/experimental-volumes-web-app.yaml)
-instead of the regular Volumes Web App. If you are deploying Kubeflow with
-the [kubeflow.yaml](./distribution/kubeflow.yaml) file, you can edit the root
-[kustomization.yaml](./distibution/kustomization.yaml) and comment out the regular
-Volumes Web App and uncomment the PVCViewer Controller and Experimental
-Volumes Web App.
-
-### Updating the deployment
+## Updating the deployment
 
 By default, all the ArgoCD application specs included here are
 setup to automatically sync with the specified repoURL.
 If you would like to change something about your deployment,
 simply make the change, commit it and push it to your fork
 of this repo. ArgoCD will automatically detect the changes
-and update the necessary resources in your cluster.
+and update the necessary resources in your cluster.  
 
-
+---
 # Accessing the ArgoCD UI
 
 By default the ArgoCD UI is rolled out behind a ClusterIP. This can be accessed for development purposes with port forwarding, for example:
