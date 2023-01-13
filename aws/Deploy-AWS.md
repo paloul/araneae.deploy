@@ -17,8 +17,6 @@ This distribution assumes that you will be making use of the following AWS servi
 - [Secrets Manager](https://aws.amazon.com/secrets-manager/) for secret management working with the Kubernetes operator [External Secrets](https://external-secrets.io/).
 - [IAM Roles for Service Accounts (IRSA)](https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/) to define the IAM Roles that may be assumed by specific Pods, by attaching a specific ServiceAccount to them. For example, we attach to the `external-dns` Pod a ServiceAccount that uses an IAM Role allowing certain actions in Route53. See the section below for a detailed listing of IRSA policies that are needed.
 
-In the future we may develop overlays that would make some of these services optional, but for the current release if you wish to take them out this needs to be done after forking the repo.
-
 #
 ## **AWS IAM Roles for Service Acocunts**
 
@@ -36,12 +34,12 @@ Let's take the [external-dns](https://github.com/kubernetes-sigs/external-dns) s
       "Sid": "",
       "Effect": "Allow",
       "Principal": {
-        "Federated": "arn:aws:iam::123456789012:oidc-provider/oidc.eks.eu-central-1.amazonaws.com/id/SOMEUNIQUEID1234567890"
+        "Federated": "arn:aws:iam::123456789012:oidc-provider/oidc.eks.us-west-2.amazonaws.com/id/SOMEUNIQUEID1234567890"
       },
       "Action": "sts:AssumeRoleWithWebIdentity",
       "Condition": {
         "StringEquals": {
-          "oidc.eks.eu-central-1.amazonaws.com/id/SOMEUNIQUEID1234567890:sub": "system:serviceaccount:kube-system:external-dns"
+          "oidc.eks.us-west-2.amazonaws.com/id/SOMEUNIQUEID1234567890:sub": "system:serviceaccount:kube-system:external-dns"
         }
       }
     }
@@ -49,8 +47,7 @@ Let's take the [external-dns](https://github.com/kubernetes-sigs/external-dns) s
 }
 ```
 
-For every IRSA Role you set up, you will need the trust relationship above substituting for the actual oidc provider url as well as the the values "kube-system" and "external-dns" in `system:serviceaccount:kube-system:external-dns` for appropriate values.
-
+For every IRSA Role, you will replace the actual OIDC Provider URL with the OIDC Provider URL for the target cluster. In addition, update the Condition for the `sts:AssumeRoleWithWebIdentity` field to reflect the intended namespace and service, i.e. `kube-system` and `external-dns`. 
 
 ## Policies
 
@@ -58,106 +55,45 @@ Further down in this guide we explain how to initialise this repository. For now
 
 ---
 ### `aws-loadbalancer-controller`
-
-Needs policies that allows it to schedule a NLB in specific subnests.
+Needs policy that allows it to schedule a NLB in specific subnests.
 
 - Placeholder:      `<<__role_arn.loadbalancer_controller__>>`
 - Example ARN:      `arn:aws:iam::123456789012:role/my-cluster_kube-system_aws-loadbalancer-controller`
-- Policy:           [link](./docs/iam_policies/aws-loadbalancer-controller.json)
+- Policy:           [link](./iam_policies/lb-controller-v2_2_0-iam_policy.json)
+
 ---
 ### `cluster-autoscaler`
-
-Needs policies that allows it to automatically scale EC2 instances up/down.
-
+Needs policy that allows it to automatically scale EC2 instances up/down.
 - Placeholder:      `<<__role_arn.cluster_autoscaler__>>`
 - Example ARN:      `arn:aws:iam::123456789012:role/my-cluster_kube-system_aws-cluster-autoscaler`
-- Policy:           [link](./docs/iam_policies/aws-cluster-autoscaler.json)
-
+- Policy:           [link](./iam_policies/cluster-autoscaler-policy.json)
 
 ---
 ### `external-dns`
-
-Needs policies that allows it to automatically create record sets in Route53.
-
+Needs policy that allows it to automatically create record sets in Route53.
 - Placeholder:      `<<__role_arn.external_dns__>>`
 - Example ARN:      `arn:aws:iam::123456789012:role/my-cluster_kube-system_external-dns`
-- Policy:           [link](./docs/iam_policies/external-dns.json)
+- Policy:           [link](./iam_policies/external-dns-policy.json)
 
 ---
 ### `certificate-manager`
-
 Needs policies that allows it to automatically create entries in Route53 in order to allow for DNS-01 solving.
-
 - Placeholder:      `<<__role_arn.cert_manager__>>`
 - Example ARN:      `arn:aws:iam::123456789012:role/my-cluster_cert-manager_cert-manager`
-- Policy:           [link](./docs/iam_policies/cert-manager.json)
-
+- Policy:           [link](./iam_policies/cert-manager-iam_policy.json)
 
 ---
 ### `external-secrets`
+A Kubernetes operator that integrates external secret management systems like AWS Secrets Manager, HashiCorp Vault, Google Secrets Manager, Azure Key Vault, IBM Cloud Secrets Manager, and many more. The operator reads information from external management system APIs and automatically injects the values as Kubernetes Secrets.  
 
-The external-secrets application is middleman that will create ExternalSecret custom resources in specific namespaces. It can be configured in two ways.
-
-Option 1: Allow the external-secret application wide authority to read and write AWS secrets
-
-Option 2: Allow the external-secret application to assume roles that have more narrowly defined 
-
+Allow the `external-secret` operator wide authority to read all secrets defined in AWS Secrets Manager service.
 - Placeholder:        `<<__role_arn.external_secrets>>`
 - Example ARN:        `arn:aws:iam::123456789012:role/my-cluster_kube-system_external_secrets`
-- Policy:             
-  - [Option 1](./docs/iam_policies/external-secrets.json)
-  - Option 2 requires only a trust relationship. See below
-
-In the second case, you then need to define roles to be assumed by the ExternalSecret resources that will be created. Each of these roles will need to have the follow trust relationship to the external-secrets role:
-
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "",
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "arn:aws:iam::123456789012:role/dev-kf13-14_kube-system_external-secrets"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-```
-
-In addition, we need to grant each role limited access to secrets. We have chosen an approach of limiting access to secrets by namespace, but it is possible to make this more granular if desired. 
-
-#### `ExternalSecret` for the `argocd` namespace
-
-- Placeholder:        `<<__role_arn.external_secrets.argocd__>>=`
-- Example ARN:        `arn:aws:iam::123456789012:role/my-cluster_argocd`
-- Policy:             [link](./docs/iam_policies/external-secrets_argocd.json)
+- Policy:             [link](./iam_policies/external-secrets-iam-policy.json)
 
 
-#### `ExternalSecret` for the `kubeflow` namespace
-
-- Placeholder:        `<<__role_arn.external_secrets.kubeflow__>>=`
-- Example ARN:        `arn:aws:iam::123456789012:role/my-cluster_kubeflow`
-- Policy:             [link](./docs/iam_policies/external-secrets_kubeflow.json)
-
-
-#### `ExternalSecret` for the `oauth2_proxy` namespace
-
-- Placeholder:        `<<__role_arn.external_secrets.oauth2_proxy__>>=`
-- Example ARN:        `arn:aws:iam::123456789012:role/my-cluster_oauth2_proxy`
-- Policy:             [link](./docs/iam_policies/external-secrets_oauth2_proxy`.json)
-
-
-#### `ExternalSecret` for the `mlflow` namespace
-
-- Placeholder:        `<<__role_arn.external_secrets.mlflow__>>=`
-- Example ARN:        `arn:aws:iam::123456789012:role/my-cluster_mlflow`
-- Policy:             [link](./docs/iam_policies/external-secrets_mlflow.json)
-
-
----
-# Deployment
+#
+## **Deployment**
 
 This repository contains Kustomize manifests that point to the upstream
 manifest of each Kubeflow component and provides an easy way for people
