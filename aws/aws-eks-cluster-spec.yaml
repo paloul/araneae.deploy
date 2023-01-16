@@ -12,7 +12,7 @@ metadata:
   # choose your region wisely, this will significantly impact the cost incurred
   region: us-west-2 # Oregon
   # Kubernetes version 
-  version: '1.22' 
+  version: '1.24' 
   tags:
     # Add more cloud tags if needed for billing
     environment: development
@@ -386,7 +386,7 @@ nodeGroups:
     maxSize: 12
     volumeSize: 30
     volumeType: gp3
-    instanceType: r5dn.2xlarge # EBS + 1 x 300 Gib NVMe SSD, 8 core, 64 gb mem, Up to 25gbps net, Up to 4750Mbps EBS 
+    instanceType: i3.large # EBS + 1 x 475 NVMe SSD, 2 core, 15.25 gb mem, Up to 10gbps net
     availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
     enableDetailedMonitoring: true
     asgMetricsCollection:
