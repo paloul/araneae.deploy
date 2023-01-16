@@ -4,27 +4,27 @@ kind: Kustomization
 resources:
   ## Common
   - argocd-applications/istio-operator.yaml
-  - argocd-applications/istio.yaml    
+  - argocd-applications/istio.yaml
   - argocd-applications/istio-resources.yaml
-  - argocd-applications/rook-ceph.yaml 
+  - argocd-applications/rook-ceph.yaml
 
   ## Certificates
   - argocd-applications/cert-manager-dns-01.yaml
   - argocd-applications/certificates.yaml
 
   ## Databases
-  - argocd-applications/postgres.yaml # Postgresql Database with Primary and 2 Read Replicas
-  - argocd-applications/mongodb-sharded.yaml # MongoDB Sharded cluster with 1 configsrv, 3 mongos router, 3 data shards
+  # - argocd-applications/postgres.yaml # Postgresql Database with Primary and 2 Read Replicas
+  # - argocd-applications/mongodb-sharded.yaml # MongoDB Sharded cluster with 1 configsrv, 3 mongos router, 3 data shards
   - argocd-applications/cassandra.yaml # Cassandra from Bitnami. 3 Seeds Nodes with 1 Replication
   
   ## Cache
   #### Choose one Redis deployment type: Cluster or Server
-  - argocd-applications/redis-cluster.yaml # Redis Cluster with 6 nodes total, 3 masters and 3 read-only replicas
-  # - argocd-applications/redis-server.yaml # Redis Standalone with just one Master and its read-only Slave
+  # - argocd-applications/redis-cluster.yaml # Redis Cluster with 6 nodes total, 3 masters and 3 read-only replicas
+  - argocd-applications/redis-server.yaml # Redis Standalone with just one Master and its read-only Slave
 
   ## Messaging
-  - argocd-applications/kafka.yaml
-  - argocd-applications/rabbitmq.yaml
+  # - argocd-applications/kafka.yaml
+  # - argocd-applications/rabbitmq.yaml
 
   ## Auth 
   # Pick *one* of the following applications:
