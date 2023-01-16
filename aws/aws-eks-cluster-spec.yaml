@@ -72,9 +72,6 @@ nodeGroups:
       k8s.io/cluster-autoscaler/araneae: "owned"
     iam:
       withAddonPolicies:
-        ebs: true
-        fsx: true
-        efs: true
         albIngress: true
         autoScaler: true
         cloudWatch: true
@@ -113,9 +110,6 @@ nodeGroups:
   #     k8s.io/cluster-autoscaler/araneae: "owned"
   #   iam:
   #     withAddonPolicies:
-  #       ebs: true
-  #       fsx: true
-  #       efs: true
   #       albIngress: true
   #       autoScaler: true
   #       cloudWatch: true
@@ -154,9 +148,6 @@ nodeGroups:
   #     k8s.io/cluster-autoscaler/araneae: "owned"
   #   iam:
   #     withAddonPolicies:
-  #       ebs: true
-  #       fsx: true
-  #       efs: true
   #       albIngress: true
   #       autoScaler: true
   #       cloudWatch: true
@@ -195,9 +186,6 @@ nodeGroups:
   #     k8s.io/cluster-autoscaler/araneae: "owned"
   #   iam:
   #     withAddonPolicies:
-  #       ebs: true
-  #       fsx: true
-  #       efs: true
   #       albIngress: true
   #       autoScaler: true
   #       cloudWatch: true
@@ -236,9 +224,6 @@ nodeGroups:
   #     k8s.io/cluster-autoscaler/araneae: "owned"
   #   iam:
   #     withAddonPolicies:
-  #       ebs: true
-  #       fsx: true
-  #       efs: true
   #       albIngress: true
   #       autoScaler: true
   #       cloudWatch: true
@@ -277,9 +262,6 @@ nodeGroups:
   #     k8s.io/cluster-autoscaler/araneae: "owned"
   #   iam:
   #     withAddonPolicies:
-  #       ebs: true
-  #       fsx: true
-  #       efs: true
   #       albIngress: true
   #       autoScaler: true
   #       cloudWatch: true
@@ -318,9 +300,6 @@ nodeGroups:
   #     k8s.io/cluster-autoscaler/araneae: "owned"
   #   iam:
   #     withAddonPolicies:
-  #       ebs: true
-  #       fsx: true
-  #       efs: true
   #       albIngress: true
   #       autoScaler: true
   #       cloudWatch: true
@@ -359,9 +338,6 @@ nodeGroups:
   #     k8s.io/cluster-autoscaler/araneae: "owned"
   #   iam:
   #     withAddonPolicies:
-  #       ebs: true
-  #       fsx: true
-  #       efs: true
   #       albIngress: true
   #       autoScaler: true
   #       cloudWatch: true
@@ -400,9 +376,6 @@ nodeGroups:
   #     k8s.io/cluster-autoscaler/araneae: "owned"
   #   iam:
   #     withAddonPolicies:
-  #       ebs: true
-  #       fsx: true
-  #       efs: true
   #       albIngress: true
   #       autoScaler: true
   #       cloudWatch: true
@@ -442,9 +415,7 @@ nodeGroups:
       k8s.io/cluster-autoscaler/araneae: "owned"
     iam:
       withAddonPolicies:
-        ebs: true
-        fsx: true
-        efs: true
+        ebs: true # True because data nodes need the AWS EBS CSI Driver https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html
         albIngress: true
         autoScaler: true
         cloudWatch: true
