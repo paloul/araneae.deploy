@@ -14,13 +14,15 @@ resources:
 
   ## Databases
   # - argocd-applications/postgres.yaml # Postgresql Database with Primary and 2 Read Replicas
+  # - argocd-applications/cassandra.yaml # Cassandra from Bitnami. 3 Seeds Nodes with 1 Replication
+  #### Choose one Mongodb deployment type: Single or Sharded
+  - argocd-applications/mongodb-single.yaml # MongoDB single standalone server
   # - argocd-applications/mongodb-sharded.yaml # MongoDB Sharded cluster with 1 configsrv, 3 mongos router, 3 data shards
-  - argocd-applications/cassandra.yaml # Cassandra from Bitnami. 3 Seeds Nodes with 1 Replication
-  
+
   ## Cache
   #### Choose one Redis deployment type: Cluster or Server
   # - argocd-applications/redis-cluster.yaml # Redis Cluster with 6 nodes total, 3 masters and 3 read-only replicas
-  - argocd-applications/redis-server.yaml # Redis Standalone with just one Master and its read-only Slave
+  # - argocd-applications/redis-server.yaml # Redis Standalone with just one Master and its read-only Slave
 
   ## Messaging
   # - argocd-applications/kafka.yaml
@@ -50,5 +52,5 @@ resources:
   - argocd-applications/jaeger.yaml
 
   ## Araneae
-  - argocd-applications/araneae-dashboard.yaml
-  - argocd-applications/araneae-reasoner.yaml
+  # - argocd-applications/araneae-dashboard.yaml
+  # - argocd-applications/araneae-reasoner.yaml
