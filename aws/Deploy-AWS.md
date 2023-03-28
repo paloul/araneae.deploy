@@ -120,13 +120,17 @@ The init script will look for all occurences in the ./distribution folder of the
 
 You may add any additional placeholder/value pairs you want. The naming convention `<<__...__>> ` has no functional purpose other than to aid readability and minimise the risk of a "find-and-replace" being performed on a value that was not meant as a placeholder.
 
+## The `setup_credentials[].sh` scripts
+
+The `setup_credentials[].sh` scripts generate [SealedSecrets](https://github.com/bitnami-labs/sealed-secrets) for access to "admin" applications and portals. These "admin" applications are things like the ArgoCD dashboard, Keycloak, kubeflow admin user, etc. They can also be extended to seal other secrets such as database info and store them safely upon first deployment. 
+
 ## Deployment steps
 
 To initialise your repository, do the following:
 - fork this repo
 - modify the kustomizations for your purpose. You may in particular wish to edit `distribution/araneae.yaml` with the selection of applications you wish to roll out
-- set up a "setup.conf" file (or do a manual "find-and-replace" if you prefer) such as [this](./examples/setup.conf) one in the root of the repository
-- run `./setup_repo.sh setup.conf`
+- create a "setup_repo.conf" file (or do a manual "find-and-replace" if you prefer) such as [this](./setup_repo.conf) one in the root of the repository
+- run `./setup_repo.sh setup_repo.conf`
 - commit and push your changes
 
 Start up external-secret and argocd:
