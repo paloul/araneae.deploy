@@ -124,23 +124,24 @@ You may add any additional placeholder/value pairs you want. The naming conventi
 
 The `setup_credentials[].sh` scripts generate [SealedSecrets](https://github.com/bitnami-labs/sealed-secrets) for access to "admin" applications and portals. These "admin" applications are things like the ArgoCD dashboard, Keycloak, kubeflow admin user, etc. They can also be extended to seal other secrets such as database info and store them safely upon first deployment. 
 
-## Deployment steps
+## Deployment
 
 To initialise your repository, do the following:
 - fork this repo
 - modify the kustomizations for your purpose. You may in particular wish to edit `distribution/araneae.yaml` with the selection of applications you wish to roll out
-- create a "setup_repo.conf" file (or do a manual "find-and-replace" if you prefer) such as [this](./setup_repo.conf) one in the root of the repository
+- create a `setup_repo.conf` file like [this](../setup_repo.conf) one
 - run `./setup_repo.sh setup_repo.conf`
+- run any `setup_credentials[].sh` scripts
 - commit and push your changes
 
-Start up external-secret and argocd:
+Start up external-secret and then argocd:
 
 ```bash
 kustomize build distribution/external-secrets/ | kubectl apply -f -
 kustomize build distribution/argocd/ | kubectl apply -f -
 ```
 
-Finally, roll out kubeflow with:
+Finally, roll out your main application with:
 ```bash
 kubectl apply -f distribution/araneae.yaml
 ```
