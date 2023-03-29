@@ -112,7 +112,7 @@ deploy all other applications.
 
 ## The `setup.conf` file and `setup_repo.sh` script
 
-This repository uses a very simple initialisation script, [./setup_repo.sh ](./setup_repo.sh) that takes an config file such as the example one, [./examples/setup.conf](./examples/setup.conf) and iterates over all lines therein. A single line would for example look as follows:
+This repository uses a very simple initialisation script, [setup_repo.sh](../setup_repo.sh), that takes a config file such as [setup_repo.conf](../setup_repo.conf) and iterates over all lines. A single line would for example look as follows:
 ```bash
 <<__role_arn.cluster_autoscaler__>>=arn:aws:iam::123456789012:role/my-cluster_kube-system_aws-cluster-autoscaler
 ```
@@ -122,7 +122,7 @@ You may add any additional placeholder/value pairs you want. The naming conventi
 
 ## The `setup_credentials[].sh` scripts
 
-The `setup_credentials[].sh` scripts generate [SealedSecrets](https://github.com/bitnami-labs/sealed-secrets) for access to "admin" applications and portals. These "admin" applications are things like the ArgoCD dashboard, Keycloak, kubeflow admin user, etc. They can also be extended to seal other secrets such as database info and store them safely upon first deployment. 
+The `setup_credentials[].sh` scripts generate [SealedSecrets](https://github.com/bitnami-labs/sealed-secrets) for access to "admin" applications and portals. These "admin" applications are things like the ArgoCD dashboard, Keycloak, kubeflow admin user, etc. They can also be extended to seal other secrets such as database info and store them safely upon first deployment. These secrets are then safe to be checked into source control as they are encrypted and sealed, accessibly only internally via kubectl commands on the cluster. 
 
 ## Deployment
 
