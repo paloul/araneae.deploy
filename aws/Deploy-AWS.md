@@ -134,12 +134,25 @@ To initialise your repository, do the following:
 - run any `setup_credentials[].sh` scripts
 - commit and push your changes
 
-Start up external-secret and then argocd:
+Start up external-secret:
 
 ```bash
 kustomize build distribution/external-secrets/ | kubectl apply -f -
-kustomize build distribution/argocd/ | kubectl apply -f -
 ```
+
+Start up argocd:
+
+- If you are using a public repo:
+
+  ```bash
+  kustomize build distribution/argocd/base/ | kubectl apply -f -
+  ```
+
+- If you are using a private repo (note that this will use an ExternalSecret to fetch git credentials from an external secret manager, i.e. AWS Secret Manager):
+
+  ```bash
+  kustomize build distribution/argocd/overlays/private-repo/ | kubectl apply -f -
+  ```
 
 Finally, roll out your main application with:
 ```bash
@@ -156,7 +169,7 @@ of this repo. ArgoCD will automatically detect the changes
 and update the necessary resources in your cluster.  
 
 ---
-# Accessing the ArgoCD UI
+## Accessing the ArgoCD UI 
 
 By default the ArgoCD UI is rolled out behind a ClusterIP. This can be accessed for development purposes with port forwarding, for example:
 
