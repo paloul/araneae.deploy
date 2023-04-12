@@ -135,12 +135,6 @@ To initialise your repository, do the following:
 - run any `setup_credentials[].sh` scripts
 - commit and push your changes
 
-Start up external-secret:
-
-```bash
-kustomize build distribution/external-secrets/ | kubectl apply -f -
-```
-
 Start up argocd:
 
 - If you are using a public repo:
@@ -149,7 +143,9 @@ Start up argocd:
   kustomize build distribution/argocd/base/ | kubectl apply -f -
   ```
 
-- If you are using a private repo (note that this will use an ExternalSecret to fetch git credentials from an external secret manager, i.e. AWS Secret Manager):
+- If you are using a private repo:
+
+  If you haven't yet, execute the `setup_credentials_argocd.sh` script. This script will setup the git credentials needed to access the privat repo.
 
   ```bash
   kustomize build distribution/argocd/overlays/private-repo/ | kubectl apply -f -
