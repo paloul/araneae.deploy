@@ -16,7 +16,7 @@ resources:
   # - argocd-applications/postgres.yaml # Postgresql Database with Primary and 2 Read Replicas
   # - argocd-applications/cassandra.yaml # Cassandra from Bitnami. 3 Seeds Nodes with 1 Replication
   #### Choose one Mongodb deployment type: Single or Sharded
-  - argocd-applications/mongodb-single.yaml # MongoDB single standalone server
+  # - argocd-applications/mongodb-single.yaml # MongoDB single standalone server
   # - argocd-applications/mongodb-sharded.yaml # MongoDB Sharded cluster with 1 configsrv, 3 mongos router, 3 data shards
 
   ## Cache
@@ -29,16 +29,14 @@ resources:
   # - argocd-applications/rabbitmq.yaml
 
   ## Auth 
-  # Pick *one* of the following applications:
   - argocd-applications/oidc-auth-on-cluster-keycloak.yaml
-  # - argocd-applications/oidc-auth-external.yaml
 
   ## System
   - argocd-applications/cluster-autoscaler.yaml
   - argocd-applications/aws-load-balancer-controller.yaml
   - argocd-applications/aws-eks-resources.yaml
   - argocd-applications/external-dns.yaml
-  - argocd-applications/external-secrets.yaml
+  # - argocd-applications/external-secrets.yaml
   - argocd-applications/sealed-secrets.yaml
   - argocd-applications/keda.yaml
 
