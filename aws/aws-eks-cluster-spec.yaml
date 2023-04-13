@@ -266,43 +266,43 @@ nodeGroups:
   #       autoScaler: true
   #       cloudWatch: true
 
-  - name: ng-mongo
-    desiredCapacity: 
-    minSize: 1
-    maxSize: 1
-    volumeSize: 30
-    volumeType: gp3
-    instanceType: r5.large
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
-    enableDetailedMonitoring: true
-    asgMetricsCollection:
-      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
-      - granularity: 1Minute
-        metrics:
-          - GroupMinSize
-          - GroupMaxSize
-          - GroupDesiredCapacity
-          - GroupInServiceInstances
-          - GroupPendingInstances
-          - GroupStandbyInstances
-          - GroupTerminatingInstances
-          - GroupTotalInstances
-    labels:
-      node-class: "mongo"
-      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
-    taints:
-      only-mongo: "true:NoSchedule"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: mongo
-      k8s.io/cluster-autoscaler/node-template/taint/only-mongo: "true:NoSchedule"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
-    iam:
-      withAddonPolicies:
-        albIngress: true
-        autoScaler: true
-        cloudWatch: true
+  # - name: ng-mongo
+  #   desiredCapacity: 
+  #   minSize: 1
+  #   maxSize: 1
+  #   volumeSize: 30
+  #   volumeType: gp3
+  #   instanceType: r5.large
+  #   availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+  #   enableDetailedMonitoring: true
+  #   asgMetricsCollection:
+  #     # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+  #     - granularity: 1Minute
+  #       metrics:
+  #         - GroupMinSize
+  #         - GroupMaxSize
+  #         - GroupDesiredCapacity
+  #         - GroupInServiceInstances
+  #         - GroupPendingInstances
+  #         - GroupStandbyInstances
+  #         - GroupTerminatingInstances
+  #         - GroupTotalInstances
+  #   labels:
+  #     node-class: "mongo"
+  #     storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
+  #   taints:
+  #     only-mongo: "true:NoSchedule"
+  #   tags:
+  #     # EC2 tags required for cluster-autoscaler auto-discovery
+  #     k8s.io/cluster-autoscaler/node-template/label/node-class: mongo
+  #     k8s.io/cluster-autoscaler/node-template/taint/only-mongo: "true:NoSchedule"
+  #     k8s.io/cluster-autoscaler/enabled: "true"
+  #     k8s.io/cluster-autoscaler/araneae: "owned"
+  #   iam:
+  #     withAddonPolicies:
+  #       albIngress: true
+  #       autoScaler: true
+  #       cloudWatch: true
 
   # - name: ng-postgres
   #   desiredCapacity: 3
@@ -380,49 +380,49 @@ nodeGroups:
   #       autoScaler: true
   #       cloudWatch: true
 
-  - name: ng-data
-    desiredCapacity: 3
-    minSize: 3
-    maxSize: 12
-    volumeSize: 30
-    volumeType: gp3
-    instanceType: i3.large # EBS + 1 x 475 NVMe SSD, 2 core, 15.25 gb mem, Up to 10gbps net
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
-    enableDetailedMonitoring: true
-    asgMetricsCollection:
-      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
-      - granularity: 1Minute
-        metrics:
-          - GroupMinSize
-          - GroupMaxSize
-          - GroupDesiredCapacity
-          - GroupInServiceInstances
-          - GroupPendingInstances
-          - GroupStandbyInstances
-          - GroupTerminatingInstances
-          - GroupTotalInstances
-    labels:
-      node-class: "data"
-      storage-node: "true" # Rook-Ceph CSI plugin pods will not run on nodes where Storage-Node is true
-    taints:
-      storage-node: "true:NoSchedule"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: "data"
-      k8s.io/cluster-autoscaler/node-template/label/storage-node: "true"
-      k8s.io/cluster-autoscaler/node-template/taint/storage-node: "true:NoSchedule"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
-    iam:
-      withAddonPolicies:
-        ebs: true # True because data nodes need the AWS EBS CSI Driver https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html
-        albIngress: true
-        autoScaler: true
-        cloudWatch: true
-    # Prebootstrap Commands set up the file system on the instance drive, 
-    #  but Rook-Ceph needs to know only the device path, it formats itself
-    # preBootstrapCommands: 
-    #   - "mkfs -t ext4 /dev/nvme1n1"
-    #   - "mkdir -p /ephemeral"
-    #   - "mount /dev/nvme1n1 /ephemeral"
-    #   - "chown ec2-user:ec2-user /ephemeral"
+  # - name: ng-data
+  #   desiredCapacity: 3
+  #   minSize: 3
+  #   maxSize: 12
+  #   volumeSize: 30
+  #   volumeType: gp3
+  #   instanceType: i3.large # EBS + 1 x 475 NVMe SSD, 2 core, 15.25 gb mem, Up to 10gbps net
+  #   availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+  #   enableDetailedMonitoring: true
+  #   asgMetricsCollection:
+  #     # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+  #     - granularity: 1Minute
+  #       metrics:
+  #         - GroupMinSize
+  #         - GroupMaxSize
+  #         - GroupDesiredCapacity
+  #         - GroupInServiceInstances
+  #         - GroupPendingInstances
+  #         - GroupStandbyInstances
+  #         - GroupTerminatingInstances
+  #         - GroupTotalInstances
+  #   labels:
+  #     node-class: "data"
+  #     storage-node: "true" # Rook-Ceph CSI plugin pods will not run on nodes where Storage-Node is true
+  #   taints:
+  #     storage-node: "true:NoSchedule"
+  #   tags:
+  #     # EC2 tags required for cluster-autoscaler auto-discovery
+  #     k8s.io/cluster-autoscaler/node-template/label/node-class: "data"
+  #     k8s.io/cluster-autoscaler/node-template/label/storage-node: "true"
+  #     k8s.io/cluster-autoscaler/node-template/taint/storage-node: "true:NoSchedule"
+  #     k8s.io/cluster-autoscaler/enabled: "true"
+  #     k8s.io/cluster-autoscaler/araneae: "owned"
+  #   iam:
+  #     withAddonPolicies:
+  #       ebs: true # True because data nodes need the AWS EBS CSI Driver https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html
+  #       albIngress: true
+  #       autoScaler: true
+  #       cloudWatch: true
+  #   # Prebootstrap Commands set up the file system on the instance drive, 
+  #   #  but Rook-Ceph needs to know only the device path, it formats itself
+  #   # preBootstrapCommands: 
+  #   #   - "mkfs -t ext4 /dev/nvme1n1"
+  #   #   - "mkdir -p /ephemeral"
+  #   #   - "mount /dev/nvme1n1 /ephemeral"
+  #   #   - "chown ec2-user:ec2-user /ephemeral"
