@@ -4,7 +4,10 @@ namespace: argocd
 
 resources:
 - ../../base
-- secret.yaml
+# Uses External-Secrets with AWS Secret Manager. Trying to do secrets with sealed-secrets instead.
+# Look at the setup_credentials_argocd.sh script to look how Private repo git credentials are created
+# as secrets for consumption by argocd to access the private repo.
+- secret.yaml 
 
 patchesStrategicMerge:
 - patches/configmap-patch.yaml

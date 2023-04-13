@@ -145,7 +145,7 @@ Start up argocd:
 
 - If you are using a private repo:
 
-  If you haven't yet, execute the `setup_credentials_argocd.sh` script. This script will setup the git credentials needed to access the privat repo.
+  If you haven't yet, execute the `setup_credentials_argocd.sh` script. This script will setup the git credentials needed to access the private repo.
 
   ```bash
   kustomize build distribution/argocd/overlays/private-repo/ | kubectl apply -f -
