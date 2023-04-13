@@ -174,14 +174,23 @@ By default the ArgoCD UI is rolled out behind a ClusterIP. This can be accessed 
 kubectl port-forward svc/argocd-server -n argocd 8888:80
 ```
 
-The UI will now be accessible at `localhost:8888` and can be accessed with the initial admin password. The password is stored in a secret and can be read as follows:
+The UI will now be accessible at `localhost:8888` and can be accessed with the initial admin password. ArgoCD creates an initial admin password automatically based on the running pod's name. That initial password is stored in a secret named `argocd-initial-admin-secret` and can be read as follows:
 
 ```bash
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
 
-If you wish to update the password, this can be done using the [argcd cli](https://github.com/argoproj/argo-cd/releases/latest), using the following commands:
+If you wish to update the password, this can be done using `kubectl` commands or via the [argocd cli](https://github.com/argoproj/argo-cd/releases/latest), using the following commands:
 ```bash
+# with kubectl commands
+PWD=$(python3 -c 'import bcrypt; print(bcrypt.hashpw(b"YOUR-NEW-PASSWORD", bcrypt.gensalt()))')
+kubectl -n argocd patch secret argocd-secret \
+  -p '{"stringData": {
+    "admin.password": "'${PWD}'",
+    "admin.passwordMtime": "'$(date +%FT%T%Z)'"
+  }}'
+
+# with the argocd cli
 argocd login localhost:8888
 argocd account update-password
 ```
