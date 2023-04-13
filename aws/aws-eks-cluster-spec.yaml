@@ -12,7 +12,7 @@ metadata:
   # choose your region wisely, this will significantly impact the cost incurred
   region: us-west-2 # Oregon
   # Kubernetes version 
-  version: '1.24' 
+  version: '1.25' 
   tags:
     # Add more cloud tags if needed for billing
     environment: development
