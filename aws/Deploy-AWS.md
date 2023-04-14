@@ -3,7 +3,7 @@
 This project offers a complete platform distribution that has the following characteristics:
 - It follows a fully declarative, GitOps approach using [ArgoCD](https://argoproj.github.io/argo-cd/). No other middleware is injected. All manifests are defined either as vanilla Kubernetes YAML specs, Kustomize specs, or Helm charts.
 - Maximum effort to deploy all dependent services within the k8s cluster. These include block storage, service mesh, cache, databases, message queues, certificate managers, secret key managers and authentication/authorization. There are obvious certain dependencies such as auto-scaling and external load balancing that are unique to each underlying cloud platform. We integrate accordingly for the intended cloud platform. See below for each native integrations.
-- A very simple [init script](./setup_repo.sh) and accompanying [config file](./examples/setup.conf). We have intentionally kept this a simple "find-and-replace" script (in favour using using a stricter approach, such as encoding the entire distribution as a Helm chart) in order to make the repo easy to extend.
+- A very simple [init script](./setup_repo.sh) and accompanying [config file](./examples/setup.conf). Intentionally kept this a simple "find-and-replace" script (in favour using using a stricter approach, such as encoding the entire distribution as a Helm chart) in order to make the repo easy to extend.
 - For authentication and authorization, we use [oauth2-proxy](https://github.com/oauth2-proxy/oauth2-proxy) and [Keycloak](https://www.keycloak.org/) due to their wide adoption and active user base.
 
 #
@@ -14,8 +14,6 @@ This distribution assumes that you will be making use of the following AWS servi
 - [Autoscaling Groups](https://docs.aws.amazon.com/autoscaling/ec2/userguide/AutoScalingGroup.html) for Worker Nodes in the EKS cluster. We use the [cluster-autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler) application to automatically scale nodes up or down depending on usage.
 - A [Network Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html) via external ingress/egress is facilitated. We use the [aws-load-balancer-controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) application in order to automatically provision NLB's in the correct subnets.
 - [Route53](https://aws.amazon.com/route53/) for DNS routing. We use the [external-dns](https://github.com/kubernetes-sigs/external-dns) application to automatically create records sets in Route53 in order to route from a public DNS to the NLB endpoint, as well as a [LetsEncrypt](https://letsencrypt.org/) DNS-01 solver to certify the domain with Route53.
-- [Secrets Manager](https://aws.amazon.com/secrets-manager/) for secret management working with the Kubernetes operator [External Secrets](https://external-secrets.io/). 
-  - *Looking into using kubeseal to handle all secrets as a replacement to using external secret providers like AWS Secrets Manager*
 - [IAM Roles for Service Accounts (IRSA)](https://aws.amazon.com/blogs/opensource/introducing-fine-grained-iam-roles-service-accounts/) to define the IAM Roles that may be assumed by specific Pods, by attaching a specific ServiceAccount to them. For example, we attach to the `external-dns` Pod a ServiceAccount that uses an IAM Role allowing certain actions in Route53. See the section below for a detailed listing of IRSA policies that are needed.
 
 #
@@ -83,15 +81,6 @@ Needs policies that allows it to automatically create entries in Route53 in orde
 - Example ARN:      `arn:aws:iam::123456789012:role/my-cluster_cert-manager_cert-manager`
 - Policy:           [link](./iam_policies/cert-manager-iam_policy.json)
 
----
-### `external-secrets`
-A Kubernetes operator that integrates external secret management systems like AWS Secrets Manager, HashiCorp Vault, Google Secrets Manager, Azure Key Vault, IBM Cloud Secrets Manager, and many more. The operator reads information from external management system APIs and automatically injects the values as Kubernetes Secrets.  
-
-Allow the `external-secret` operator wide authority to read all secrets defined in AWS Secrets Manager service.
-- Placeholder:        `<<__role_arn.external_secrets>>`
-- Example ARN:        `arn:aws:iam::123456789012:role/my-cluster_kube-system_external_secrets`
-- Policy:             [link](./iam_policies/external-secrets-iam-policy.json)
-
 
 #
 ## **Deployment**
@@ -109,12 +98,29 @@ deploy all other applications.
 
 - kubectl (latest)
 - kustomize 4.0.5
+- python 3.6+
+  - passlib - `pip3 install passlib`
+- [Sealed-Secrets/kubeseal](https://sealed-secrets.netlify.app/) - v0.20.2
+  - A k8s controller and a cli called `kubeseal`
+  - https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.20.2/controller.yaml
+    ```bash
+    # Install the Sealed-Secrets controller on the cluster
+    kustomize build distribution/sealed-secrets/ | kubectl apply -f -
+    ```
+  - https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.20.2/kubeseal-0.20.2-linux-amd64.tar.gz
+    ```bash
+    # Install the kubeseal cli version 0.20.2
+    wget https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.20.2/kubeseal-0.20.2-linux-amd64.tar.gz
 
+    tar -xf kubeseal-0.20.2-linux-amd64.tar.gz
+
+    sudo install -m 755 kubeseal /usr/local/bin/kubeseal
+    ```
 
 ## The `setup.conf` file and `setup_repo.sh` script
 
 This repository uses a very simple initialisation script, [setup_repo.sh](../setup_repo.sh), that takes a config file such as [setup_repo.conf](../setup_repo.conf) and iterates over all lines. A single line would for example look as follows:
-```bash
+```
 <<__role_arn.cluster_autoscaler__>>=arn:aws:iam::123456789012:role/my-cluster_kube-system_aws-cluster-autoscaler
 ```
 The init script will look for all occurences in the ./distribution folder of the placeholder `<<__role_arn.cluster_autoscaler__>>` and will replace it with the value `arn:aws:iam::123456789012:role/my-cluster_kube-system_aws-cluster-autoscaler`. Please note that that comments (`//`, `#`), quatation marks (`"`, `'`) or unnecessary line-breaks should be avoided.
@@ -123,19 +129,29 @@ You may add any additional placeholder/value pairs you want. The naming conventi
 
 ## The `setup_credentials[].sh` scripts
 
-The `setup_credentials[].sh` scripts generate [SealedSecrets](https://github.com/bitnami-labs/sealed-secrets) for access to "admin" applications and portals. These "admin" applications are things like the ArgoCD dashboard, Keycloak, kubeflow admin user, etc. They can also be extended to seal other secrets such as database info and store them safely upon first deployment. These secrets are then safe to be checked into source control as they are encrypted and sealed, accessibly only internally via kubectl commands on the cluster. 
+The `setup_credentials[].sh` scripts generate [SealedSecrets](https://github.com/bitnami-labs/sealed-secrets). Sealed Secrets are "one-way" encrypted K8s Secrets that can be created by anyone, but can only be decrypted by the controller running in the target cluster recovering the original object. These secrets are then safe to be checked into source control as they are encrypted and sealed, accessibly only internally via kubectl commands on the cluster. 
 
-## Deployment
+## Deployment Steps
 
 To initialise your repository, do the following:
-- fork this repo
-- modify the kustomizations for your purpose. You may in particular wish to edit `distribution/araneae.yaml` with the selection of applications you wish to roll out
-- create a `setup_repo.conf` file like [this](../setup_repo.conf) one
-- run `./setup_repo.sh setup_repo.conf`
-- run any `setup_credentials[].sh` scripts
-- commit and push your changes
+- Fork this repo
+- Edit `distribution/araneae.yaml` with the selection of applications you wish to roll out
+- Create a `setup_repo.conf` config file like [this](../setup_repo.conf) one
+- Run `setup_repo.sh` with the `setup_repo.conf` config file
+  ```bash
+  ./setup_repo.sh setup_repo.conf
+  ```
+- Run `setup_credentials_argocd.sh` script
+  ```bash
+  ./setup_credentials_argocd.sh --git-https-username yourgituser --git-https-password yourgitpwd
+  ```
+- Run `setup_credentials_keycloak.sh` script
+  ```bash
+  ./setup_credentials_keycloak.sh --email test@test.com --username youruser --firstname Yourname --lastname Yoursurname --password yourpassword
+  ```
+- Commit and push your changes
 
-Start up argocd:
+**Start up argocd**
 
 - If you are using a public repo:
 
@@ -151,7 +167,7 @@ Start up argocd:
   kustomize build distribution/argocd/overlays/private-repo/ | kubectl apply -f -
   ```
 
-Finally, roll out your main application with:
+Finally, roll out your main application with argocd:
 ```bash
 kubectl apply -f distribution/araneae.yaml
 ```

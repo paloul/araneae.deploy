@@ -3,4 +3,4 @@ kind: Kustomization
 namespace: kube-system
 
 resources:
-- ./base
+- controller-v0.20.2.yaml
