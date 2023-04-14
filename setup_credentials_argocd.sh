@@ -15,4 +15,4 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-kubectl create secret generic -n argocd git-repo-secret --from-literal=HTTPS_USERNAME=${git-https-username} --from-literal=HTTPS_PASSWORD=${git-https-password} --dry-run=client -o yaml | kubeseal | yq eval -P > ${DISTRIBUTION_PATH}/argocd/overlays/private-repo/secret.yaml
+kubectl create secret generic -n argocd git-repo-secret --from-literal=HTTPS_USERNAME=${githttpsusername} --from-literal=HTTPS_PASSWORD=${githttpspassword} --dry-run=client -o yaml | kubeseal | yq eval -P > ${DISTRIBUTION_PATH}/argocd/overlays/private-repo/secret.yaml
