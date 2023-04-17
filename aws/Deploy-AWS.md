@@ -129,7 +129,7 @@ You may add any additional placeholder/value pairs you want. The naming conventi
 
 ## The `setup_credentials[].sh` scripts
 
-The `setup_credentials[].sh` scripts generate [SealedSecrets](https://github.com/bitnami-labs/sealed-secrets). Sealed Secrets are "one-way" encrypted K8s Secrets that can be created by anyone, but can only be decrypted by the controller running in the target cluster recovering the original object. These secrets are then safe to be checked into source control as they are encrypted and sealed, accessibly only internally via kubectl commands on the cluster. 
+The `setup_credentials[].sh` scripts generate [SealedSecrets](https://github.com/bitnami-labs/sealed-secrets). Sealed Secrets are "one-way" encrypted K8s Secrets that can be created by anyone, but can only be decrypted by the controller running in the target cluster recovering the original object. These secrets are then safe to be checked into source control as they are encrypted and sealed, accessibly only internally via kubectl commands on the cluster. Before you can run any `setup_credentials[].sh` script, you must have [SealedSecrets](https://github.com/bitnami-labs/sealed-secrets) controller installed on the cluster and the `kubeseal` cli installed on your host machine deploying the application.
 
 ## Deployment Steps
 
@@ -161,7 +161,7 @@ To initialise your repository, do the following:
 
 - If you are using a private repo:
 
-  If you haven't yet, execute the `setup_credentials_argocd.sh` script. This script will setup the git credentials needed to access the private repo.
+  If you haven't yet, execute the `setup_credentials_argocd.sh` script. This script will setup the git credentials as Sealed Secrets to access the private repo.
 
   ```bash
   kustomize build distribution/argocd/overlays/private-repo/ | kubectl apply -f -
