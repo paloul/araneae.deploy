@@ -6,7 +6,7 @@ resources:
   - argocd-applications/istio-operator.yaml
   - argocd-applications/istio.yaml
   - argocd-applications/istio-resources.yaml
-  - argocd-applications/rook-ceph.yaml
+  # - argocd-applications/rook-ceph.yaml
 
   ## Certificates
   - argocd-applications/cert-manager-dns-01.yaml
@@ -34,13 +34,13 @@ resources:
   # - argocd-applications/oidc-auth-external.yaml
 
   ## System
+  - argocd-applications/keda.yaml
   - argocd-applications/cluster-autoscaler.yaml
   - argocd-applications/aws-load-balancer-controller.yaml
   - argocd-applications/aws-eks-resources.yaml
   - argocd-applications/external-dns.yaml
   # - argocd-applications/external-secrets.yaml
   # - argocd-applications/sealed-secrets.yaml # Sealed Secrets is installed before our application. Not controlled by Argo. Read Deploy.md 
-  - argocd-applications/keda.yaml
 
   ## Monitoring
   - argocd-applications/metrics-server.yaml 
@@ -51,6 +51,22 @@ resources:
   #- argocd-applications/kiali.yaml
   #- argocd-applications/jaeger.yaml
 
+  ## Kubeflow
+  - argocd-applications/central-dashboard-mlflow.yaml
+  # Pick the ones you want here:
+  - argocd-applications/profile-controller_access-management.yaml
+  - argocd-applications/kubeflow-namespace.yaml
+  - argocd-applications/kubeflow-roles.yaml
+  - argocd-applications/pipelines.yaml
+  - argocd-applications/katib.yaml
+  - argocd-applications/kfserving.yaml
+  - argocd-applications/pod-defaults.yaml
+  - argocd-applications/jupyter-web-app.yaml
+  - argocd-applications/notebook-controller.yaml
+  # - argocd-applications/tensorboard-controller.yaml
+  # - argocd-applications/tensorboards-web-app.yaml
+  # - argocd-applications/volumes-web-app.yaml
+
   ## Araneae
-  - argocd-applications/araneae-dashboard.yaml
+  # - argocd-applications/araneae-dashboard.yaml
   # - argocd-applications/araneae-reasoner.yaml
