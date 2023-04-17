@@ -6,7 +6,7 @@ resources:
 - auth-authorizationpolicy.yaml
 - auth-certificate.yaml
 - auth-gateway.yaml
-# - oauth2-proxy-secret.yaml # This is External Secret, not used anymore
+- oauth2-proxy-secret.yaml # This is External Secret, not used anymore, its deleted when keycloak is used
 - oauth2-proxy-signout-virtual-service.yaml
 - oauth2-proxy.yaml
 - oauth2-proxy-serviceaccount.yaml

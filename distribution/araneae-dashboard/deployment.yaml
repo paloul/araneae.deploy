@@ -4,7 +4,7 @@ metadata:
   name: araneae
   labels:
     app: araneae
-  namespace: araneae-dashboard
+  namespace: araneae
 spec:
   replicas: 1
   selector:

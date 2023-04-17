@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: araneae-gateway
-  namespace: araneae-dashboard
+  namespace: araneae
 spec:
   selector:
     istio: ingressgateway

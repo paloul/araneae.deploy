@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: araneae
-  namespace: araneae-dashboard
+  namespace: araneae
 spec:
   gateways:
   - araneae-gateway
@@ -19,12 +19,12 @@ spec:
       uri: "/"
     route:
     - destination:
-        host: araneae-reasoner-api.araneae-reasoner.svc.cluster.local
+        host: araneae-reasoner-api.araneae.svc.cluster.local
         port: 
           number: 5000
   - name: "dashboard-route"
     route:
     - destination:
-        host: araneae.araneae-dashboard.svc.cluster.local
+        host: araneae.araneae.svc.cluster.local
         port:
           number: 80
