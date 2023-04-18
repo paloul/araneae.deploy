@@ -6,7 +6,7 @@ resources:
   - argocd-applications/istio-operator.yaml
   - argocd-applications/istio.yaml
   - argocd-applications/istio-resources.yaml
-  # - argocd-applications/rook-ceph.yaml
+  - argocd-applications/rook-ceph.yaml
 
   ## Certificates
   - argocd-applications/cert-manager-dns-01.yaml
