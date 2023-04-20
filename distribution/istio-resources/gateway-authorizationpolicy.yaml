@@ -7,7 +7,8 @@ metadata:
 spec:
   action: CUSTOM
   selector:
-    # Same as the istio-ingressgateway Service selector
+    # Same as the istio-ingressgateway Service selector, 
+    # look in istio/istio-spec.yaml which defines and configures the Load Balancer instance
     matchLabels:
       app: istio-ingressgateway
       istio: ingressgateway
@@ -16,6 +17,7 @@ spec:
   rules:
   - to:
     - operation:
-        hosts:
-        - <<__subdomain_dashboard__>>.<<__domain__>>
-        
+        hosts: # These are all the hosts that Load Balancer serves
+        - <<__subdomain_kubeflow_dashboard__>>.<<__domain__>>
+        - <<__subdomain_kubeflow_serving__>>.<<__domain__>>
+        - '*.<<__subdomain_kubeflow_serving__>>.<<__domain__>>'
