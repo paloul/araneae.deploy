@@ -1,4 +1,6 @@
 # Allow all traffic to the cluster-local-gateway
+# This is the Authorization Policy for the ingress gateway 
+#   defined in istio-spec labeled cluster-local-gateway
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
@@ -7,6 +9,7 @@ spec:
   action: ALLOW
   selector:
     # Same as the cluster-local-gateway Service selector
+    # Match labels connect to ingress-gateway with name cluster-local-gateway in istio-spec.yaml
     matchLabels:
       app: cluster-local-gateway
       istio: cluster-local-gateway
