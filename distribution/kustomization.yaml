@@ -12,15 +12,16 @@ resources:
   - argocd-applications/istio.yaml
   - argocd-applications/istio-resources.yaml
 
-  ## Data Infrastructure
+  ## Data infrastructure
   - argocd-applications/rook-ceph.yaml
 
-  ## Infrastructure Support
+  ## Generic cloud-native infrastructure support
   - argocd-applications/keda.yaml
+  - argocd-applications/knative.yaml
   - argocd-applications/external-dns.yaml
   # - argocd-applications/sealed-secrets.yaml # Sealed Secrets is installed before our application. Not controlled by Argo. Read Deploy.md 
 
-  ## AWS Specific Infrastructure Support
+  ## AWS specific infrastructure support
   - argocd-applications/cluster-autoscaler.yaml
   - argocd-applications/aws-load-balancer-controller.yaml
   - argocd-applications/aws-eks-resources.yaml
@@ -47,7 +48,7 @@ resources:
   # - argocd-applications/oidc-auth-external.yaml
 
   ## Monitoring
-  - argocd-applications/metrics-server.yaml 
+  - argocd-applications/metrics-server.yaml # FYI: Needed for knative
   #- argocd-applications/redis-insight.yaml
   #- argocd-applications/monitoring-resources.yaml
   #- argocd-applications/kube-prometheus-stack.yaml

@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- serving-core-v1.8.0.yaml
+- net-istio-v1.8.0.yaml
+- allow-all-ns-knative-authorization-policy.yaml
+- peerauthentication-force-strict-mtls.yaml
+# - monitoring/
+
+patchesStrategicMerge:
+# patches
+- patches/config-istio.yaml
+- patches/config-logging.yaml
+- patches/config-network.yaml
+- patches/config-observability.yaml
+- patches/config-domain.yaml
+- patches/config-deployment.yaml
+- patches/enable-istio-injection.yaml
+- patches/enable-sidecar-istio-controller.yaml
+
+# removals
+- removals/remove-knative-ingress-gateway.yaml
+- removals/remove-knative-local-gateway.yaml

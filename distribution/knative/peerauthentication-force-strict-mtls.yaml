@@ -1,0 +1,12 @@
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: force-strict-mtls
+  namespace: knative-serving
+  labels:
+    app.kubernetes.io/name: knative-serving
+    app.kubernetes.io/version: "1.8.0"
+    networking.knative.dev/ingress-provider: istio
+spec:
+  mtls:
+    mode: STRICT
