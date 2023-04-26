@@ -1,7 +1,7 @@
 #################################################################################################################
 # This is a sample pod definition that shows how to inject a rook-ceph bucket information.
 #
-#  https://github.com/rook/rook/blob/master/Documentation/ceph-object-bucket-claim.md#app-pod
+#  https://rook.github.io/docs/rook/v1.11/Storage-Configuration/Object-Storage-RGW/ceph-object-bucket-claim/#app-pod
 # 
 #   "configMapRef": makes available to the pod as env variables: BUCKET_HOST, BUCKET_PORT, BUCKET_NAME
 #   "secretRef": makes available to the pod as env variables: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
@@ -17,7 +17,7 @@ spec:
   - name: mycontainer
     image: redis
     envFrom:
-    - configMapRef:
+    - configMapRef: # makes available to the pod as env variables: BUCKET_HOST, BUCKET_PORT, BUCKET_NAME
         name: araneae-general-bucket-claim # This should match name of the Object Bucket Claim
-    - secretRef:
+    - secretRef: # makes available to the pod as env variables: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
         name: araneae-general-bucket-claim # This should match name of the Object Bucket Claim

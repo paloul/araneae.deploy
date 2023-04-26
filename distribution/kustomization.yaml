@@ -13,7 +13,7 @@ resources:
   - argocd-applications/istio-resources.yaml # Done
 
   ## Data infrastructure
-  - argocd-applications/rook-ceph.yaml ## Do this next. Understand what paths become available for use in cluster.
+  - argocd-applications/rook-ceph.yaml ## Done. Updated to use v1.11 
 
   ## Generic cloud-native infrastructure support
   - argocd-applications/keda.yaml # Done

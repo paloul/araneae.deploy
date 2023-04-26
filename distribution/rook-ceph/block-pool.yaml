@@ -2,6 +2,8 @@
 # Create a Ceph pool with settings for replication in production environments. A minimum of 3 OSDs on
 # different hosts are required in this example.
 #  kubectl create -f pool.yaml
+
+# https://rook.github.io/docs/rook/v1.11/Storage-Configuration/Block-Storage-RBD/block-storage/
 #################################################################################################################
 
 apiVersion: ceph.rook.io/v1
