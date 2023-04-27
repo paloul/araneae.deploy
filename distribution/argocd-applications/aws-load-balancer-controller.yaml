@@ -7,10 +7,11 @@ spec:
   project: default
   source:
 
-    # https://artifacthub.io/packages/helm/aws/aws-load-balancer-controller/1.2.0
+    # https://github.com/aws/eks-charts/tree/master/stable/aws-load-balancer-controller
+    # https://artifacthub.io/packages/helm/aws/aws-load-balancer-controller
 
     repoURL: https://aws.github.io/eks-charts
-    targetRevision: 1.2.0
+    targetRevision: 1.5.2 # Chart version 1.5.2, Application Version 2.5.1
     chart: aws-load-balancer-controller
     helm:
       parameters:
@@ -18,8 +19,6 @@ spec:
           value: <<__role_arn.loadbalancer_controller__>>
         - name: clusterName
           value: <<__cluster_name__>>
-        - name: image.repository
-          value: amazon/aws-alb-ingress-controller
         - name: vpcId
           value: <<__vpc_id__>>
         - name: region
@@ -36,6 +35,14 @@ spec:
           value: 100m
         - name: resources.requests.memory
           value: 300Mi
+        - name: nodeSelector
+          value: {
+            "node-class": "utility"
+          }
+        - name: tolerations
+          value: [
+            "only-utility=true:NoSchedule"
+          ]
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
