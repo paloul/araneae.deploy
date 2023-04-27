@@ -26,7 +26,6 @@ resources:
   ## AWS specific infrastructure support
   - argocd-applications/cluster-autoscaler.yaml # Done
   - argocd-applications/aws-load-balancer-controller.yaml # Done
-  - argocd-applications/aws-eks-resources.yaml # Update and verify this
 
   ## Databases
   # - argocd-applications/postgres.yaml # Postgresql Database with Primary and 2 Read Replicas
