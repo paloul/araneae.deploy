@@ -49,7 +49,7 @@ resources:
   # - argocd-applications/oidc-auth-external.yaml
 
   ## Monitoring
-  - argocd-applications/metrics-server.yaml # FYI: Needed for knative
+  - argocd-applications/metrics-server.yaml # Done. FYI: Needed for knative
   #- argocd-applications/redis-insight.yaml
   #- argocd-applications/monitoring-resources.yaml
   #- argocd-applications/kube-prometheus-stack.yaml
