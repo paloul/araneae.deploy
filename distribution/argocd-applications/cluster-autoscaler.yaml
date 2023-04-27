@@ -25,10 +25,6 @@ spec:
           value: cluster-autoscaler
         - name: cloudProvider
           value: aws
-        - name: image.repository
-          value: us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler
-        - name: image.tag
-          value: v1.26.2
         - name: autoDiscovery.clusterName
           value: <<__cluster_name__>>
         - name: autoDiscovery.enabled
@@ -53,6 +49,14 @@ spec:
           value: 100m
         - name: resources.requests.memory
           value: 300Mi
+        - name: nodeSelector
+        value: {
+          "node-class": "utility"
+        }
+      - name: tolerations
+        value: [
+          "only-utility=true:NoSchedule"
+        ]
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
