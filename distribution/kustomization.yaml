@@ -37,7 +37,7 @@ resources:
   ## Cache
   #### Choose one Redis deployment type: Cluster or Server
   # - argocd-applications/redis-cluster.yaml # Redis Cluster with 6 nodes total, 3 masters and 3 read-only replicas
-  # - argocd-applications/redis-server.yaml # Redis Standalone with just one Master and its read-only Slave
+  - argocd-applications/redis.yaml # Redis Standalone with just one Master and its read-only Slave
 
   ## Messaging
   # - argocd-applications/kafka.yaml
