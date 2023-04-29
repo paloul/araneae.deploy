@@ -1,0 +1,34 @@
+# This path uses manifest files for pipelines from Kubeflow repo tag v1.7.0. There are a lot
+# files that are not used under the pipelines directory. Look at this link for background 
+# information on the installation https://github.com/kubeflow/manifests#kubeflow-pipelines. 
+# We are doing the Multi-User Kubeflow Pipelines component. The complete directory here of
+# distribution/kubeflow/pipelines/ matches the kubflow/manifests repo folder hierarchy at 
+# manifests/apps/pipeline/. Release of the manifest tag v1.7.0.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: kubeflow
+
+resources:
+
+
+patchesStrategicMerge:
+# patches
+- patches/cache-server.yaml
+- patches/metadata-grpc-deployment.yaml
+- patches/kubeflow-pipelines-profile-controller.yaml
+- patches/ml-pipeline.yaml
+- patches/ml-pipeline-ui.yaml
+- patches/ml-pipeline-viewer-template.yaml
+- patches/workflow-controller-configmap.yaml
+
+# removals
+- removals/mysql-resources.yaml
+- removals/minio-resources.yaml
+
+configMapGenerator:
+- name: kubeflow-pipelines-profile-controller-code
+  files:
+  - patches/sync_with_s3.py
+  behavior: replace

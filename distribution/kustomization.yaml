@@ -60,6 +60,7 @@ resources:
   ## Kubeflow - Start here next GKP
   - argocd-applications/kubeflow-namespace.yaml
   - argocd-applications/kubeflow-roles.yaml
+  - argocd-applications/kubeflow-pipelines.yaml
   # - argocd-applications/kubeflow-central-dashboard.yaml
   # - argocd-applications/profile-controller_access-management.yaml
   # - argocd-applications/kubeflow-namespace.yaml
