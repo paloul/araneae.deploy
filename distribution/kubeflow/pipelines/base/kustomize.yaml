@@ -11,7 +11,17 @@ kind: Kustomization
 namespace: kubeflow
 
 resources:
-
+# https://github.com/kubeflow/manifests#kubeflow-pipelines
+# The actual kustomization.yaml file: 
+# github.com/kubeflow/manifests/blob/v1.7.0/apps/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user/kustomization.yaml
+- github.com/kubeflow/manifests/apps/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user?ref=v1.7.0
+- resources/rds-secret.yaml
+- resources/rds-configmap.yaml
+- resources/database-creation-job.yaml
+- resources/s3-configmap.yaml
+- resources/s3-secret.yaml
+- resources/ml-pipeline-viewer-template.yaml
+- resources/ml-pipeline-config.yaml
 
 patchesStrategicMerge:
 # patches
