@@ -28,7 +28,7 @@ resources:
   - argocd-applications/aws-load-balancer-controller.yaml # Done
 
   ## Databases
-  # - argocd-applications/postgres.yaml # Postgresql Database with Primary and 2 Read Replicas
+  - argocd-applications/postgres.yaml # Postgresql Database with Primary and 2 Read Replicas
   # - argocd-applications/cassandra.yaml # Cassandra from Bitnami. 3 Seeds Nodes with 1 Replication
   #### Choose one Mongodb deployment type: Single or Sharded
   # - argocd-applications/mongodb-single.yaml # MongoDB single standalone server
