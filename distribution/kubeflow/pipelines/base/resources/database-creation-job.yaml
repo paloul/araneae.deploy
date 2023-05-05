@@ -17,27 +17,27 @@ spec:
         - name: HOST
           valueFrom:
             configMapKeyRef:
-              name: pipelines-rds-config
-              key: RDS_HOST
+              name: pipelines-postgresql-config
+              key: POSTGRESQL_HOST
         - name: PORT
           valueFrom:
             configMapKeyRef:
-              name: pipelines-rds-config
-              key: RDS_PORT
+              name: pipelines-postgresql-config
+              key: POSTGRESQL_PORT
         - name: USERNAME
           valueFrom:
             secretKeyRef:
-              name: pipelines-rds-secret
-              key: RDS_USERNAME
+              name: pipelines-postgresql-secret
+              key: POSTGRESQL_USERNAME
         - name: PASSWORD
           valueFrom:
             secretKeyRef:
-              name: pipelines-rds-secret
-              key: RDS_PASSWORD
+              name: pipelines-postgresql-secret
+              key: POSTGRESQL_PASSWORD
         - name: DATABASE
           valueFrom:
             configMapKeyRef:
-              name: pipelines-rds-config
+              name: pipelines-postgresql-config
               key: DB_NAME_CACHE
       restartPolicy: Never
   backoffLimit: 5
@@ -60,27 +60,27 @@ spec:
         - name: HOST
           valueFrom:
             configMapKeyRef:
-              name: pipelines-rds-config
-              key: RDS_HOST
+              name: pipelines-postgresql-config
+              key: POSTGRESQL_HOST
         - name: PORT
           valueFrom:
             configMapKeyRef:
-              name: pipelines-rds-config
-              key: RDS_PORT
+              name: pipelines-postgresql-config
+              key: POSTGRESQL_PORT
         - name: USERNAME
           valueFrom:
             secretKeyRef:
-              name: pipelines-rds-secret
-              key: RDS_USERNAME
+              name: pipelines-postgresql-secret
+              key: POSTGRESQL_USERNAME
         - name: PASSWORD
           valueFrom:
             secretKeyRef:
-              name: pipelines-rds-secret
-              key: RDS_PASSWORD
+              name: pipelines-postgresql-secret
+              key: POSTGRESQL_PASSWORD
         - name: DATABASE
           valueFrom:
             configMapKeyRef:
-              name: pipelines-rds-config
+              name: pipelines-postgresql-config
               key: DB_NAME_PIPELINES
       restartPolicy: Never
   backoffLimit: 5
@@ -103,27 +103,27 @@ spec:
         - name: HOST
           valueFrom:
             configMapKeyRef:
-              name: pipelines-rds-config
-              key: RDS_HOST
+              name: pipelines-postgresql-config
+              key: POSTGRESQL_HOST
         - name: PORT
           valueFrom:
             configMapKeyRef:
-              name: pipelines-rds-config
-              key: RDS_PORT
+              name: pipelines-postgresql-config
+              key: POSTGRESQL_PORT
         - name: USERNAME
           valueFrom:
             secretKeyRef:
-              name: pipelines-rds-secret
-              key: RDS_USERNAME
+              name: pipelines-postgresql-secret
+              key: POSTGRESQL_USERNAME
         - name: PASSWORD
           valueFrom:
             secretKeyRef:
-              name: pipelines-rds-secret
-              key: RDS_PASSWORD
+              name: pipelines-postgresql-secret
+              key: POSTGRESQL_PASSWORD
         - name: DATABASE
           valueFrom:
             configMapKeyRef:
-              name: pipelines-rds-config
+              name: pipelines-postgresql-config
               key: DB_NAME_METADATA
       restartPolicy: Never
   backoffLimit: 5

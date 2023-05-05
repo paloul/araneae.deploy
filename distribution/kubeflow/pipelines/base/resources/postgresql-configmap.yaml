@@ -1,0 +1,11 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: pipelines-postgresql-config
+  namespace: kubeflow
+data:
+  DB_NAME_PIPELINES: <<__kubeflow.pipelines.postgresql.db_name.pipelines__>>
+  DB_NAME_CACHE: <<__kubeflow.pipelines.postgresql.db_name.cache__>>
+  DB_NAME_METADATA: <<__kubeflow.pipelines.postgresql.db_name.metadata__>>
+  POSTGRESQL_HOST: <<__kubeflow.pipelines.postgresql.host__>>
+  POSTGRESQL_PORT: <<__kubeflow.pipelines.postgresql.port__>>
