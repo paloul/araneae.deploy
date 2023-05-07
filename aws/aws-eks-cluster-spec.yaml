@@ -42,9 +42,9 @@ availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
 
 nodeGroups:
   - name: ng-util
-    desiredCapacity: 4
-    minSize: 4
-    maxSize: 16
+    desiredCapacity: 6
+    minSize: 6
+    maxSize: 15
     volumeSize: 30
     volumeType: gp3
     instanceType: t3.large 
@@ -81,7 +81,7 @@ nodeGroups:
   - name: ng-data
     desiredCapacity: 3
     minSize: 3
-    maxSize: 12
+    maxSize: 15
     volumeSize: 30
     volumeType: gp3
     instanceType: i3.large # EBS + 1 x 475 NVMe SSD, 2 core, 15.25 gb mem, Up to 10gbps net
@@ -125,43 +125,43 @@ nodeGroups:
     #   - "mount /dev/nvme1n1 /ephemeral"
     #   - "chown ec2-user:ec2-user /ephemeral"
 
-  - name: ng-kubeflow
-    desiredCapacity: 3
-    minSize: 3
-    maxSize: 15
-    volumeSize: 30
-    volumeType: gp3
-    instanceType: r5.xlarge
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
-    enableDetailedMonitoring: true
-    asgMetricsCollection:
-      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
-      - granularity: 1Minute
-        metrics:
-          - GroupMinSize
-          - GroupMaxSize
-          - GroupDesiredCapacity
-          - GroupInServiceInstances
-          - GroupPendingInstances
-          - GroupStandbyInstances
-          - GroupTerminatingInstances
-          - GroupTotalInstances
-    labels:
-      node-class: "kubeflow"
-      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
-    taints:
-      only-kubeflow: "true:NoSchedule"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: kubeflow
-      k8s.io/cluster-autoscaler/node-template/taint/only-kubeflow: "true:NoSchedule"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
-    iam:
-      withAddonPolicies:
-        autoScaler: true
-        cloudWatch: true
-        awsLoadBalancerController: true
+  # - name: ng-kubeflow
+  #   desiredCapacity: 3
+  #   minSize: 3
+  #   maxSize: 15
+  #   volumeSize: 30
+  #   volumeType: gp3
+  #   instanceType: r5.xlarge
+  #   availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+  #   enableDetailedMonitoring: true
+  #   asgMetricsCollection:
+  #     # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+  #     - granularity: 1Minute
+  #       metrics:
+  #         - GroupMinSize
+  #         - GroupMaxSize
+  #         - GroupDesiredCapacity
+  #         - GroupInServiceInstances
+  #         - GroupPendingInstances
+  #         - GroupStandbyInstances
+  #         - GroupTerminatingInstances
+  #         - GroupTotalInstances
+  #   labels:
+  #     node-class: "kubeflow"
+  #     storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
+  #   taints:
+  #     only-kubeflow: "true:NoSchedule"
+  #   tags:
+  #     # EC2 tags required for cluster-autoscaler auto-discovery
+  #     k8s.io/cluster-autoscaler/node-template/label/node-class: kubeflow
+  #     k8s.io/cluster-autoscaler/node-template/taint/only-kubeflow: "true:NoSchedule"
+  #     k8s.io/cluster-autoscaler/enabled: "true"
+  #     k8s.io/cluster-autoscaler/araneae: "owned"
+  #   iam:
+  #     withAddonPolicies:
+  #       autoScaler: true
+  #       cloudWatch: true
+  #       awsLoadBalancerController: true
 
   # - name: ng-frontend
   #   desiredCapacity: 1
