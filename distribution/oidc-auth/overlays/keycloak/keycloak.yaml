@@ -1,3 +1,11 @@
+# Keycloak is a high performance Java-based identity and 
+# access management solution. It lets developers add an 
+# authentication layer to their applications with minimum effort.
+
+# https://www.keycloak.org/
+# https://artifacthub.io/packages/helm/bitnami/keycloak
+
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -7,20 +15,45 @@ spec:
   project: default
   source:
     repoURL: https://charts.bitnami.com/bitnami
-    targetRevision: 4.1.2
+    targetRevision: 15.0.1 # Chart version 15.0.1, App version 21.1.1
     chart: keycloak
     helm:
       parameters:
+      # Global StorageClass for Persistent Volume(s)
+      - name: global.storageClass
+        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+
+      - name: production
+        value: 'true'
+      - name: proxy
+        value: 'edge'
+
+      # Keycloak portal Admin username defined here as admin, password defined in keycloak-secret
       - name: auth.adminUser
         value: admin
-      - name: auth.managementUser
-        value: manager
-      - name: proxyAddressForwarding
-        value: 'true'
       - name: auth.existingSecret
         value: keycloak-secret
-      - name: postgresql.existingSecret
+      - name: auth.passwordSecretKey
+        value: admin-password
+
+      # https://artifacthub.io/packages/helm/bitnami/keycloak#database-parameters
+      - name: postgresql.enabled
+        value: 'true'
+      - name: postgresql.architecture
+        value: 'standalone'
+      - name: postgresql.auth.username
+        value: 'keycloak'
+      - name: postgresql.auth.database
+        value: 'keycloak'
+      - name: postgresql.auth.existingSecret
         value: keycloak-postgresql
+
+      # Node labels for pod assignment
+      - name: nodeSelector
+        value: {
+          "node-class": "utility"
+        }
+
       - name: extraVolumeMounts[0].name
         value: config
       - name: extraVolumeMounts[0].mountPath
@@ -35,17 +68,23 @@ spec:
         value: KEYCLOAK_EXTRA_ARGS
       - name: extraEnvVars[0].value
         value: -Dkeycloak.import=/config/araneae-realm.json
+
+      # https://artifacthub.io/packages/helm/bitnami/keycloak#exposure-parameters
       - name: service.type
         value: ClusterIP
-      - name: service.port
+      - name: service.http.enabled
+        value: 'true'
+      - name: service.ports.http
         value: '8080'
-      - name: service.httpsPort
+      - name: service.ports.https
         value: '8443'
+
+      # https://artifacthub.io/packages/helm/bitnami/keycloak#metrics-parameters
       - name: metrics.enabled
         value: 'true'
       - name: metrics.serviceMonitor.enabled
         value: 'true'
-      - name: metrics.serviceMonitor.namespace
+      - name: metrics.serviceMonitor.namespace # Namespace which Prometheus is running in
         value: monitoring
   destination:
     server: https://kubernetes.default.svc

@@ -2,9 +2,9 @@
 DISTRIBUTION_PATH="./distribution"
 
 
-password=${password:-thepassword} # The password to set for solo user access
-postgres-password=${postgresql-password:-thepostgrespassword} # The password to set for postgres access
-replication-password=${replication-password:-thereplicationpassword} # The password to set for the replication account
+POSTGRESQL_DB_PASS=${password:-$(python3 -c 'import secrets; print(secrets.token_hex(16))')}} # The password to set for solo user access
+POSTGRESQL_POSTGRES_PASS=${postgresql-password:-$(python3 -c 'import secrets; print(secrets.token_hex(16))')}} # The password to set for postgres access
+POSTGRESQL_REPL_PASS=${replication-password:-$(python3 -c 'import secrets; print(secrets.token_hex(16))')}} # The password to set for the replication account
 
 while [ $# -gt 0 ]; do
 
@@ -17,4 +17,4 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-kubectl create secret generic -n postgresql postgresql-secret --from-literal=password=${password} --from-literal=postgres-password=${postgres-password} --from-literal=replication-password=${replication-password} --dry-run=client -o yaml | kubeseal | yq eval -P > ${DISTRIBUTION_PATH}/postgresql/base/postgresql-secret.yaml
+kubectl create secret generic -n postgresql postgresql-secret --from-literal=password=${POSTGRESQL_DB_PASS} --from-literal=postgres-password=${POSTGRESQL_POSTGRES_PASS} --from-literal=replication-password=${POSTGRESQL_REPL_PASS} --dry-run=client -o yaml | kubeseal | yq eval -P > ${DISTRIBUTION_PATH}/postgresql/base/postgresql-secret.yaml

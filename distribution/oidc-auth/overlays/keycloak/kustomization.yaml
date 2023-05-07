@@ -4,9 +4,9 @@ kind: Kustomization
 resources:
 - ../../base
 - keycloak-secret.yaml
+- keycloak-postgresql-secret.yaml
 - araneae-realm-secret.yaml
 - oauth2-proxy-secret.yaml
-- postgresql-secret.yaml
 - virtual-service.yaml
 - keycloak.yaml
 
