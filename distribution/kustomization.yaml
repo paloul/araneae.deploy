@@ -28,7 +28,7 @@ resources:
   - argocd-applications/aws-load-balancer-controller.yaml # Done
 
   ## Databases
-  - argocd-applications/postgres.yaml # Postgresql Database with Primary and 2 Read Replicas
+  # - argocd-applications/postgres.yaml # Postgresql Database with Primary and 2 Read Replicas
   # - argocd-applications/cassandra.yaml # Cassandra from Bitnami. 3 Seeds Nodes with 1 Replication
   #### Choose one Mongodb deployment type: Single or Sharded
   # - argocd-applications/mongodb-single.yaml # MongoDB single standalone server
@@ -37,7 +37,7 @@ resources:
   ## Cache
   #### Choose one Redis deployment type: Cluster or Server
   # - argocd-applications/redis-cluster.yaml # Redis Cluster with 6 nodes total, 3 masters and 3 read-only replicas
-  - argocd-applications/redis.yaml # Redis Standalone with just one Master and its read-only Slave
+  # - argocd-applications/redis.yaml # Redis Standalone with just one Master and its read-only Slave
 
   ## Messaging
   # - argocd-applications/kafka.yaml
