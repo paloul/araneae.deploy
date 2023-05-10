@@ -1,0 +1,107 @@
+# This chart uses the basic Bitnami Postgres cluster helm chart. 
+# This chart does not setup a HA Postgres cluster as with K8 and
+# the underlying rook-ceph block storage, its not needed to be HA.
+# With Rook-Ceph handling replication of PVCs, making Postgres HA
+# is redundant. This Chart will still setup a master with read replicas
+# 
+# https://artifacthub.io/packages/helm/bitnami/postgresql
+# https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+#
+# Get the postgresql password and setup port-forward for access
+# `export POSTGRES_PASSWORD=$(kubectl get secret --namespace postgresql postgresql 
+#   -o jsonpath="{.data.postgresql-password}" | base64 --decode)`
+# `kubectl port-forward --namespace postgresql svc/postgresql 5432:5432`
+# 
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: pipelines-postgres
+  namespace: argocd
+spec:
+  destination:
+    namespace: kubeflow
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: postgresql
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 12.4.2 # Chart version 12.4.2, Postgresql version 15.2.0
+    helm:
+      parameters:
+      - name: commonLabels
+        value: {
+          "app": "pipelines-postgres"
+        }
+      - name: global.storageClass # Config Srv and Data Shards use persistent volumes
+        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+      - name: persistence.enabled
+        value: true
+      - name: persistence.storageClass # Redundant to global.storageClass, but here anyway
+        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+      - name: persistence.accessModes
+        value: ["ReadWriteOnce"]
+      - name: primary.podLabels
+        value: {
+          "postgres-component": "primary" # Pod Label only for primary pods. This will be used in affinity below
+        }
+      - name: primary.nodeSelector
+        value: {
+          "node-class": "postgres" # Restrict all postgres pods to postgres labeled nodes
+        }
+      - name: primary.tolerations
+        value: [
+          "only-postgres=true:NoSchedule" # Tolerate postgres 
+        ]
+      - name: readReplicas.podLabels
+        value: {
+          "postgres-component": "readReplica" # Pod Label only for readReplica pods. This will be used in affinity below
+        }
+      - name: readReplicas.nodeSelector
+        value: {
+          "node-class": "postgres" # Restrict all postgres pods to postgres labeled nodes
+        }
+      - name: readReplicas.tolerations
+        value: [
+          "only-postgres=true:NoSchedule" # Tolerate postgres 
+        ]
+      - name: readReplicas.affinity
+        value: {
+          # Pod Anti Affinity will try to avoid putting pods that have labels defined here
+          # This definition will try and avoid co-locating readReplica pods on the same node
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: postgres-component
+                  operator: In
+                  values:
+                  - readReplica
+                - key: postgres-component
+                  operator: In
+                  values:
+                  - primary
+              topologyKey: "kubernetes.io/hostname"
+        }
+        - name: architecture
+          value: standalone # Set this to 'replication' to enable replication and make use of settings defined here for replication
+        - name: replication.applicationName
+          value: "araneae-postgres"
+        - name: readReplicas.replicaCount
+          value: 2
+        # Assign a password to the "postgres" admin user. Otherwise, remote access will be blocked for this user
+        - name: auth.enablePostgresUser
+          value: true
+        - name: auth.username # Name for a custom user to create
+          value: <<__kubeflow.pipelines.postgres.username__>>
+        # Existing Secret will point to a k8s secret that stores the values with keys: postgres-password, password, replication-password
+        # https://artifacthub.io/packages/helm/bitnami/postgresql#postgresql-common-parameters
+        - name: auth.existingSecret
+          value: pipelines-postgresql-secret
+        - name: auth.secretKeys.adminPasswordKey
+          value: postgres-password
+        - name: auth.secretKeys.userPasswordKey
+          value: password
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -17,7 +17,7 @@ resources:
 - github.com/kubeflow/manifests/apps/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user?ref=v1.7.0
 - resources/postgresql-secret.yaml
 - resources/postgresql-configmap.yaml
-- resources/database-creation-job.yaml
+- resources/postgresql.yaml
 - resources/s3-configmap.yaml
 - resources/s3-secret.yaml
 - resources/ml-pipeline-viewer-template.yaml
