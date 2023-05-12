@@ -10,3 +10,5 @@ resources:
 patchesStrategicMerge:
 - patches/minio-pvc.yaml
 - patches/mysql-pv-claim.yaml
+- patches/mysql-secret.yaml
+- patches/mysql-deployment.yaml
