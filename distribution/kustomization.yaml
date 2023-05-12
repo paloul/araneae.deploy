@@ -65,11 +65,6 @@ resources:
   - argocd-applications/kubeflow-katib.yaml # Done
   - argocd-applications/kubeflow-central-dashboard.yaml # Done
   # - argocd-applications/profile-controller_access-management.yaml
-  # - argocd-applications/kubeflow-namespace.yaml
-  # - argocd-applications/kubeflow-roles.yaml
-  # - argocd-applications/pipelines.yaml
-  # - argocd-applications/katib.yaml
-  # - argocd-applications/kfserving.yaml
   # - argocd-applications/pod-defaults.yaml
   # - argocd-applications/jupyter-web-app.yaml
   # - argocd-applications/notebook-controller.yaml
