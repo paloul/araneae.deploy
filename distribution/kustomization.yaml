@@ -64,6 +64,7 @@ resources:
   - argocd-applications/kubeflow-kserve.yaml # Done
   - argocd-applications/kubeflow-katib.yaml # Done
   - argocd-applications/kubeflow-central-dashboard.yaml # Done
+  - argocd-applications/kubeflow-admission-webhook.yaml # Done
   # - argocd-applications/profile-controller_access-management.yaml
   # - argocd-applications/pod-defaults.yaml
   # - argocd-applications/jupyter-web-app.yaml
