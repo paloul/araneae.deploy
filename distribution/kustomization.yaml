@@ -58,9 +58,10 @@ resources:
   #- argocd-applications/jaeger.yaml
 
   ## Kubeflow - Start here next GKP
-  - argocd-applications/kubeflow-namespace.yaml
-  - argocd-applications/kubeflow-roles.yaml
+  - argocd-applications/kubeflow-namespace.yaml # Done
+  - argocd-applications/kubeflow-roles.yaml # Done
   - argocd-applications/kubeflow-pipelines.yaml # Done
+  - argocd-applications/kubeflow-kserve.yaml # Done
   # - argocd-applications/kubeflow-central-dashboard.yaml
   # - argocd-applications/profile-controller_access-management.yaml
   # - argocd-applications/kubeflow-namespace.yaml
