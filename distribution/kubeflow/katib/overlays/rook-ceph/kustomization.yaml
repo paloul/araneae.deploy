@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+# https://github.com/kubeflow/manifests#katib
+# The actual kustomization.yaml files from kubeflow v1.7.0 katib: 
+# github.com/kubeflow/manifests/blob/v1.7.0/apps/katib/upstream/installs/katib-with-kubeflow/kustomization.yaml
+- github.com/kubeflow/manifests/apps/katib/upstream/installs/katib-with-kubeflow?ref=v1.7.0
+
+patchesStrategicMerge:
+- patches/mysql-pvc.yaml
+- patches/katib-mysql-secrets.yaml
