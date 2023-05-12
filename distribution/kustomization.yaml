@@ -45,7 +45,7 @@ resources:
 
   # Pick *one* of the following applications:
   # - argocd-applications/oidc-auth-on-cluster-dex.yaml
-  - argocd-applications/oidc-auth-on-cluster-keycloak.yaml
+  - argocd-applications/oidc-auth-on-cluster-keycloak.yaml # Done
   # - argocd-applications/oidc-auth-external.yaml
 
   ## Monitoring
@@ -60,7 +60,7 @@ resources:
   ## Kubeflow - Start here next GKP
   - argocd-applications/kubeflow-namespace.yaml
   - argocd-applications/kubeflow-roles.yaml
-  - argocd-applications/kubeflow-pipelines.yaml
+  - argocd-applications/kubeflow-pipelines.yaml # Done
   # - argocd-applications/kubeflow-central-dashboard.yaml
   # - argocd-applications/profile-controller_access-management.yaml
   # - argocd-applications/kubeflow-namespace.yaml
