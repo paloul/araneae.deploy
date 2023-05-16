@@ -1,0 +1,73 @@
+# Installs the Redis Helm chart from Bitnami. 
+# This installs the non-cluster version of Redis. This setup
+# is only a typical master-slave configuration. There can be 
+# only one master, but multiple slaves. 
+# Two key points with Redis 
+# 1. Supports multiple databases
+# 2. Single write point (single master)
+# https://artifacthub.io/packages/helm/bitnami/redis
+# https://github.com/bitnami/charts/tree/master/bitnami/redis
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: oauth2-redis
+  namespace: argocd
+spec:
+  destination:
+    namespace: auth
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    chart: redis-server
+    repoURL: https://charts.bitnami.com/bitnami
+    targetRevision: 17.10.1 # Chart version 17.10.1, Redis version 7.0.11
+    helm:
+      parameters:
+      - name: architecture
+        value: standalone
+      - name: auth.enabled
+        value: "true"
+      - name: auth.existingSecret
+        value: oauth2-redis
+      - name: auth.existingSecretPasswordKey	
+        value: redis-password
+      - name: fullnameOverride
+        value: "oauth2-redis"
+      - name: commonLabels
+        value: {
+          "app": "oauth2-redis"
+        }
+      - name: persistence.enabled
+        value: "true"
+      - name: persistence.path
+        value: "/redis/data"
+      - name: persistence.accessModes
+        value: ["ReadWriteOnce"]
+      - name: persistence.size
+        value: "2Gi"
+      - name: global.storageClass
+        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+      - name: persistence.storageClass
+        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+      - name: redis.nodeSelector
+        value: {
+          "node-class": "utility"
+        }
+      - name: redis.affinity
+        value: {
+          # Pod Anti Affinity will try to avoid putting pods that have labels defined here
+          # This definition will try and avoid co-locating pods on the same node
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - oauth2-redis
+              topologyKey: "kubernetes.io/hostname"
+        }
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -54,15 +54,19 @@ spec:
       - name: extraArgs.user-id-claim
         value: <<__oidc.user_id_claim__>>
       - name: serviceAccount.enabled
-        value: 'false'   # we will create the ServiceAccount manually.
+        value: "true"   # False if we need to create service account manually to attach ARN Roles
       - name: serviceAccount.name
         value: oauth2-proxy
       - name: sessionStorage.type
         value: redis
-      - name: sessionStorage.redis.standalone.clientType
+      - name: sessionStorage.redis.clientType
         value: standalone
+      - name: sessionStorage.redis.existingSecret
+        value: oauth2-redis
+      - name: sessionStorage.redis.passwordKey
+        value: redis-password
       - name: sessionStorage.redis.standalone.connectionUrl
-        value: <<__oidc.redis.connection_url__>>
+        value: oauth2-redis.auth.svc.cluster.local
     repoURL: https://oauth2-proxy.github.io/manifests
     targetRevision: 4.1.1
   destination:

@@ -7,6 +7,10 @@ OIDC_CLIENT_SECRET=$(python3 -c 'import secrets; print(secrets.token_hex(32))')
 # Create the Keycloak secrets for Cookie, OIDC-Client ID and OIDC-Client Secret with KubeSeal
 kubectl create secret generic -n auth oauth2-proxy --from-literal=client-id=${OIDC_CLIENT_ID} --from-literal=client-secret=${OIDC_CLIENT_SECRET} --from-literal=cookie-secret=${COOKIE_SECRET} --dry-run=client -o yaml | kubeseal | yq eval -P > ${DISTRIBUTION_PATH}/oidc-auth/overlays/keycloak/oauth2-proxy-secret.yaml
 
+OAUTH2_REDIS_PASSWORD=$(python3 -c 'import secrets; print(secrets.token_hex(16))')
+# Create the Keycloak password for the Keycloak portal's admin user with KubeSeal
+kubectl create secret generic -n auth oauth2-redis --from-literal=redis-password=${OAUTH2_REDIS_PASSWORD} --dry-run=client -o yaml | kubeseal | yq eval -P > ${DISTRIBUTION_PATH}/oidc-auth/base/oauth2-redis-secret.yaml
+
 KEYCLOAK_ADMIN_PASS=$(python3 -c 'import secrets; print(secrets.token_hex(16))')
 # Create the Keycloak password for the Keycloak portal's admin user with KubeSeal
 kubectl create secret generic -n auth keycloak-secret --from-literal=admin-password=${KEYCLOAK_ADMIN_PASS} --dry-run=client -o yaml | kubeseal | yq eval -P > ${DISTRIBUTION_PATH}/oidc-auth/overlays/keycloak/keycloak-secret.yaml
