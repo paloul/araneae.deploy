@@ -149,6 +149,18 @@ To initialise your repository, do the following:
   ```bash
   ./setup_credentials_keycloak.sh --email test@test.com --username youruser --firstname Yourname --lastname Yoursurname --password yourpassword
   ```
+- Run `setup_credentials_pipelines.sh` script
+  ```bash
+  # Pipelines does not need any configuration parameters. It generates a secure
+  # password during runtime and creates the Sealed Secret from it.
+  ./setup_credentials_pipelines.sh
+  ```
+- Run `setup_credentials_katib.sh` script
+  ```bash
+  # Katib does not need any configuration parameters. It generates a secure
+  # password during runtime and creates the Sealed Secret from it.
+  ./setup_credentials_katib.sh
+  ```
 - Commit and push your changes
 
 **Start up argocd**
