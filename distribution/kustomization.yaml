@@ -67,7 +67,7 @@ resources:
   - argocd-applications/kubeflow-admission-webhook.yaml # Done
   - argocd-applications/kubeflow-notebook-controller.yaml # Done
   - argocd-applications/kubeflow-jupyter-web-app.yaml # Done
-  # - argocd-applications/profile-controller_access-management.yaml
+  - argocd-applications/kubeflow-profile-controller-kfam.yaml # Done
   # - argocd-applications/pod-defaults.yaml
   # - argocd-applications/jupyter-web-app.yaml
   # - argocd-applications/notebook-controller.yaml
