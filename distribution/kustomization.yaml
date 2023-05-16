@@ -71,7 +71,7 @@ resources:
   - argocd-applications/kubeflow-volumes-web-app.yaml # Done
   - argocd-applications/kubeflow-tensorboards-web-app.yaml # Done
   - argocd-applications/kubeflow-tensorboard-controller.yaml # Done
-  # - argocd-applications/training-operator.yaml
+  - argocd-applications/kubeflow-training-operator.yaml # Done
   # - argocd-applications/user-namespace.yaml
   
   ## Araneae
