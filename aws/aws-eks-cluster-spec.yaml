@@ -43,11 +43,11 @@ availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
 nodeGroups:
   - name: ng-util
     desiredCapacity: 6
-    minSize: 6
+    minSize: 3
     maxSize: 15
     volumeSize: 30
     volumeType: gp3
-    instanceType: t3.large 
+    instanceType: c5.large 
     availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
     enableDetailedMonitoring: true
     asgMetricsCollection:
