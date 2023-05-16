@@ -43,6 +43,8 @@ spec:
         value: .<<__domain__>>
       - name: extraArgs.whitelist-domain
         value: .<<__domain__>>
+      - name: extraArgs.oidc-issuer-url
+        value: https://<<__subdomain_auth__>>.<<__domain__>>/auth/realms/araneae
       - name: extraArgs.login-url
         value: https://<<__subdomain_auth__>>.<<__domain__>>/auth/realms/araneae/protocol/openid-connect/auth
       - name: extraArgs.redeem-url
