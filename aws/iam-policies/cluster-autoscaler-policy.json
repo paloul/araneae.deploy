@@ -8,13 +8,29 @@
                 "autoscaling:DescribeAutoScalingGroups",
                 "autoscaling:DescribeAutoScalingInstances",
                 "autoscaling:DescribeLaunchConfigurations",
-                "autoscaling:SetDesiredCapacity",
-                "autoscaling:TerminateInstanceInAutoScalingGroup",
                 "ec2:DescribeLaunchTemplateVersions"
-                
-
             ],
             "Resource": ["*"]
+        },
+         {
+            "Sid": "clusterAutoscalerOwn",
+            "Effect": "Allow",
+            "Action": [
+                "autoscaling:UpdateAutoScalingGroup",
+                "autoscaling:TerminateInstanceInAutoScalingGroup",
+                "autoscaling:SetDesiredCapacity"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "autoscaling:ResourceTag/k8s.io/cluster-autoscaler/enabled": [
+                        "true"
+                    ],
+                    "autoscaling:ResourceTag/kubernetes.io/cluster/araneae-dev": [
+                        "owned"
+                    ]
+                }
+            }
         }
     ]
 }

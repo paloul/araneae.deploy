@@ -3,17 +3,24 @@
     "Statement": [
       {
         "Effect": "Allow",
+        "Action": "route53:GetChange",
+        "Resource": "arn:aws:route53:::change/*"
+      },
+      {
+        "Effect": "Allow",
         "Action": [
+          "route53:ListResourceRecordSets",
           "route53:ChangeResourceRecordSets"
         ],
         "Resource": [
-          "arn:aws:route53:::hostedzone/*"
+          "arn:aws:route53:::hostedzone/Z095996710DSF8A3CRE0R"
         ]
       },
       {
         "Effect": "Allow",
         "Action": [
           "route53:ListHostedZones",
+          "route53:ListHostedZonesByName",
           "route53:ListResourceRecordSets"
         ],
         "Resource": [
