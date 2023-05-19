@@ -50,9 +50,7 @@ spec:
 
       # Node labels for pod assignment
       - name: nodeSelector
-        value: {
-          "node-class": "utility"
-        }
+        value: "{'node-class': 'utility'}"
 
       - name: extraVolumeMounts[0].name
         value: config

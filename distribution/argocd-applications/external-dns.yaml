@@ -42,13 +42,9 @@ spec:
       - name: serviceAccount.annotations.eks\.amazonaws\.com/role-arn
         value: <<__role_arn.external_dns__>>
       - name: nodeSelector
-        value: {
-          "node-class": "utility"
-        }
+        value: "{'node-class': 'utility'}"
       - name: tolerations
-        value: [
-          "only-utility=true:NoSchedule"
-        ]
+        value: "['only-utility=true:NoSchedule']"
     
   destination:
     namespace: kube-system
