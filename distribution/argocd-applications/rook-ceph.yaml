@@ -9,8 +9,6 @@ spec:
     repoURL: <<__git_repo.url__>>
     targetRevision: <<__git_repo.target_revision__>>
     path: distribution/rook-ceph
-    kustomize:
-      version: v4.0.5
   destination:
     namespace: rook-ceph # Defined in common.yaml under rook-ceph target directory
     server: https://kubernetes.default.svc
