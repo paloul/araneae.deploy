@@ -61,16 +61,16 @@ Needs policy that allows it to schedule a NLB in specific subnests.
 - Policy:           [link](./iam_policies/lb-controller-v2_2_0-iam_policy.json)
 ```bash
 # Commands to create a policy and the role
- aws iam create-policy \
-    --profile araneae \
-    --policy-name araneae_lb-controller \
-    --policy-document file://aws/iam-policies/lb-controller-v2_2_0-iam_policy.json
+aws iam create-policy \
+  --profile araneae \
+  --policy-name araneae-lb-controller \
+  --policy-document file://aws/iam-policies/lb-controller-v2_2_0-iam_policy.json
 
 eksctl create iamserviceaccount \
   --cluster=araneae \
   --namespace=kube-system \
-  --name=araneae_lb-controller \
-  --attach-policy-arn=arn:aws:iam::654383687924:policy/araneae_lb-controller \
+  --name=araneae-lb-controller \
+  --attach-policy-arn=arn:aws:iam::654383687924:policy/araneae-lb-controller \
   --override-existing-serviceaccounts \
   --profile araneae \
   --approve
@@ -84,16 +84,16 @@ Needs policy that allows it to automatically scale EC2 instances up/down.
 - Policy:           [link](./iam_policies/cluster-autoscaler-policy.json)
 ```bash
 # Commands to create a policy and the role
- aws iam create-policy \
-    --profile araneae \
-    --policy-name dev-araneae_cluster-autoscaler \
-    --policy-document file://aws/iam-policies/cluster-autoscaler-policy.json
+aws iam create-policy \
+  --profile araneae \
+  --policy-name dev-araneae-cluster-autoscaler \
+  --policy-document file://aws/iam-policies/cluster-autoscaler-policy.json
 
 eksctl create iamserviceaccount \
   --cluster=araneae \
   --namespace=kube-system \
-  --name=dev-araneae_cluster-autoscaler \
-  --attach-policy-arn=arn:aws:iam::654383687924:policy/dev-araneae_cluster-autoscaler \
+  --name=dev-araneae-cluster-autoscaler \
+  --attach-policy-arn=arn:aws:iam::654383687924:policy/dev-araneae-cluster-autoscaler \
   --override-existing-serviceaccounts \
   --profile araneae \
   --approve
@@ -107,16 +107,16 @@ Needs policy that allows it to automatically create record sets in Route53.
 - Policy:           [link](./iam_policies/external-dns-policy.json)
 ```bash
 # Commands to create a policy and the role
- aws iam create-policy \
-    --profile araneae \
-    --policy-name dev-araneae_external-dns \
-    --policy-document file://aws/iam-policies/external-dns-policy.json
+aws iam create-policy \
+  --profile araneae \
+  --policy-name dev-araneae-external-dns \
+  --policy-document file://aws/iam-policies/external-dns-policy.json
 
 eksctl create iamserviceaccount \
   --cluster=araneae \
   --namespace=kube-system \
-  --name=dev-araneae_external-dns \
-  --attach-policy-arn=arn:aws:iam::654383687924:policy/dev-araneae_external-dns \
+  --name=dev-araneae-external-dns \
+  --attach-policy-arn=arn:aws:iam::654383687924:policy/dev-araneae-external-dns \
   --override-existing-serviceaccounts \
   --profile araneae \
   --approve
@@ -130,16 +130,16 @@ Needs policies that allows it to automatically create entries in Route53 in orde
 - Policy:           [link](./iam_policies/cert-manager-iam_policy.json)
 ```bash
 # Commands to create a policy and the role
- aws iam create-policy \
-    --profile araneae \
-    --policy-name dev-araneae_cert-manager \
-    --policy-document file://aws/iam-policies/cert-manager-iam_policy.json
+aws iam create-policy \
+  --profile araneae \
+  --policy-name dev-araneae-cert-manager \
+  --policy-document file://aws/iam-policies/cert-manager-iam_policy.json
 
 eksctl create iamserviceaccount \
   --cluster=araneae \
   --namespace=cert-manager \
-  --name=dev-araneae_cert-manager \
-  --attach-policy-arn=arn:aws:iam::654383687924:policy/dev-araneae_cert-manager \
+  --name=dev-araneae-cert-manager \
+  --attach-policy-arn=arn:aws:iam::654383687924:policy/dev-araneae-cert-manager \
   --override-existing-serviceaccounts \
   --profile araneae \
   --approve
