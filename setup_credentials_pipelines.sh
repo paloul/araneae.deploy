@@ -1,4 +1,5 @@
 #!/bin/bash
+DISTRIBUTION_PATH="./distribution"
 
 # Configure the k8s secrets to access the Kubeflow Pipelines dependencies
 
