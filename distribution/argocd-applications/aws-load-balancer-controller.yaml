@@ -36,9 +36,9 @@ spec:
         - name: resources.requests.memory
           value: 300Mi
         - name: nodeSelector
-          value: "{'node-class': 'utility'}"
+          value: {node-class: utility}
         - name: tolerations
-          value: "['only-utility=true:NoSchedule']"
+          value: ['only-utility=true:NoSchedule']
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
