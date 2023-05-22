@@ -9,7 +9,7 @@ spec:
   hub: docker.io/istio
   meshConfig:
     accessLogFile: /dev/stdout
-    enablePrometheusMerge: true
+    enablePrometheusMerge: false
     extensionProviders: 
     - name: "oauth2-proxy"
       envoyExtAuthzHttp:
