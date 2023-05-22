@@ -43,14 +43,10 @@ spec:
         value: 1
       - name: replicaCount # Number of Kafka nodes
         value: 3
-      - name: nodeSelector
-        value: {
-          "node-class": "stream"
-        }
-      - name: tolerations
-        value: [
-          "only-stream=true:NoSchedule"
-        ]
+      - name: nodeSelector.node-class
+          value: stream
+      - name: tolerations[0].only-stream
+        value: "true:NoSchedule"
       - name: affinity
         value: {
           # Pod Anti Affinity will try to avoid putting pods that have labels defined here

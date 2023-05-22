@@ -37,14 +37,10 @@ spec:
         value: "2Gi"
       - name: persistence.storageClass
         value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
-      - name: redis.nodeSelector
-        value: {
-          "node-class": "cache"
-        }
-      - name: redis.tolerations
-        value: [
-          "only-cache=true:NoSchedule"
-        ]
+      - name: nodeSelector.node-class
+        value: cache
+      - name: redis.tolerations[0].only-cache
+        value: "true:NoSchedule"
       - name: redis.affinity
         value: {
           # Pod Anti Affinity will try to avoid putting pods that have labels defined here

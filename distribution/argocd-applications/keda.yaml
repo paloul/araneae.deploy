@@ -15,12 +15,10 @@ spec:
     chart: kedacore
     helm:
       parameters:
-      - name: nodeSelector
-        value: "{'node-class': 'utility'}"
-      - name: tolerations
-        value: "['only-utility=true:NoSchedule']"
-      - name: crds.install # Defines whether the KEDA CRDs have to be installed or not.
-        value: true
+        - name: nodeSelector.node-class
+          value: utility
+        - name: crds.install # Defines whether the KEDA CRDs have to be installed or not.
+          value: true
         
   destination:
     server: https://kubernetes.default.svc

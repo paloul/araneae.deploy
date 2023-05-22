@@ -19,10 +19,8 @@ spec:
           value: "true"
         - name: rbac.create
           value: "true"
-        - name: nodeSelector
-          value: "{'node-class': 'utility'}"
-        - name: tolerations
-          value: "['only-utility=true:NoSchedule']"
+        - name: nodeSelector.node-class
+          value: utility
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system

@@ -28,10 +28,8 @@ spec:
         }
       - name: global.storageClass
         value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
-      - name: nodeSelector
-        value: {
-          "node-class": "cassandra"
-        }
+      - name: nodeSelector.node-class
+          value: cassandra
       - name: tolerations
         value: [
           "only-cassandra=true:NoSchedule"

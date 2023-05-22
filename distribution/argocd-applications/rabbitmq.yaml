@@ -37,14 +37,10 @@ spec:
         value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
       - name: replicaCount # Number of RabbitMQ replicas to deploy
         value: 3
-      - name: nodeSelector
-        value: {
-          "node-class": "queue"
-        }
-      - name: tolerations
-        value: [
-          "only-queue=true:NoSchedule"
-        ]
+      - name: nodeSelector.node-class
+        value: queue
+      - name: tolerations[0].only-queue
+        value: "true:NoSchedule"
       - name: affinity
         value: {
           # Pod Anti Affinity will try to avoid putting pods that have labels defined here
