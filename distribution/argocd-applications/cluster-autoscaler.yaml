@@ -39,8 +39,6 @@ spec:
           value: "true"
         - name: extraArgs.scale-down-enabled
           value: "true"
-        - name: extraArgs.aws-use-static-instance-list
-          value: "true"
         - name: rbac.create
           value: "true"
         - name: rbac.pspEnabled
@@ -48,11 +46,11 @@ spec:
         - name: resources.limits.cpu
           value: 100m
         - name: resources.limits.memory
-          value: 300Mi
+          value: 800Mi
         - name: resources.requests.cpu
           value: 100m
         - name: resources.requests.memory
-          value: 300Mi
+          value: 600Mi
         - name: nodeSelector.node-class
           value: utility
   destination:
