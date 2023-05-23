@@ -7,14 +7,14 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/istio/istio'
-    targetRevision: 1.10.3
+    targetRevision: 1.15.7
     path: manifests/charts/istio-operator
     helm:
       parameters:
       - name: hub
         value: docker.io/istio
       - name: tag
-        value: 1.10.3 # istio/operator
+        value: 1.15.7 # istio/operator
       - name: prometheus.enabled
         value: "false"
   destination:
