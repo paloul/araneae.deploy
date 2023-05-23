@@ -8,7 +8,7 @@ aws iam create-policy \
 eksctl create iamserviceaccount \
   --cluster=araneae \
   --namespace=kube-system \
-  --name=araneae-lb-controller \
+  --name=aws-load-balancer-controller \
   --attach-policy-arn=arn:aws:iam::654383687924:policy/araneae-lb-controller \
   --override-existing-serviceaccounts \
   --profile araneae \
@@ -22,7 +22,7 @@ aws iam create-policy \
 eksctl create iamserviceaccount \
   --cluster=araneae \
   --namespace=kube-system \
-  --name=dev-araneae-cluster-autoscaler \
+  --name=cluster-autoscaler \
   --attach-policy-arn=arn:aws:iam::654383687924:policy/dev-araneae-cluster-autoscaler \
   --override-existing-serviceaccounts \
   --profile araneae \
@@ -36,7 +36,7 @@ aws iam create-policy \
 eksctl create iamserviceaccount \
   --cluster=araneae \
   --namespace=kube-system \
-  --name=dev-araneae-external-dns \
+  --name=external-dns \
   --attach-policy-arn=arn:aws:iam::654383687924:policy/dev-araneae-external-dns \
   --override-existing-serviceaccounts \
   --profile araneae \
@@ -50,7 +50,7 @@ aws iam create-policy \
 eksctl create iamserviceaccount \
   --cluster=araneae \
   --namespace=cert-manager \
-  --name=dev-araneae-cert-manager \
+  --name=cert-manager \
   --attach-policy-arn=arn:aws:iam::654383687924:policy/dev-araneae-cert-manager \
   --override-existing-serviceaccounts \
   --profile araneae \
