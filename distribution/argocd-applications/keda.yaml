@@ -18,7 +18,7 @@ spec:
         - name: nodeSelector.node-class
           value: utility
         - name: crds.install # Defines whether the KEDA CRDs have to be installed or not.
-          value: true
+          value: "true"
         
   destination:
     server: https://kubernetes.default.svc
