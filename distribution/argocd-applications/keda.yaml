@@ -11,7 +11,7 @@ spec:
     # https://artifacthub.io/packages/helm/kedacore/keda
 
     repoURL: https://kedacore.github.io/charts
-    targetRevision: 2.10.2 # Chart version 2.10.2, App Version 2.10.1
+    targetRevision: 2.10.1 # Chart version 2.10.1, App Version 2.10.0
     chart: kedacore
     helm:
       parameters:
