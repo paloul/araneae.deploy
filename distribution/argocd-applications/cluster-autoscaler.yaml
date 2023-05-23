@@ -42,7 +42,7 @@ spec:
         - name: rbac.create
           value: "true"
         - name: rbac.pspEnabled
-          value: "true"
+          value: "false"
         - name: resources.limits.cpu
           value: 100m
         - name: resources.limits.memory
