@@ -70,8 +70,9 @@ spec:
           metrics:
           - resource:
               name: cpu
-              targetAverageUtilization: 80
-            type: Resource
+              target:
+                type: Utilization
+                averageUtilization: 80
           minReplicas: 1
           scaleTargetRef:
             apiVersion: apps/v1
