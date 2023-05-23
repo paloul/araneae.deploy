@@ -11,7 +11,7 @@ spec:
     # https://artifacthub.io/packages/helm/cluster-autoscaler/cluster-autoscaler
 
     repoURL: https://kubernetes.github.io/autoscaler
-    targetRevision: 9.10.9 # Chart version 9.10.9, App Version 1.21.1
+    targetRevision: 9.25.0 # Chart version 9.25.0, App Version 1.24.0
     chart: cluster-autoscaler
     helm:
       parameters:
@@ -28,7 +28,7 @@ spec:
         - name: image.repository
           value: us.gcr.io/k8s-artifacts-prod/autoscaling/cluster-autoscaler
         - name: image.tag
-          value: v1.21.1
+          value: v1.24.0
         - name: autoDiscovery.clusterName
           value: <<__cluster_name__>>
         - name: autoDiscovery.enabled
