@@ -39,6 +39,10 @@ spec:
         value: istio-gateway
       - name: sources[3]
         value: istio-virtualservice
+      - name: aws.assumeRoleArn
+        value: <<__role_arn.external_dns__>>
+      - name: aws.roleArn
+        value: <<__role_arn.external_dns__>>
       - name: serviceAccount.annotations.eks\.amazonaws\.com/role-arn
         value: <<__role_arn.external_dns__>>
       - name: nodeSelector.node-class
