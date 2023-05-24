@@ -1,0 +1,21 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: gateways-issuer
+spec:  
+  selfSigned:
+    $patch: delete
+  acme:
+    # ACME Server options:
+      # https://acme-v02.api.letsencrypt.org/directory - Used to generate valid cert, but has rate limits, use for prod
+      # https://acme-staging-v02.api.letsencrypt.org/directory - Used to generate dev cert without rate limits when deploying a lot
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: paloul@outlook.com
+    privateKeySecretRef:
+      name: gateways-issuer-account-key
+    solvers:
+    - dns01:
+        route53:
+          hostedZoneID: Z03766603NEQGG30JJN7
+          region: us-west-2
+          # role: arn:aws:iam::654383687924:role/eksctl-araneae-addon-iamserviceaccount-cert-Role1-1A4HH503Y05V7 # Role ARN is defined in a separate service-account, look inside service-account.yaml

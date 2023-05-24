@@ -4,8 +4,7 @@ kind: Kustomization
 resources:
 
   ## Certificates
-  # - argocd-applications/cert-manager-dns-01.yaml # Done
-  - argocd-applications/cert-manager.yaml # Done
+  - argocd-applications/cert-manager-dns-01.yaml # Done
   - argocd-applications/certificates.yaml # Done
 
   ## Istio
