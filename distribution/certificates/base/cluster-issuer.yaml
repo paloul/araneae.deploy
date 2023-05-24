@@ -3,8 +3,6 @@ kind: ClusterIssuer
 metadata:
   name: gateways-issuer
 spec:  
-  selfSigned:
-    $patch: delete
   acme:
     # ACME Server options:
       # https://acme-v02.api.letsencrypt.org/directory - Used to generate valid cert, but has rate limits, use for prod
