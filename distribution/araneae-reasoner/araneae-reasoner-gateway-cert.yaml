@@ -8,6 +8,6 @@ spec:
   issuerRef:
     name: gateways-issuer
     kind: ClusterIssuer
-  commonName: <<__subdomain_reasoner__>>.<<__domain__>>
+  commonName: reasoner.dev.araneae.io
   dnsNames:
-    - <<__subdomain_reasoner__>>.<<__domain__>>
+    - reasoner.dev.araneae.io

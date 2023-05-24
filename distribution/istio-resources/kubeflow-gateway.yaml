@@ -8,9 +8,9 @@ spec:
     istio: ingressgateway
   servers:
   - hosts:
-    - <<__subdomain_kubeflow_dashboard__>>.<<__domain__>>
-    - <<__subdomain_kubeflow_serving__>>.<<__domain__>>
-    - '*.<<__subdomain_kubeflow_serving__>>.<<__domain__>>'
+    - kubeflow-dashboard.dev.araneae.io
+    - kubeflow-serving.dev.araneae.io
+    - '*.kubeflow-serving.dev.araneae.io'
     port:
       name: http
       number: 80
@@ -19,9 +19,9 @@ spec:
     tls:
       httpsRedirect: true
   - hosts:
-    - <<__subdomain_kubeflow_dashboard__>>.<<__domain__>>
-    - <<__subdomain_kubeflow_serving__>>.<<__domain__>>
-    - '*.<<__subdomain_kubeflow_serving__>>.<<__domain__>>'
+    - kubeflow-dashboard.dev.araneae.io
+    - kubeflow-serving.dev.araneae.io
+    - '*.kubeflow-serving.dev.araneae.io'
     port:
       name: https
       number: 443

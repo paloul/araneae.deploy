@@ -7,7 +7,7 @@ spec:
   gateways:
   - araneae-reasoner-gateway
   hosts:
-  - <<__subdomain_reasoner__>>.<<__domain__>>
+  - reasoner.dev.araneae.io
   http:
   - route:
     - destination:

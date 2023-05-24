@@ -18,6 +18,6 @@ spec:
   - to:
     - operation:
         hosts: # These are all the hosts that Load Balancer serves
-        - <<__subdomain_kubeflow_dashboard__>>.<<__domain__>>
-        - <<__subdomain_kubeflow_serving__>>.<<__domain__>>
-        - '*.<<__subdomain_kubeflow_serving__>>.<<__domain__>>'
+        - kubeflow-dashboard.dev.araneae.io
+        - kubeflow-serving.dev.araneae.io
+        - '*.kubeflow-serving.dev.araneae.io'
