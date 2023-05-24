@@ -47,13 +47,13 @@ spec:
         service:
           type: LoadBalancer
         serviceAnnotations:
-          service.beta.kubernetes.io/aws-load-balancer-name: araneae-istio-ingressgateway-lb
+          service.beta.kubernetes.io/aws-load-balancer-name: <<__aws_load_balancer.name__>>
           service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
-          service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+          service.beta.kubernetes.io/aws-load-balancer-scheme: <<__aws_load_balancer.scheme__>>
           service.beta.kubernetes.io/aws-load-balancer-type: "external"
-          service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: instance
+          service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: <<__aws_load_balancer.nlb_target_type__>>
           proxy.istio.io/config: '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
-          external-dns.alpha.kubernetes.io/hostname: kubeflow-dashboard.dev.araneae.io, kubeflow-serving.dev.araneae.io, auth.dev.araneae.io, grafana.dev.araneae.io, kiali.dev.araneae.io, *.kubeflow-serving.dev.araneae.io
+          external-dns.alpha.kubernetes.io/hostname: <<__route53.hosted_zone_hostnames__>>
     
     - name: cluster-local-gateway # Cluster-local gateway for KFServing
       enabled: true

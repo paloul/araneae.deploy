@@ -16,13 +16,13 @@ spec:
     helm:
       parameters:
         - name: serviceAccount.annotations.eks\.amazonaws\.com/role-arn
-          value: arn:aws:iam::654383687924:role/eksctl-araneae-addon-iamserviceaccount-kube-Role1-16QBSE69GWXNS
+          value: <<__role_arn.loadbalancer_controller__>>
         - name: clusterName
-          value: araneae
+          value: <<__cluster_name__>>
         - name: vpcId
-          value: vpc-09ee3e2a7df2e29c7
+          value: <<__vpc_id__>>
         - name: region
-          value: us-west-2
+          value: <<__aws_region__>>
         - name: serviceAccount.create
           value: "true"
         - name: rbac.create

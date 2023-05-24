@@ -8,6 +8,6 @@ spec:
   issuerRef:
     name: gateways-issuer
     kind: ClusterIssuer
-  commonName: auth.dev.araneae.io
+  commonName: <<__subdomain_auth__>>.<<__domain__>>
   dnsNames:
-    - auth.dev.araneae.io
+    - <<__subdomain_auth__>>.<<__domain__>>

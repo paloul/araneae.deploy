@@ -7,7 +7,7 @@ spec:
   gateways:
   - araneae/araneae-gateway
   hosts:
-  - <<__subdomain_dashboard__>>.dev.araneae.io
+  - <<__subdomain_dashboard__>>.<<__domain__>>
   http:
   - match:
     - uri:
@@ -22,4 +22,4 @@ spec:
     headers:
       request:
         set:
-          X-Auth-Request-Redirect: https://auth.dev.araneae.io/auth/realms/araneae/protocol/openid-connect/logout?redirect_uri=https%%3A%%2F%%2F<<__subdomain_dashboard__>>.dev.araneae.io
+          X-Auth-Request-Redirect: https://<<__subdomain_auth__>>.<<__domain__>>/auth/realms/araneae/protocol/openid-connect/logout?redirect_uri=https%%3A%%2F%%2F<<__subdomain_dashboard__>>.<<__domain__>>

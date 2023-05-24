@@ -4,4 +4,4 @@ metadata:
   name: config-domain
   namespace: knative-serving
 data:
-  kubeflow-serving.dev.araneae.io: ""
+  <<__subdomain_kubeflow_serving__>>.<<__domain__>>: ""

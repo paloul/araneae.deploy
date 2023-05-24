@@ -16,7 +16,7 @@ spec:
     helm:
       parameters:
         - name: rbac.serviceAccount.annotations.eks\.amazonaws\.com/role-arn
-          value: arn:aws:iam::654383687924:role/eksctl-araneae-addon-iamserviceaccount-kube-Role1-PKDD9REYABLG
+          value: <<__role_arn.cluster_autoscaler__>>
         - name: rbac.serviceAccount.create
           value: "true"
         - name: rbac.create
@@ -30,11 +30,11 @@ spec:
         - name: image.tag
           value: v1.26.2
         - name: autoDiscovery.clusterName
-          value: araneae
+          value: <<__cluster_name__>>
         - name: autoDiscovery.enabled
           value: "true"
         - name: awsRegion
-          value: us-west-2
+          value: <<__aws_region__>>
         - name: extraArgs.balance-similar-node-groups
           value: "true"
         - name: extraArgs.scale-down-enabled

@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/paloul/araneae.cluster.deploy.git
-    targetRevision: dev
+    repoURL: <<__git_repo.url__>>
+    targetRevision: <<__git_repo.target_revision__>>
     path: distribution/rook-ceph
   destination:
     namespace: rook-ceph # Defined in common.yaml under rook-ceph target directory

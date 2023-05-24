@@ -8,7 +8,7 @@ spec:
     istio: ingressgateway
   servers:
   - hosts:
-    - reasoner.dev.araneae.io
+    - <<__subdomain_reasoner__>>.<<__domain__>>
     port:
       name: http
       number: 80
@@ -17,7 +17,7 @@ spec:
     tls:
       httpsRedirect: true
   - hosts:
-    - reasoner.dev.araneae.io
+    - <<__subdomain_reasoner__>>.<<__domain__>>
     port:
       name: https
       number: 443
