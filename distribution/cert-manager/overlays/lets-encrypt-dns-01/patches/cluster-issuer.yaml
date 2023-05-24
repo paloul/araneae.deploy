@@ -9,13 +9,13 @@ spec:
     # ACME Server options:
       # https://acme-v02.api.letsencrypt.org/directory - Used to generate valid cert, but has rate limits, use for prod
       # https://acme-staging-v02.api.letsencrypt.org/directory - Used to generate dev cert without rate limits when deploying a lot
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: paloul@outlook.com
+    server: <<__cert_manager.server__>>
+    email: <<__cert_manager.email_user__>>@<<__cert_manager.email_domain__>>
     privateKeySecretRef:
       name: gateways-issuer-account-key
     solvers:
     - dns01:
         route53:
-          hostedZoneID: Z03766603NEQGG30JJN7
-          region: us-west-2
-          # role: arn:aws:iam::654383687924:role/eksctl-araneae-addon-iamserviceaccount-cert-Role1-1A4HH503Y05V7 # Role ARN is defined in a separate service-account, look inside service-account.yaml
+          hostedZoneID: <<__route53.hosted_zone_id__>>
+          region: <<__aws_region__>>
+          # role: <<__role_arn.cert_manager__>> # Role ARN is defined in a separate service-account, look inside service-account.yaml
