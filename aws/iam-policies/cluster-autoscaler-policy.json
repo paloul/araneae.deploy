@@ -26,7 +26,7 @@
                     "autoscaling:ResourceTag/k8s.io/cluster-autoscaler/enabled": [
                         "true"
                     ],
-                    "autoscaling:ResourceTag/kubernetes.io/cluster/araneae-dev": [
+                    "autoscaling:ResourceTag/kubernetes.io/cluster/araneae": [
                         "owned"
                     ]
                 }
