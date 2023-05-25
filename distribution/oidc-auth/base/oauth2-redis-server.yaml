@@ -42,7 +42,7 @@ spec:
       - name: persistence.path
         value: "/redis/data"
       - name: persistence.accessModes
-        value: ["ReadWriteOnce"]
+        value: "ReadWriteOnce"
       - name: persistence.size
         value: "2Gi"
       - name: global.storageClass
