@@ -49,10 +49,10 @@ spec:
         value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
       - name: persistence.storageClass
         value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
-      - name: master.nodeSelector
-        value: "{'node-class': 'utility'}"
-      - name: replica.nodeSelector
-        value: "{'node-class': 'utility'}"
+      - name: master.nodeSelector.node-class
+        value: "utility"
+      - name: replica.nodeSelector.node-class
+        value: "utility"
   syncPolicy:
     automated:
       prune: true
