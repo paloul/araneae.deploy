@@ -49,8 +49,8 @@ spec:
         value: keycloak-postgresql
 
       # Node labels for pod assignment
-      - name: nodeSelector
-        value: "{'node-class': 'utility'}"
+      - name: nodeSelector.node-class
+        value: "utility"
 
       - name: extraVolumeMounts[0].name
         value: config
@@ -79,11 +79,11 @@ spec:
 
       # https://artifacthub.io/packages/helm/bitnami/keycloak#metrics-parameters
       - name: metrics.enabled
-        value: 'true'
-      - name: metrics.serviceMonitor.enabled
-        value: 'true'
-      - name: metrics.serviceMonitor.namespace # Namespace which Prometheus is running in
-        value: monitoring
+        value: 'false'
+      #- name: metrics.serviceMonitor.enabled
+      #  value: 'true'
+      #- name: metrics.serviceMonitor.namespace # Namespace which Prometheus is running in
+      #  value: monitoring
   destination:
     server: https://kubernetes.default.svc
     namespace: auth
