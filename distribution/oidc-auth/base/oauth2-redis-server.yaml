@@ -25,6 +25,8 @@ spec:
       parameters:
       - name: architecture
         value: standalone
+      - name: master.count
+        value: 1
       - name: auth.enabled
         value: "true"
       - name: auth.existingSecret
@@ -33,10 +35,8 @@ spec:
         value: redis-password
       - name: fullnameOverride
         value: "oauth2-redis"
-      - name: commonLabels
-        value: {
-          "app": "oauth2-redis"
-        }
+      - name: commonLabels.app
+        value: "oauth2-redis"
       - name: persistence.enabled
         value: "true"
       - name: persistence.path
@@ -49,24 +49,10 @@ spec:
         value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
       - name: persistence.storageClass
         value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
-      - name: redis.nodeSelector
-        value: {
-          "node-class": "utility"
-        }
-      - name: redis.affinity
-        value: {
-          # Pod Anti Affinity will try to avoid putting pods that have labels defined here
-          # This definition will try and avoid co-locating pods on the same node
-          podAntiAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                  - oauth2-redis
-              topologyKey: "kubernetes.io/hostname"
-        }
+      - name: master.nodeSelector
+        value: "{'node-class': 'utility'}"
+      - name: replica.nodeSelector
+        value: "{'node-class': 'utility'}"
   syncPolicy:
     automated:
       prune: true
