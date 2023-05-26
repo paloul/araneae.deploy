@@ -103,15 +103,15 @@ spec:
   #zone:
     #name: zone-a
   # service endpoint healthcheck
-  healthCheck:
-    bucket:
-      disabled: false
-      interval: 60s
+  #healthCheck:
+  #  bucket:
+  #    disabled: false
+  #    interval: 60s
     # Configure the pod probes for the rgw daemon
-    livenessProbe:
-      disabled: false
-    readinessProbe:
-      disabled: false
+  #  livenessProbe:
+  #    disabled: false
+  #  readinessProbe:
+  #    disabled: false
   # security oriented settings
   # security:
   # To enable the KMS configuration properly don't forget to uncomment the Secret at the end of the file
