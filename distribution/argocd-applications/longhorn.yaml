@@ -32,10 +32,14 @@ spec:
           value: "disabled"
         - name: persistence.defaultClass
           value: "true"
+        - name: persistence.defaultFsType
+          value: "ext4"
         - name: persistence.defaultDataLocality
           value: "disabled"
         - name: persistence.defaultClassReplicaCount
           value: "3"
+        - name: persistence.reclaimPolicy
+          value: "delete"
         
   destination:
     server: https://kubernetes.default.svc

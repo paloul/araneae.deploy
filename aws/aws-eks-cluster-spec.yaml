@@ -106,16 +106,16 @@ nodeGroups:
         ebs: true # True because data nodes need the AWS EBS CSI Driver https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html
         cloudWatch: true
     # Prebootstrap Commands
-    preBootstrapCommands: 
     # https://longhorn.io/docs/1.4.2/deploy/install/#installing-open-iscsi
-      - "yum --setopt=tsflags=noscripts install iscsi-initiator-utils"
-      - "echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi"
-      - "systemctl enable iscsid"
-      - "systemctl start iscsid"
-      - "mkfs -t ext4 /dev/nvme1n1"
-      - "mkdir -p /longhorn"
-      - "mount /dev/nvme1n1 /longhorn"
-      - "chown ec2-user:ec2-user /longhorn"
+    preBootstrapCommands: 
+      - yum --setopt=tsflags=noscripts install iscsi-initiator-utils
+      - echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi
+      - systemctl enable iscsid
+      - systemctl start iscsid
+      - mkfs -t ext4 /dev/nvme1n1
+      - mkdir -p /longhorn
+      - mount /dev/nvme1n1 /longhorn
+      - chown ec2-user:ec2-user /longhorn
 
   - name: ng-kubeflow
     desiredCapacity: 3
