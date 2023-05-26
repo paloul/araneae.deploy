@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+  namespace: argocd
+spec:
+  project: default
+  source:
+
+    # https://github.com/longhorn/charts
+    # https://longhorn.io/docs/1.4.2/deploy/install/install-with-helm/
+
+    repoURL: https://charts.longhorn.io
+    targetRevision: 1.4.2
+    chart: longhorn
+    helm:
+      parameters:
+        - name: enablePSP
+          value: "false"
+        # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/taint-toleration/#setting-up-taints-and-tolerations
+        - name: defaultSettings.taintToleration
+          value: "only-data=true:NoSchedule"
+        # https://longhorn.io/docs/1.4.2/references/settings/#create-default-disk-on-labeled-nodes
+        - name: defaultSettings.createDefaultDiskLabeledNodes
+          value: "true"
+        # https://longhorn.io/docs/1.4.2/references/settings/#default-data-path
+        - name: defaultSettings.defaultDataPath
+          value: "/longhorn" # Data Nodes nvme drives formatted and mapped to /longhorn
+        - name: defaultSettings.defaultReplicaCount
+          value: "3"
+        - name: defaultSettings.defaultDataLocality
+          value: "disabled"
+        - name: persistence.defaultClass
+          value: "true"
+        - name: persistence.defaultDataLocality
+          value: "disabled"
+        - name: persistence.defaultClassReplicaCount
+          value: "3"
+        
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: longhorn-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

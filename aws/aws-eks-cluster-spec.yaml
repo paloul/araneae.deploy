@@ -64,7 +64,6 @@ nodeGroups:
           - GroupTotalInstances
     labels:
       node-class: "utility"
-      storage-node: "false" #  The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
     tags:
       # EC2 tags required for cluster-autoscaler auto-discovery
       k8s.io/cluster-autoscaler/node-template/label/node-class: utility
@@ -80,8 +79,6 @@ nodeGroups:
 
   - name: ng-data
     desiredCapacity: 3
-    minSize: 3
-    maxSize: 15
     volumeSize: 30
     volumeType: gp3
     instanceType: i3.large # EBS + 1 x 475 NVMe SSD, 2 core, 15.25 gb mem, Up to 10gbps net
@@ -101,29 +98,24 @@ nodeGroups:
           - GroupTotalInstances
     labels:
       node-class: "data"
-      storage-node: "true" # Rook-Ceph CSI plugin pods will not run on nodes where Storage-Node is true
+      node.longhorn.io/create-default-disk: "true"
     taints:
-      storage-node: "true:NoSchedule"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: "data"
-      k8s.io/cluster-autoscaler/node-template/label/storage-node: "true"
-      k8s.io/cluster-autoscaler/node-template/taint/storage-node: "true:NoSchedule"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
+      only-data: "true:NoSchedule"
     iam:
       withAddonPolicies:
         ebs: true # True because data nodes need the AWS EBS CSI Driver https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html
-        autoScaler: true
         cloudWatch: true
-        awsLoadBalancerController: true
-    # Prebootstrap Commands set up the file system on the instance drive, 
-    #  but Rook-Ceph needs to know only the device path, it formats itself
-    # preBootstrapCommands: 
-    #   - "mkfs -t ext4 /dev/nvme1n1"
-    #   - "mkdir -p /ephemeral"
-    #   - "mount /dev/nvme1n1 /ephemeral"
-    #   - "chown ec2-user:ec2-user /ephemeral"
+    # Prebootstrap Commands
+    preBootstrapCommands: 
+    # https://longhorn.io/docs/1.4.2/deploy/install/#installing-open-iscsi
+      - "yum --setopt=tsflags=noscripts install iscsi-initiator-utils"
+      - "echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi"
+      - "systemctl enable iscsid"
+      - "systemctl start iscsid"
+      - "mkfs -t ext4 /dev/nvme1n1"
+      - "mkdir -p /longhorn"
+      - "mount /dev/nvme1n1 /longhorn"
+      - "chown ec2-user:ec2-user /longhorn"
 
   - name: ng-kubeflow
     desiredCapacity: 3
@@ -148,7 +140,6 @@ nodeGroups:
           - GroupTotalInstances
     labels:
       node-class: "kubeflow"
-      storage-node: "false" # The CSI plugin pods must run where user applications run and not where Rook or Ceph pods are run.
     taints:
       only-kubeflow: "true:NoSchedule"
     tags:

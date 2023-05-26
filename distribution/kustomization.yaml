@@ -7,72 +7,73 @@ resources:
   - argocd-applications/cert-manager-dns-01.yaml # Done
   - argocd-applications/certificates.yaml # Done
 
-  ## Istio
-  - argocd-applications/istio-operator.yaml # Done
-  - argocd-applications/istio.yaml # Done
-  - argocd-applications/istio-resources.yaml # Done
-
   ## Data infrastructure
-  - argocd-applications/rook-ceph.yaml ## Done. Updated to use v1.11 
+  # - argocd-applications/rook-ceph.yaml ## Done. Updated to use v1.11 
+  - argocd-applications/longhorn.yaml # Done
 
-  ## Generic cloud-native infrastructure support
-  - argocd-applications/keda.yaml # Done
-  - argocd-applications/knative.yaml # Done
-  - argocd-applications/external-dns.yaml # Done
-  # Sealed Secrets is installed before our application. 
-  # Not controlled by Argo. Read Deploy.md 
-  # - argocd-applications/sealed-secrets.yaml 
+  ## Istio
+  # - argocd-applications/istio-operator.yaml # Done
+  # - argocd-applications/istio.yaml # Done
+  # - argocd-applications/istio-resources.yaml # Done
 
-  ## AWS specific infrastructure support
-  - argocd-applications/cluster-autoscaler.yaml # Done
-  - argocd-applications/aws-load-balancer-controller.yaml # Done
+  # ## Generic cloud-native infrastructure support
+  # - argocd-applications/keda.yaml # Done
+  # - argocd-applications/knative.yaml # Done
+  # - argocd-applications/external-dns.yaml # Done
+  # # Sealed Secrets is installed before our application. 
+  # # Not controlled by Argo. Read Deploy.md 
+  # # - argocd-applications/sealed-secrets.yaml 
 
-  ## Databases
-  # - argocd-applications/postgres.yaml # Postgresql Database with Primary and 2 Read Replicas
-  # - argocd-applications/cassandra.yaml # Cassandra from Bitnami. 3 Seeds Nodes with 1 Replication
-  #### Choose one Mongodb deployment type: Single or Sharded
-  # - argocd-applications/mongodb-single.yaml # MongoDB single standalone server
-  # - argocd-applications/mongodb-sharded.yaml # MongoDB Sharded cluster with 1 configsrv, 3 mongos router, 3 data shards
+  # ## AWS specific infrastructure support
+  # - argocd-applications/cluster-autoscaler.yaml # Done
+  # - argocd-applications/aws-load-balancer-controller.yaml # Done
 
-  ## Cache
-  #### Choose one Redis deployment type: Cluster or Server
-  # - argocd-applications/redis-cluster.yaml # Redis Cluster with 6 nodes total, 3 masters and 3 read-only replicas
-  # - argocd-applications/redis.yaml # Redis Standalone with just one Master and its read-only Slave
+  # ## Databases
+  # # - argocd-applications/postgres.yaml # Postgresql Database with Primary and 2 Read Replicas
+  # # - argocd-applications/cassandra.yaml # Cassandra from Bitnami. 3 Seeds Nodes with 1 Replication
+  # #### Choose one Mongodb deployment type: Single or Sharded
+  # # - argocd-applications/mongodb-single.yaml # MongoDB single standalone server
+  # # - argocd-applications/mongodb-sharded.yaml # MongoDB Sharded cluster with 1 configsrv, 3 mongos router, 3 data shards
 
-  ## Messaging
-  # - argocd-applications/kafka.yaml
-  # - argocd-applications/rabbitmq.yaml
+  # ## Cache
+  # #### Choose one Redis deployment type: Cluster or Server
+  # # - argocd-applications/redis-cluster.yaml # Redis Cluster with 6 nodes total, 3 masters and 3 read-only replicas
+  # # - argocd-applications/redis.yaml # Redis Standalone with just one Master and its read-only Slave
 
-  # Pick *one* of the following applications:
-  # - argocd-applications/oidc-auth-on-cluster-dex.yaml
-  - argocd-applications/oidc-auth-on-cluster-keycloak.yaml # Done
-  # - argocd-applications/oidc-auth-external.yaml
+  # ## Messaging
+  # # - argocd-applications/kafka.yaml
+  # # - argocd-applications/rabbitmq.yaml
 
-  ## Monitoring
-  - argocd-applications/metrics-server.yaml # Done. FYI: Needed for knative
-  #- argocd-applications/redis-insight.yaml
-  #- argocd-applications/monitoring-resources.yaml
-  #- argocd-applications/kube-prometheus-stack.yaml
-  #- argocd-applications/loki-stack.yaml
-  #- argocd-applications/kiali.yaml
-  #- argocd-applications/jaeger.yaml
+  # # Pick *one* of the following applications:
+  # # - argocd-applications/oidc-auth-on-cluster-dex.yaml
+  # - argocd-applications/oidc-auth-on-cluster-keycloak.yaml # Done
+  # # - argocd-applications/oidc-auth-external.yaml
 
-  ## Kubeflow
-  - argocd-applications/kubeflow-namespace.yaml # Done
-  - argocd-applications/kubeflow-roles.yaml # Done
-  - argocd-applications/kubeflow-pipelines.yaml # Done
-  - argocd-applications/kubeflow-kserve.yaml # Done
-  - argocd-applications/kubeflow-katib.yaml # Done
-  - argocd-applications/kubeflow-central-dashboard.yaml # Done
-  - argocd-applications/kubeflow-admission-webhook.yaml # Done
-  - argocd-applications/kubeflow-notebook-controller.yaml # Done
-  - argocd-applications/kubeflow-jupyter-web-app.yaml # Done
-  - argocd-applications/kubeflow-profile-controller-kfam.yaml # Done
-  - argocd-applications/kubeflow-volumes-web-app.yaml # Done
-  - argocd-applications/kubeflow-tensorboards-web-app.yaml # Done
-  - argocd-applications/kubeflow-tensorboard-controller.yaml # Done
-  - argocd-applications/kubeflow-training-operator.yaml # Done
-  # - argocd-applications/user-namespace.yaml
+  # ## Monitoring
+  # - argocd-applications/metrics-server.yaml # Done. FYI: Needed for knative
+  # #- argocd-applications/redis-insight.yaml
+  # #- argocd-applications/monitoring-resources.yaml
+  # #- argocd-applications/kube-prometheus-stack.yaml
+  # #- argocd-applications/loki-stack.yaml
+  # #- argocd-applications/kiali.yaml
+  # #- argocd-applications/jaeger.yaml
+
+  # ## Kubeflow
+  # - argocd-applications/kubeflow-namespace.yaml # Done
+  # - argocd-applications/kubeflow-roles.yaml # Done
+  # - argocd-applications/kubeflow-pipelines.yaml # Done
+  # - argocd-applications/kubeflow-kserve.yaml # Done
+  # - argocd-applications/kubeflow-katib.yaml # Done
+  # - argocd-applications/kubeflow-central-dashboard.yaml # Done
+  # - argocd-applications/kubeflow-admission-webhook.yaml # Done
+  # - argocd-applications/kubeflow-notebook-controller.yaml # Done
+  # - argocd-applications/kubeflow-jupyter-web-app.yaml # Done
+  # - argocd-applications/kubeflow-profile-controller-kfam.yaml # Done
+  # - argocd-applications/kubeflow-volumes-web-app.yaml # Done
+  # - argocd-applications/kubeflow-tensorboards-web-app.yaml # Done
+  # - argocd-applications/kubeflow-tensorboard-controller.yaml # Done
+  # - argocd-applications/kubeflow-training-operator.yaml # Done
+  # # - argocd-applications/user-namespace.yaml
   
   ## Araneae
   # - argocd-applications/araneae-dashboard.yaml
