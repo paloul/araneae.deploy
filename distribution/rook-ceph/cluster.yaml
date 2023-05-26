@@ -71,13 +71,13 @@ spec:
         enabled: true
   # enable the ceph dashboard for viewing cluster status
   dashboard:
-    enabled: true
+    enabled: false
     # serve the dashboard under a subpath (useful when you are accessing the dashboard via a reverse proxy)
     # urlPrefix: /ceph-dashboard
     # serve the dashboard at the given port.
     # port: 8443
     # serve the dashboard using SSL
-    ssl: true
+    ssl: false
   # enable prometheus alerting for cluster
   monitoring:
     # requires Prometheus to be pre-installed
