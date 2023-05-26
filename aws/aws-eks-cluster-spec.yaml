@@ -12,7 +12,7 @@ metadata:
   # choose your region wisely, this will significantly impact the cost incurred
   region: us-west-2 # Oregon
   # Kubernetes version 
-  version: '1.26' 
+  version: '1.25' 
   tags:
     # Add more cloud tags if needed for billing
     environment: development
@@ -79,7 +79,7 @@ nodeGroups:
         awsLoadBalancerController: true
 
   - name: ng-data
-    desiredCapacity: 2
+    desiredCapacity: 3
     minSize: 3
     maxSize: 15
     volumeSize: 30
