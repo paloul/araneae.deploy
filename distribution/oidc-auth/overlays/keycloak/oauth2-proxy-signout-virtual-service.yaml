@@ -5,7 +5,7 @@ metadata:
   namespace: auth
 spec:
   gateways:
-  - araneae/araneae-gateway
+  - kubeflow/kubeflow-gateway # This points to the main gateway created in istio-resources that allows for ingress traffic from outside
   hosts:
   - <<__subdomain_kubeflow_dashboard__>>.<<__domain__>>
   http:
