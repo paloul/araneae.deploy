@@ -39,7 +39,7 @@ vpc:
 # THIS CAN'T BE CHANGED LATER. YOU WILL HAVE TO CREATE A NEW CLUSTER TO ADD NEW AZ SUPPORT.
 # This list applies to the whole cluster and isn't specific to nodegroups
 #availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
-availabilityZones: ["us-west-2a"]
+availabilityZones: ["us-west-2a", "us-west-2b"]
 
 nodeGroups:
   - name: ng-util
