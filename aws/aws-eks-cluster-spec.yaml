@@ -48,7 +48,7 @@ nodeGroups:
     volumeSize: 20
     volumeType: gp3
     instanceType: t3.xlarge 
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+    availabilityZones: ["us-west-2a"]
     enableDetailedMonitoring: true
     asgMetricsCollection:
       # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
@@ -82,7 +82,7 @@ nodeGroups:
     volumeSize: 30
     volumeType: gp3
     instanceType: i3.large # EBS + 1 x 475 NVMe SSD, 2 core, 15.25 gb mem, Up to 10gbps net
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+    availabilityZones: ["us-west-2a"]
     enableDetailedMonitoring: true
     asgMetricsCollection:
       # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
@@ -124,7 +124,7 @@ nodeGroups:
     volumeSize: 20
     volumeType: gp3
     instanceType: t3.xlarge
-    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+    availabilityZones: ["us-west-2a"]
     enableDetailedMonitoring: true
     asgMetricsCollection:
       # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
