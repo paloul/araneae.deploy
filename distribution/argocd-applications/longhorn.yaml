@@ -17,8 +17,9 @@ spec:
       parameters:
         - name: enablePSP
           value: "false"
-        # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/taint-toleration/#setting-up-taints-and-tolerations
-        - name: defaultSettings.taintToleration
+        # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/node-selector/
+        # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/taint-toleration/
+        - name: longhornManager.tolerations[0]
           value: "only-data=true:NoSchedule"
         # https://longhorn.io/docs/1.4.2/references/settings/#create-default-disk-on-labeled-nodes
         - name: defaultSettings.createDefaultDiskLabeledNodes
