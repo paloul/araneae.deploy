@@ -43,6 +43,13 @@ spec:
           value: "Exists"
         - name: longhornDriver.tolerations[0].effect
           value: "NoSchedule"
+        # Use Default Settings Node Selector and Tolerations for System Managed Components
+        # Default Settings Taint Tolerations effects system managed components (e.g, Instance Manager, Engine Image, CSI Driver, etc.)
+        # These system managed components, i.e. CSI Driver, need to be on all hosts that might potentially use Volumes
+        # - name: defaultSettings.systemManagedComponentsNodeSelector
+        #   value: "storage-node:false"
+        - name: defaultSettings.taintToleration
+          value: ":NoSchedule"
         # https://longhorn.io/docs/1.4.2/references/settings/#create-default-disk-on-labeled-nodes
         - name: defaultSettings.createDefaultDiskLabeledNodes
           value: "true"
