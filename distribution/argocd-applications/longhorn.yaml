@@ -21,8 +21,14 @@ spec:
         - name: longhornManager.nodeSelector.node-class
           value: "data"
         # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/taint-toleration/
-        - name: longhornManager.tolerations[0]
-          value: "only-data=true:NoSchedule"
+        - name: longhornManager.tolerations[0].key
+          value: "only-data"
+        - name: longhornManager.tolerations[0].operator
+          value: "Equal"
+        - name: longhornManager.tolerations[0].value
+          value: "true"
+        - name: longhornManager.tolerations[0].effect
+          value: "NoSchedule"
         # https://longhorn.io/docs/1.4.2/references/settings/#create-default-disk-on-labeled-nodes
         - name: defaultSettings.createDefaultDiskLabeledNodes
           value: "true"
