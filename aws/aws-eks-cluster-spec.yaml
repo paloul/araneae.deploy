@@ -109,7 +109,7 @@ nodeGroups:
     # Prebootstrap Commands
     # https://longhorn.io/docs/1.4.2/deploy/install/#installing-open-iscsi
     preBootstrapCommands: 
-      - yum --setopt=tsflags=noscripts install iscsi-initiator-utils
+      - yum --setopt=tsflags=noscripts install iscsi-initiator-utils -y
       - echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi
       - systemctl enable iscsid
       - systemctl start iscsid
