@@ -20,12 +20,28 @@ spec:
         # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/node-selector/
         - name: longhornManager.nodeSelector.node-class
           value: "data"
+        - name: longhornUI.nodeSelector.node-class
+          value: "data"
+        - name: longhornDriver.nodeSelector.node-class
+          value: "data"
         # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/taint-toleration/
         - name: longhornManager.tolerations[0].key
           value: "only-data"
         - name: longhornManager.tolerations[0].operator
           value: "Exists"
         - name: longhornManager.tolerations[0].effect
+          value: "NoSchedule"
+        - name: longhornUI.tolerations[0].key
+          value: "only-data"
+        - name: longhornUI.tolerations[0].operator
+          value: "Exists"
+        - name: longhornUI.tolerations[0].effect
+          value: "NoSchedule"
+        - name: longhornDriver.tolerations[0].key
+          value: "only-data"
+        - name: longhornDriver.tolerations[0].operator
+          value: "Exists"
+        - name: longhornDriver.tolerations[0].effect
           value: "NoSchedule"
         # https://longhorn.io/docs/1.4.2/references/settings/#create-default-disk-on-labeled-nodes
         - name: defaultSettings.createDefaultDiskLabeledNodes
