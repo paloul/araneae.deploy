@@ -18,6 +18,8 @@ spec:
         - name: enablePSP
           value: "false"
         # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/node-selector/
+        - name: longhornManager.nodeSelector.node-class
+          value: "data"
         # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/taint-toleration/
         - name: longhornManager.tolerations[0]
           value: "only-data=true:NoSchedule"
