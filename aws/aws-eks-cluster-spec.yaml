@@ -75,12 +75,11 @@ nodeGroups:
       withAddonPolicies:
         autoScaler: true
         cloudWatch: true
-        externalDNS: true
-        certManager: true
-        awsLoadBalancerController: true
 
   - name: ng-data
     desiredCapacity: 3
+    minSize: 3
+    maxSize: 15
     volumeSize: 30
     volumeType: gp3
     instanceType: i3.large # EBS + 1 x 475 NVMe SSD, 2 core, 15.25 gb mem, Up to 10gbps net
@@ -104,10 +103,16 @@ nodeGroups:
       node.longhorn.io/create-default-disk: "true"
     taints:
       only-data: "true:NoSchedule"
+    tags:
+      # EC2 tags required for cluster-autoscaler auto-discovery
+      k8s.io/cluster-autoscaler/node-template/label/node-class: data
+      k8s.io/cluster-autoscaler/node-template/label/storage-node: "true"
+      k8s.io/cluster-autoscaler/node-template/label/node.longhorn.io/create-default-disk: "true"
+      k8s.io/cluster-autoscaler/node-template/taint/only-data: "true:NoSchedule"
     iam:
       withAddonPolicies:
-        ebs: true # True because data nodes need the AWS EBS CSI Driver https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html
         cloudWatch: true
+        autoScaler: true
     # Prebootstrap Commands
     # https://longhorn.io/docs/1.4.2/deploy/install/#installing-open-iscsi
     preBootstrapCommands: 
@@ -157,7 +162,6 @@ nodeGroups:
       withAddonPolicies:
         autoScaler: true
         cloudWatch: true
-        awsLoadBalancerController: true
 
   # - name: ng-frontend
   #   desiredCapacity: 1
