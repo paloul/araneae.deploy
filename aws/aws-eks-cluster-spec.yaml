@@ -47,7 +47,7 @@ nodeGroups:
     maxSize: 15
     volumeSize: 20
     volumeType: gp3
-    instanceType: t3.xlarge 
+    instanceType: t3.xlarge # EBS, 4 core, 16 gb mem, <=5gbps Net
     availabilityZones: ["us-west-2a"]
     enableDetailedMonitoring: true
     asgMetricsCollection:
