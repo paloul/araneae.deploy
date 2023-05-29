@@ -80,9 +80,9 @@ nodeGroups:
     desiredCapacity: 3
     minSize: 3
     maxSize: 15
-    volumeSize: 30
+    volumeSize: 300
     volumeType: gp3
-    instanceType: i3.large # EBS + 1 x 475 NVMe SSD, 2 core, 15.25 gb mem, Up to 10gbps net
+    instanceType: m6a.large # EBS, 2 core, 8 gb mem, <=5gbps Net, <=10gbps EBS
     availabilityZones: ["us-west-2a"]
     enableDetailedMonitoring: true
     asgMetricsCollection:
@@ -120,10 +120,10 @@ nodeGroups:
       - echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi
       - systemctl enable iscsid
       - systemctl start iscsid
-      - mkfs -t ext4 /dev/nvme1n1
-      - mkdir -p /longhorn
-      - mount /dev/nvme1n1 /longhorn
-      - chown ec2-user:ec2-user /longhorn
+      # - mkfs -t ext4 /dev/nvme1n1
+      # - mkdir -p /longhorn
+      # - mount /dev/nvme1n1 /longhorn
+      # - chown ec2-user:ec2-user /longhorn
 
   - name: ng-kubeflow
     desiredCapacity: 3
