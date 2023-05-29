@@ -17,39 +17,39 @@ spec:
       parameters:
         - name: enablePSP
           value: "false"
-        # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/node-selector/
-        - name: longhornManager.nodeSelector.node-class
-          value: "data"
-        - name: longhornUI.nodeSelector.node-class
-          value: "data"
-        - name: longhornDriver.nodeSelector.node-class
-          value: "data"
-        # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/taint-toleration/
-        - name: longhornManager.tolerations[0].key
-          value: "only-data"
-        - name: longhornManager.tolerations[0].operator
-          value: "Exists"
-        - name: longhornManager.tolerations[0].effect
-          value: "NoSchedule"
-        - name: longhornUI.tolerations[0].key
-          value: "only-data"
-        - name: longhornUI.tolerations[0].operator
-          value: "Exists"
-        - name: longhornUI.tolerations[0].effect
-          value: "NoSchedule"
-        - name: longhornDriver.tolerations[0].key
-          value: "only-data"
-        - name: longhornDriver.tolerations[0].operator
-          value: "Exists"
-        - name: longhornDriver.tolerations[0].effect
-          value: "NoSchedule"
+        # # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/node-selector/
+        # - name: longhornManager.nodeSelector.node-class
+        #   value: "data"
+        # - name: longhornUI.nodeSelector.node-class
+        #   value: "data"
+        # - name: longhornDriver.nodeSelector.node-class
+        #   value: "data"
+        # # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/taint-toleration/
+        # - name: longhornManager.tolerations[0].key
+        #   value: "only-data"
+        # - name: longhornManager.tolerations[0].operator
+        #   value: "Exists"
+        # - name: longhornManager.tolerations[0].effect
+        #   value: "NoSchedule"
+        # - name: longhornUI.tolerations[0].key
+        #   value: "only-data"
+        # - name: longhornUI.tolerations[0].operator
+        #   value: "Exists"
+        # - name: longhornUI.tolerations[0].effect
+        #   value: "NoSchedule"
+        # - name: longhornDriver.tolerations[0].key
+        #   value: "only-data"
+        # - name: longhornDriver.tolerations[0].operator
+        #   value: "Exists"
+        # - name: longhornDriver.tolerations[0].effect
+        #   value: "NoSchedule"
         # Use Default Settings Node Selector and Tolerations for System Managed Components
         # Default Settings Taint Tolerations effects system managed components (e.g, Instance Manager, Engine Image, CSI Driver, etc.)
         # These system managed components, i.e. CSI Driver, need to be on all hosts that might potentially use Volumes
         # - name: defaultSettings.systemManagedComponentsNodeSelector
         #   value: "storage-node:false"
-        - name: defaultSettings.taintToleration
-          value: ":NoSchedule"
+        # - name: defaultSettings.taintToleration
+        #   value: ":NoSchedule"
         # https://longhorn.io/docs/1.4.2/references/settings/#create-default-disk-on-labeled-nodes
         # https://longhorn.io/docs/1.4.2/advanced-resources/default-disk-and-node-config/#customizing-default-disks-for-new-nodes
         - name: defaultSettings.createDefaultDiskLabeledNodes
@@ -57,10 +57,6 @@ spec:
         # https://longhorn.io/docs/1.4.2/references/settings/#default-data-path
         - name: defaultSettings.defaultDataPath
           value: "/longhorn" # Data Nodes nvme drives formatted and mapped to /longhorn
-        - name: defaultSettings.defaultReplicaCount
-          value: "3"
-        - name: defaultSettings.defaultDataLocality
-          value: "disabled"
         - name: persistence.defaultClass
           value: "true"
         - name: persistence.defaultFsType
