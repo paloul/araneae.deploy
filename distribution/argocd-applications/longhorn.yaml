@@ -18,12 +18,12 @@ spec:
         - name: enablePSP
           value: "false"
         # # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/node-selector/
-        # - name: longhornManager.nodeSelector.node-class
-        #   value: "data"
-        # - name: longhornUI.nodeSelector.node-class
-        #   value: "data"
-        # - name: longhornDriver.nodeSelector.node-class
-        #   value: "data"
+        - name: longhornManager.nodeSelector.node-class
+          value: "data"
+        - name: longhornUI.nodeSelector.node-class
+          value: "data"
+        - name: longhornDriver.nodeSelector.node-class
+          value: "data"
         # # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/taint-toleration/
         # By having the user deployed components tolerate only-data taints, we essentially have
         # these components either go on Util Nodegroup which has no taints defined and the 
@@ -50,17 +50,17 @@ spec:
         # Use Default Settings Node Selector and Tolerations for System Managed Components
         # Default Settings Taint Tolerations effects system managed components (e.g, Instance Manager, Engine Image, CSI Driver, etc.)
         # These system managed components, i.e. CSI Driver, need to be on all hosts that might potentially use Volumes
-        # - name: defaultSettings.systemManagedComponentsNodeSelector
-        #   value: "storage-node:false"
+        - name: defaultSettings.systemManagedComponentsNodeSelector
+          value: "storage-node:false"
         - name: defaultSettings.taintToleration
           value: ":NoSchedule"
         # https://longhorn.io/docs/1.4.2/references/settings/#create-default-disk-on-labeled-nodes
         # https://longhorn.io/docs/1.4.2/advanced-resources/default-disk-and-node-config/#customizing-default-disks-for-new-nodes
         - name: defaultSettings.createDefaultDiskLabeledNodes
-          value: "true"
+          value: "false"
         # https://longhorn.io/docs/1.4.2/references/settings/#default-data-path
         - name: defaultSettings.defaultDataPath
-          value: "/longhorn" # Data Nodes nvme drives formatted and mapped to /longhorn
+          value: "/mnt/longhorn" # Data Nodes nvme drives formatted and mapped to /mnt/longhorn
         - name: persistence.defaultClass
           value: "true"
         - name: persistence.defaultFsType
