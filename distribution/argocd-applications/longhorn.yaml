@@ -57,10 +57,10 @@ spec:
         # https://longhorn.io/docs/1.4.2/references/settings/#create-default-disk-on-labeled-nodes
         # https://longhorn.io/docs/1.4.2/advanced-resources/default-disk-and-node-config/#customizing-default-disks-for-new-nodes
         - name: defaultSettings.createDefaultDiskLabeledNodes
-          value: "false"
+          value: "true"
         # https://longhorn.io/docs/1.4.2/references/settings/#default-data-path
         - name: defaultSettings.defaultDataPath
-          value: "/mnt/longhorn" # Data Nodes nvme drives formatted and mapped to /mnt/longhorn
+          value: "/longhorn" # Data Nodes nvme drives formatted and mapped to /mnt/longhorn
         - name: persistence.defaultClass
           value: "true"
         - name: persistence.defaultFsType
