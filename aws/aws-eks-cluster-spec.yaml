@@ -79,10 +79,10 @@ nodeGroups:
   - name: ng-data
     desiredCapacity: 3
     minSize: 3
-    maxSize: 15
-    volumeSize: 20
+    maxSize: 3
+    volumeSize: 200
     volumeType: gp3
-    instanceType: c5d.large # EBS, 2 core, 4 gb mem, 1 x 50 NVMe SSD, <=10gbps Net, <=4.75gbps EBS
+    instanceType: m6a.large # EBS, 2 core, 8 gb mem, <=12.5gbps Net, <=10gbps EBS
     availabilityZones: ["us-west-2a"]
     enableDetailedMonitoring: true
     asgMetricsCollection:
@@ -100,14 +100,14 @@ nodeGroups:
     labels:
       node-class: "data"
       storage-node: "true"
-      #node.longhorn.io/create-default-disk: "config"
+      node.longhorn.io/create-default-disk: "true"
     taints:
       only-data: "true:NoSchedule"
     tags:
       # EC2 tags required for cluster-autoscaler auto-discovery
       k8s.io/cluster-autoscaler/node-template/label/node-class: data
       k8s.io/cluster-autoscaler/node-template/label/storage-node: "true"
-      #k8s.io/cluster-autoscaler/node-template/label/node.longhorn.io/create-default-disk: "config"
+      k8s.io/cluster-autoscaler/node-template/label/node.longhorn.io/create-default-disk: "true"
       k8s.io/cluster-autoscaler/node-template/taint/only-data: "true:NoSchedule"
     iam:
       withAddonPolicies:
@@ -120,10 +120,10 @@ nodeGroups:
       - echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi
       - systemctl enable iscsid
       - systemctl start iscsid
-      - mkfs -t ext4 /dev/nvme1n1
-      - mkdir -p /mnt/longhorn
-      - mount /dev/nvme1n1 /mnt/longhorn
-      - chown ec2-user:ec2-user /mnt/longhorn
+      # - mkfs -t ext4 /dev/nvme1n1
+      # - mkdir -p /mnt/longhorn
+      # - mount /dev/nvme1n1 /mnt/longhorn
+      # - chown ec2-user:ec2-user /mnt/longhorn
 
   - name: ng-kubeflow
     desiredCapacity: 3
