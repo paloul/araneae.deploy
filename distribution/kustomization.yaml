@@ -18,9 +18,9 @@ resources:
   - argocd-applications/istio-resources.yaml # Done
 
   # ## Generic cloud-native infrastructure support
-  # - argocd-applications/keda.yaml # Done
-  # - argocd-applications/knative.yaml # Done
-  # - argocd-applications/external-dns.yaml # Done
+  - argocd-applications/keda.yaml # Done
+  - argocd-applications/knative.yaml # Done
+  - argocd-applications/external-dns.yaml # Done
   # # Sealed Secrets is installed before our application. 
   # # Not controlled by Argo. Read Deploy.md 
   # # - argocd-applications/sealed-secrets.yaml 
