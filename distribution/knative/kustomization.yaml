@@ -20,5 +20,6 @@ patches:
 - path: patches/config-deployment.yaml
 - path: patches/enable-istio-injection.yaml
 - path: patches/enable-sidecar-istio-controller.yaml
-- path: removals/remove-knative-ingress-gateway.yaml
+#- path: removals/remove-knative-ingress-gateway.yaml
 - path: removals/remove-knative-local-gateway.yaml
+- path: removals/remove-knative-local-gateway-service.yaml
