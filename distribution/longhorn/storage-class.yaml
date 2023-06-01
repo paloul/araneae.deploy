@@ -5,12 +5,12 @@ metadata:
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
 provisioner: driver.longhorn.io
-allowVolumeExpansion: true
+allowVolumeExpansion: false
 reclaimPolicy: "Delete"
-volumeBindingMode: Immediate
+volumeBindingMode: WaitForFirstConsumer
 parameters:
-  numberOfReplicas: "3"
+  numberOfReplicas: "2"
   staleReplicaTimeout: "30"
   fromBackup: ""
   fsType: "ext4"
-  dataLocality: "disabled"
+  dataLocality: "best-effort"

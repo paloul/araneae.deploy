@@ -34,12 +34,6 @@ spec:
       mountPath: /data
     ports:
     - containerPort: 80
-  nodeSelector:
-    node-class: "kubeflow"
-  tolerations:
-  - key: "only-kubeflow"
-    operator: "Exists"
-    effect: "NoSchedule"
   volumes:
   - name: volv
     persistentVolumeClaim:
