@@ -8,17 +8,17 @@ resources:
 - peerauthentication-force-strict-mtls.yaml
 # - monitoring/
 
-patches:
 # patches
-- patches/config-istio.yaml
-- patches/config-logging.yaml
-- patches/config-network.yaml
-- patches/config-observability.yaml
-- patches/config-domain.yaml
-- patches/config-deployment.yaml
-- patches/enable-istio-injection.yaml
-- patches/enable-sidecar-istio-controller.yaml
 
 # removals
-- removals/remove-knative-ingress-gateway.yaml
-- removals/remove-knative-local-gateway.yaml
+patches:
+- path: patches/config-istio.yaml
+- path: patches/config-logging.yaml
+- path: patches/config-network.yaml
+- path: patches/config-observability.yaml
+- path: patches/config-domain.yaml
+- path: patches/config-deployment.yaml
+- path: patches/enable-istio-injection.yaml
+- path: patches/enable-sidecar-istio-controller.yaml
+- path: removals/remove-knative-ingress-gateway.yaml
+- path: removals/remove-knative-local-gateway.yaml
