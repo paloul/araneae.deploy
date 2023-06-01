@@ -13,9 +13,9 @@ resources:
   - argocd-applications/longhorn-util.yaml # Done
 
   ## Istio
-  # - argocd-applications/istio-operator.yaml # Done
-  # - argocd-applications/istio.yaml # Done
-  # - argocd-applications/istio-resources.yaml # Done
+  - argocd-applications/istio-operator.yaml # Done
+  - argocd-applications/istio.yaml # Done
+  - argocd-applications/istio-resources.yaml # Done
 
   # ## Generic cloud-native infrastructure support
   # - argocd-applications/keda.yaml # Done
