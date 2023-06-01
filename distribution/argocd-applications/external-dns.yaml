@@ -44,7 +44,7 @@ spec:
       - name: serviceAccount.annotations.eks\.amazonaws\.com/role-arn
         value: <<__role_arn.external_dns__>>
       - name: nodeSelector.node-class
-        value: utility
+        value: core
     
   destination:
     namespace: kube-system

@@ -16,7 +16,7 @@ spec:
     helm:
       parameters:
         - name: nodeSelector.node-class
-          value: utility
+          value: core
         - name: crds.install # Defines whether the KEDA CRDs have to be installed or not.
           value: "true"
         

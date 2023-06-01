@@ -8,7 +8,7 @@ resources:
 - peerauthentication-force-strict-mtls.yaml
 # - monitoring/
 
-patchesStrategicMerge:
+patches:
 # patches
 - patches/config-istio.yaml
 - patches/config-logging.yaml
