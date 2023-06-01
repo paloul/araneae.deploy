@@ -2,8 +2,8 @@
 # Delete the original knative local gateway Gateway and Service resources from service-core.yaml.
 # System will rely on the Gateway and Service created for Kubeflow as part of the istio-resources 
 $patch: delete
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
+apiVersion: v1
+kind: Service
 metadata:
   name: knative-local-gateway
-  namespace: knative-serving
+  namespace: istio-system
