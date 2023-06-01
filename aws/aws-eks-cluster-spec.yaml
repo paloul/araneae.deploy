@@ -41,48 +41,48 @@ vpc:
 availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
 
 nodeGroups:
-  - name: ng-util
-    desiredCapacity: 3
-    minSize: 3
-    maxSize: 15
-    volumeSize: 20
-    volumeType: gp3
-    instanceType: t3.xlarge # EBS, 4 core, 16 gb mem, <=5gbps Net
-    availabilityZones: ["us-west-2a"]
-    enableDetailedMonitoring: true
-    asgMetricsCollection:
-      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
-      - granularity: 1Minute
-        metrics:
-          - GroupMinSize
-          - GroupMaxSize
-          - GroupDesiredCapacity
-          - GroupInServiceInstances
-          - GroupPendingInstances
-          - GroupStandbyInstances
-          - GroupTerminatingInstances
-          - GroupTotalInstances
-    labels:
-      node-class: "utility"
-      storage-node: "false"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: "utility"
-      k8s.io/cluster-autoscaler/node-template/label/storage-node: "false"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
-    iam:
-      withAddonPolicies:
-        autoScaler: true
-        cloudWatch: true
+  # - name: ng-util
+  #   desiredCapacity: 3
+  #   minSize: 3
+  #   maxSize: 15
+  #   volumeSize: 20
+  #   volumeType: gp3
+  #   instanceType: t3.xlarge # EBS, 4 core, 16 gb mem, <=5gbps Net
+  #   availabilityZones: ["us-west-2a"]
+  #   enableDetailedMonitoring: true
+  #   asgMetricsCollection:
+  #     # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+  #     - granularity: 1Minute
+  #       metrics:
+  #         - GroupMinSize
+  #         - GroupMaxSize
+  #         - GroupDesiredCapacity
+  #         - GroupInServiceInstances
+  #         - GroupPendingInstances
+  #         - GroupStandbyInstances
+  #         - GroupTerminatingInstances
+  #         - GroupTotalInstances
+  #   labels:
+  #     node-class: "utility"
+  #     storage-node: "false"
+  #   tags:
+  #     # EC2 tags required for cluster-autoscaler auto-discovery
+  #     k8s.io/cluster-autoscaler/node-template/label/node-class: "utility"
+  #     k8s.io/cluster-autoscaler/node-template/label/storage-node: "false"
+  #     k8s.io/cluster-autoscaler/enabled: "true"
+  #     k8s.io/cluster-autoscaler/araneae: "owned"
+  #   iam:
+  #     withAddonPolicies:
+  #       autoScaler: true
+  #       cloudWatch: true
 
-  - name: ng-data
-    desiredCapacity: 3
-    minSize: 3
-    maxSize: 3
-    volumeSize: 200
+  - name: ng-core
+    desiredCapacity: 5
+    minSize: 5
+    maxSize: 15
+    volumeSize: 300
     volumeType: gp3
-    instanceType: m6a.large # EBS, 2 core, 8 gb mem, <=12.5gbps Net, <=10gbps EBS
+    instanceType: m6a.xlarge # EBS, 4 core, 16 gb mem, <=12.5gbps Net, <=10gbps EBS
     availabilityZones: ["us-west-2a"]
     enableDetailedMonitoring: true
     asgMetricsCollection:
@@ -98,17 +98,14 @@ nodeGroups:
           - GroupTerminatingInstances
           - GroupTotalInstances
     labels:
-      node-class: "data"
+      node-class: "core"
       storage-node: "true"
       node.longhorn.io/create-default-disk: "true"
-    taints:
-      only-data: "true:NoSchedule"
     tags:
       # EC2 tags required for cluster-autoscaler auto-discovery
       k8s.io/cluster-autoscaler/node-template/label/node-class: data
       k8s.io/cluster-autoscaler/node-template/label/storage-node: "true"
       k8s.io/cluster-autoscaler/node-template/label/node.longhorn.io/create-default-disk: "true"
-      k8s.io/cluster-autoscaler/node-template/taint/only-data: "true:NoSchedule"
     iam:
       withAddonPolicies:
         cloudWatch: true
@@ -116,6 +113,7 @@ nodeGroups:
     # Prebootstrap Commands
     # https://longhorn.io/docs/1.4.2/deploy/install/#installing-open-iscsi
     preBootstrapCommands: 
+      - yum update -y && yum upgrade -y
       - yum --setopt=tsflags=noscripts install iscsi-initiator-utils -y
       - echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi
       - systemctl enable iscsid
@@ -125,43 +123,43 @@ nodeGroups:
       # - mount /dev/nvme1n1 /mnt/longhorn
       # - chown ec2-user:ec2-user /mnt/longhorn
 
-  - name: ng-kubeflow
-    desiredCapacity: 3
-    minSize: 3
-    maxSize: 15
-    volumeSize: 20
-    volumeType: gp3
-    instanceType: t3.xlarge
-    availabilityZones: ["us-west-2a"]
-    enableDetailedMonitoring: true
-    asgMetricsCollection:
-      # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
-      - granularity: 1Minute
-        metrics:
-          - GroupMinSize
-          - GroupMaxSize
-          - GroupDesiredCapacity
-          - GroupInServiceInstances
-          - GroupPendingInstances
-          - GroupStandbyInstances
-          - GroupTerminatingInstances
-          - GroupTotalInstances
-    labels:
-      node-class: "kubeflow"
-      storage-node: "false"
-    taints:
-      only-kubeflow: "true:NoSchedule"
-    tags:
-      # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: kubeflow
-      k8s.io/cluster-autoscaler/node-template/label/storage-node: "false"
-      k8s.io/cluster-autoscaler/node-template/taint/only-kubeflow: "true:NoSchedule"
-      k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/araneae: "owned"
-    iam:
-      withAddonPolicies:
-        autoScaler: true
-        cloudWatch: true
+  # - name: ng-kubeflow
+  #   desiredCapacity: 3
+  #   minSize: 3
+  #   maxSize: 15
+  #   volumeSize: 20
+  #   volumeType: gp3
+  #   instanceType: t3.xlarge
+  #   availabilityZones: ["us-west-2a"]
+  #   enableDetailedMonitoring: true
+  #   asgMetricsCollection:
+  #     # https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-monitoring.html
+  #     - granularity: 1Minute
+  #       metrics:
+  #         - GroupMinSize
+  #         - GroupMaxSize
+  #         - GroupDesiredCapacity
+  #         - GroupInServiceInstances
+  #         - GroupPendingInstances
+  #         - GroupStandbyInstances
+  #         - GroupTerminatingInstances
+  #         - GroupTotalInstances
+  #   labels:
+  #     node-class: "kubeflow"
+  #     storage-node: "false"
+  #   taints:
+  #     only-kubeflow: "true:NoSchedule"
+  #   tags:
+  #     # EC2 tags required for cluster-autoscaler auto-discovery
+  #     k8s.io/cluster-autoscaler/node-template/label/node-class: kubeflow
+  #     k8s.io/cluster-autoscaler/node-template/label/storage-node: "false"
+  #     k8s.io/cluster-autoscaler/node-template/taint/only-kubeflow: "true:NoSchedule"
+  #     k8s.io/cluster-autoscaler/enabled: "true"
+  #     k8s.io/cluster-autoscaler/araneae: "owned"
+  #   iam:
+  #     withAddonPolicies:
+  #       autoScaler: true
+  #       cloudWatch: true
 
   # - name: ng-frontend
   #   desiredCapacity: 1
