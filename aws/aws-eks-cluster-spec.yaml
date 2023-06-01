@@ -77,8 +77,8 @@ nodeGroups:
   #       cloudWatch: true
 
   - name: ng-core
-    desiredCapacity: 5
-    minSize: 5
+    desiredCapacity: 6
+    minSize: 3
     maxSize: 15
     volumeSize: 300
     volumeType: gp3
@@ -103,7 +103,7 @@ nodeGroups:
       node.longhorn.io/create-default-disk: "true"
     tags:
       # EC2 tags required for cluster-autoscaler auto-discovery
-      k8s.io/cluster-autoscaler/node-template/label/node-class: data
+      k8s.io/cluster-autoscaler/node-template/label/node-class: core
       k8s.io/cluster-autoscaler/node-template/label/storage-node: "true"
       k8s.io/cluster-autoscaler/node-template/label/node.longhorn.io/create-default-disk: "true"
     iam:
