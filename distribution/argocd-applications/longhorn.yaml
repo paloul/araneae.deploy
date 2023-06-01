@@ -18,35 +18,35 @@ spec:
         - name: enablePSP
           value: "false"
         # # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/node-selector/
-        - name: longhornManager.nodeSelector.node-class
-          value: "data"
-        - name: longhornUI.nodeSelector.node-class
-          value: "data"
-        - name: longhornDriver.nodeSelector.node-class
-          value: "data"
+        # - name: longhornManager.nodeSelector.node-class
+        #   value: "data"
+        # - name: longhornUI.nodeSelector.node-class
+        #   value: "data"
+        # - name: longhornDriver.nodeSelector.node-class
+        #   value: "data"
         # # https://longhorn.io/docs/1.4.2/advanced-resources/deploy/taint-toleration/
         # By having the user deployed components tolerate only-data taints, we essentially have
         # these components either go on Util Nodegroup which has no taints defined and the 
         # Data Nodegroup which has the only-data taint defined. We avoid user managed components
         # being deployed to the Kubeflow Nodegroup or other application nodegroups
-        - name: longhornManager.tolerations[0].key
-          value: "only-data"
-        - name: longhornManager.tolerations[0].operator
-          value: "Exists"
-        - name: longhornManager.tolerations[0].effect
-          value: "NoSchedule"
-        - name: longhornUI.tolerations[0].key
-          value: "only-data"
-        - name: longhornUI.tolerations[0].operator
-          value: "Exists"
-        - name: longhornUI.tolerations[0].effect
-          value: "NoSchedule"
-        - name: longhornDriver.tolerations[0].key
-          value: "only-data"
-        - name: longhornDriver.tolerations[0].operator
-          value: "Exists"
-        - name: longhornDriver.tolerations[0].effect
-          value: "NoSchedule"
+        # - name: longhornManager.tolerations[0].key
+        #   value: "only-data"
+        # - name: longhornManager.tolerations[0].operator
+        #   value: "Exists"
+        # - name: longhornManager.tolerations[0].effect
+        #   value: "NoSchedule"
+        # - name: longhornUI.tolerations[0].key
+        #   value: "only-data"
+        # - name: longhornUI.tolerations[0].operator
+        #   value: "Exists"
+        # - name: longhornUI.tolerations[0].effect
+        #   value: "NoSchedule"
+        # - name: longhornDriver.tolerations[0].key
+        #   value: "only-data"
+        # - name: longhornDriver.tolerations[0].operator
+        #   value: "Exists"
+        # - name: longhornDriver.tolerations[0].effect
+        #   value: "NoSchedule"
         # Use Default Settings Node Selector and Tolerations for System Managed Components
         # Default Settings Taint Tolerations effects system managed components (e.g, Instance Manager, Engine Image, CSI Driver, etc.)
         # These system managed components, i.e. CSI Driver, need to be on all hosts that might potentially use Volumes
