@@ -17,6 +17,10 @@ resources:
   - argocd-applications/istio.yaml # Done
   - argocd-applications/istio-resources.yaml # Done
 
+  # ## AWS specific infrastructure support
+  - argocd-applications/cluster-autoscaler.yaml # Done
+  - argocd-applications/aws-load-balancer-controller.yaml # Done
+
   # ## Generic cloud-native infrastructure support
   - argocd-applications/keda.yaml # Done
   - argocd-applications/knative.yaml # Done
@@ -24,10 +28,6 @@ resources:
   # # Sealed Secrets is installed before our application. 
   # # Not controlled by Argo. Read Deploy.md 
   # # - argocd-applications/sealed-secrets.yaml 
-
-  # ## AWS specific infrastructure support
-  # - argocd-applications/cluster-autoscaler.yaml # Done
-  # - argocd-applications/aws-load-balancer-controller.yaml # Done
 
   # ## Databases
   # # - argocd-applications/postgres.yaml # Postgresql Database with Primary and 2 Read Replicas

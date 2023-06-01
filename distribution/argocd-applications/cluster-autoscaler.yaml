@@ -52,7 +52,7 @@ spec:
         - name: resources.requests.memory
           value: 600Mi
         - name: nodeSelector.node-class
-          value: utility
+          value: core
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
