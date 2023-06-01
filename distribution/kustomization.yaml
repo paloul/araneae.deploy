@@ -10,6 +10,7 @@ resources:
   ## Data infrastructure
   # - argocd-applications/rook-ceph.yaml ## Done. Updated to use v1.11 
   - argocd-applications/longhorn.yaml # Done
+  - argocd-applications/longhorn-util.yaml # Done
 
   ## Istio
   # - argocd-applications/istio-operator.yaml # Done
