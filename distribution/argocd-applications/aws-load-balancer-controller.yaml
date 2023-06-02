@@ -11,7 +11,7 @@ spec:
     # https://artifacthub.io/packages/helm/aws/aws-load-balancer-controller
 
     repoURL: https://aws.github.io/eks-charts
-    targetRevision: 1.5.2 # Chart version 1.5.2, Application Version 2.5.1
+    targetRevision: 1.5.3 # Chart version 1.5.3, Application Version 2.5.2
     chart: aws-load-balancer-controller
     helm:
       parameters:

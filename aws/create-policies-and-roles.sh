@@ -2,14 +2,14 @@
 
 aws iam create-policy \
   --profile araneae \
-  --policy-name araneae-lb-controller \
-  --policy-document file://aws/iam-policies/lb-controller-v2_2_0-iam_policy.json
+  --policy-name araneae-lb-controller-v2-5-2 \
+  --policy-document file://aws/iam-policies/lb-controller-v2_5_2-iam_policy.json
 
 eksctl create iamserviceaccount \
   --cluster=araneae \
   --namespace=kube-system \
   --name=aws-load-balancer-controller \
-  --attach-policy-arn=arn:aws:iam::654383687924:policy/araneae-lb-controller \
+  --attach-policy-arn=arn:aws:iam::654383687924:policy/araneae-lb-controller-v2-5-2 \
   --override-existing-serviceaccounts \
   --profile araneae \
   --approve
