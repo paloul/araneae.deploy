@@ -22,7 +22,7 @@ spec:
         - name: securityContext.enabled
           value: "true"
         - name: securityContext.fsGroup
-          value: 1001
+          value: "1001"
         - name: serviceAccount.create
           value: "true"
         - name: serviceAccount.annotations.eks\.amazonaws\.com/role-arn
