@@ -23,7 +23,10 @@ spec:
           value: "true"
         - name: serviceAccount.annotations.eks\.amazonaws\.com/role-arn
           value: <<__role_arn.cert_manager__>>
-        
+        - name: global.leaderElection.namespace
+          value: cert-manager
+        - name: global.rbac.create
+          value: "true"
   destination:
     server: https://kubernetes.default.svc
     namespace: cert-manager
