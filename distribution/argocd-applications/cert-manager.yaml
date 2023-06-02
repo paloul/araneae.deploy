@@ -19,6 +19,12 @@ spec:
           value: core
         - name: installCRDs # Defines whether the KEDA CRDs have to be installed or not.
           value: "true"
+        - name: securityContext.enabled
+          value: "true"
+        - name: securityContext.fsGroup
+          value: 1001
+        - name: serviceAccount.create
+          value: "true"
         - name: serviceAccount.annotations.eks\.amazonaws\.com/role-arn
           value: <<__role_arn.cert_manager__>>
         
