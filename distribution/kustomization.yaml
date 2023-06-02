@@ -3,6 +3,10 @@ kind: Kustomization
 
 resources:
 
+  # ## AWS specific infrastructure support
+  - argocd-applications/cluster-autoscaler.yaml # Done
+  - argocd-applications/aws-load-balancer-controller.yaml # Done
+
   ## Certificates
   - argocd-applications/cert-manager.yaml # Done
   - argocd-applications/certificates.yaml # Done
@@ -16,10 +20,6 @@ resources:
   - argocd-applications/istio-operator.yaml # Done
   - argocd-applications/istio.yaml # Done
   - argocd-applications/istio-resources.yaml # Done
-
-  # ## AWS specific infrastructure support
-  - argocd-applications/cluster-autoscaler.yaml # Done
-  - argocd-applications/aws-load-balancer-controller.yaml # Done
 
   # ## Generic cloud-native infrastructure support
   - argocd-applications/keda.yaml # Done
