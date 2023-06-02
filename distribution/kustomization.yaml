@@ -5,7 +5,7 @@ resources:
 
   # ## AWS specific infrastructure support
   - argocd-applications/cluster-autoscaler.yaml # Done
-  - argocd-applications/aws-load-balancer-controller.yaml # Done
+  - argocd-applications/aws-load-balancer.yaml # Done
 
   ## Certificates
   - argocd-applications/cert-manager.yaml # Done

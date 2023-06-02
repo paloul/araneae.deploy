@@ -15,6 +15,8 @@ spec:
     chart: aws-load-balancer-controller
     helm:
       parameters:
+        - name: serviceAccount.name
+          value: aws-load-balancer-controller
         - name: serviceAccount.annotations.eks\.amazonaws\.com/role-arn
           value: <<__role_arn.loadbalancer_controller__>>
         - name: clusterName
@@ -42,6 +44,8 @@ spec:
           value: "true"
         - name: cluster.dnsDomain
           value: <<__domain__>>
+        - name: clusterSecretsPermissions.allowAllSecrets
+          value: "true"
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
