@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager
+  namespace: argocd
+spec:
+  project: default
+  source:
+
+    # https://github.com/cert-manager/cert-manager
+    # https://artifacthub.io/packages/helm/cert-manager/cert-manager
+
+    repoURL: https://charts.jetstack.io
+    targetRevision: 1.12.1 # Chart version 1.12.1, App Version 1.12.1
+    chart: cert-manager
+    helm:
+      parameters:
+        - name: nodeSelector.node-class
+          value: core
+        - name: installCRDs # Defines whether the KEDA CRDs have to be installed or not.
+          value: "true"
+        - name: serviceAccount.annotations.eks\.amazonaws\.com/role-arn
+          value: <<__role_arn.cert_manager__>>
+        
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
