@@ -37,6 +37,11 @@ spec:
           value: 300Mi
         - name: nodeSelector.node-class
           value: core
+        # https://artifacthub.io/packages/helm/aws/aws-load-balancer-controller#installing-cert-manager
+        - name: enableCertManager
+          value: "true"
+        - name: cluster.dnsDomain
+          value: <<__domain__>>
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
