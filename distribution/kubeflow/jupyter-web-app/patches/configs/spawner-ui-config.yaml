@@ -94,7 +94,7 @@ data:
               accessModes:
               - ReadWriteOnce
               class:
-                value: 'rook-ceph-block'
+                value: 'longhorn'
         readOnly: false
       dataVolumes:
         # List of additional Data Volumes to be attached to the user's Notebook

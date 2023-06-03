@@ -36,7 +36,7 @@ spec:
       - name: persistence.size
         value: "2Gi"
       - name: persistence.storageClass
-        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+        value: "longhorn" # This matches the Storage Class created with longhorn
       - name: nodeSelector.node-class
         value: cache
       - name: redis.tolerations[0].only-cache

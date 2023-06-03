@@ -33,11 +33,11 @@ spec:
           "app": "postgresql"
         }
       - name: global.storageClass # Config Srv and Data Shards use persistent volumes
-        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+        value: "longhorn" # This matches the Storage Class created with longhorn
       - name: persistence.enabled
         value: true
       - name: persistence.storageClass # Redundant to global.storageClass, but here anyway
-        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+        value: "longhorn" # This matches the Storage Class created with longhorn
       - name: persistence.accessModes
         value: ["ReadWriteOnce"]
       - name: primary.podLabels

@@ -4,7 +4,7 @@ metadata:
   name: katib-mysql
   namespace: kubeflow
 spec:
-  storageClassName: rook-ceph-block
+  storageClassName: longhorn
   accessModes:
     - ReadWriteOnce
   resources:

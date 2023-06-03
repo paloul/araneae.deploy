@@ -26,7 +26,7 @@ spec:
           "app": "rabbitmq"
         }
       - name: global.storageClass
-        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+        value: "longhorn" # This matches the Storage Class created with longhorn
       - name: persistence.enabled
         value: "true"
       - name: persistence.accessModes
@@ -34,7 +34,7 @@ spec:
       - name: persistence.size
         value: "2Gi"
       - name: persistence.storageClass
-        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+        value: "longhorn" # This matches the Storage Class created with longhorn
       - name: replicaCount # Number of RabbitMQ replicas to deploy
         value: 3
       - name: nodeSelector.node-class

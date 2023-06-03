@@ -46,9 +46,9 @@ spec:
       - name: persistence.size
         value: "2Gi"
       - name: global.storageClass
-        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+        value: "longhorn" # This matches the Storage Class created with longhorn
       - name: persistence.storageClass
-        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+        value: "longhorn" # This matches the Storage Class created with longhorn
       - name: master.nodeSelector.node-class
         value: "utility"
       - name: replica.nodeSelector.node-class

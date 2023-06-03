@@ -21,7 +21,7 @@ spec:
       parameters:
       # Global StorageClass for Persistent Volume(s)
       - name: global.storageClass
-        value: "rook-ceph-block" # This matches the Storage Class created with rook-ceph
+        value: "longhorn" # This matches the Storage Class created with longhorn
 
       - name: production
         value: 'true'
