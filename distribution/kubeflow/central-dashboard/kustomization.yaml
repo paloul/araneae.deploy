@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+- authorization-policy.yaml
 # https://github.com/kubeflow/manifests#central-dashboard
 # The actual kustomization.yaml files from kubeflow v1.7.0 Central Dashboard: 
 # github.com/kubeflow/manifests/blob/v1.7.0/apps/centraldashboard/upstream/overlays/kserve/kustomization.yaml
