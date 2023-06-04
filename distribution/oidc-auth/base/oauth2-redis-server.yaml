@@ -50,9 +50,9 @@ spec:
       - name: persistence.storageClass
         value: "longhorn" # This matches the Storage Class created with longhorn
       - name: master.nodeSelector.node-class
-        value: "utility"
+        value: "core"
       - name: replica.nodeSelector.node-class
-        value: "utility"
+        value: "core"
   syncPolicy:
     automated:
       prune: true
