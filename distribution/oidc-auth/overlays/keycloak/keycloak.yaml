@@ -52,19 +52,22 @@ spec:
       - name: nodeSelector.node-class
         value: "core"
 
-      - name: extraVolumeMounts[0].name
+      # Keycloak Config CLI
+      - name: keycloakConfigCli.enabled
+        value: "true"
+      - name: keycloakConfigCli.extraVolumeMounts[0].name
         value: config
-      - name: extraVolumeMounts[0].mountPath
+      - name: keycloakConfigCli.extraVolumeMounts[0].mountPath
         value: /config
-      - name: extraVolumeMounts[0].readOnly
+      - name: keycloakConfigCli.extraVolumeMounts[0].readOnly
         value: 'true'
-      - name: extraVolumes[0].name
+      - name: keycloakConfigCli.extraVolumes[0].name
         value: config
-      - name: extraVolumes[0].secret.secretName
+      - name: keycloakConfigCli.extraVolumes[0].secret.secretName
         value: araneae-realm
-      - name: extraEnvVars[0].name
+      - name: keycloakConfigCli.extraEnvVars[0].name
         value: KEYCLOAK_EXTRA_ARGS
-      - name: extraEnvVars[0].value
+      - name: keycloakConfigCli.extraEnvVars[0].value
         value: -Dkeycloak.import=/config/araneae-realm.json
 
       # https://artifacthub.io/packages/helm/bitnami/keycloak#exposure-parameters
