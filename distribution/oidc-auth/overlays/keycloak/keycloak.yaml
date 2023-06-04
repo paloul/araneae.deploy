@@ -66,9 +66,13 @@ spec:
       - name: keycloakConfigCli.extraVolumes[0].secret.secretName
         value: araneae-realm
       - name: keycloakConfigCli.extraEnvVars[0].name
-        value: KEYCLOAK_EXTRA_ARGS
+        value: IMPORT_FILES_LOCATIONS
       - name: keycloakConfigCli.extraEnvVars[0].value
-        value: -Dkeycloak.import=/config/araneae-realm.json
+        value: /config/araneae-realm.json
+      # - name: keycloakConfigCli.extraEnvVars[0].name
+      #   value: KEYCLOAK_EXTRA_ARGS
+      # - name: keycloakConfigCli.extraEnvVars[0].value
+      #   value: -Dkeycloak.import=/config/araneae-realm.json
 
       # https://artifacthub.io/packages/helm/bitnami/keycloak#exposure-parameters
       - name: service.type
