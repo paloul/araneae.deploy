@@ -54,14 +54,13 @@ spec:
 
       # Keycloak Realm Config
       - name: extraStartupArgs
-        value: "--import-realm"
+        value: -Dkeycloak.import=/config/araneae-realm.json
       - name: keycloakConfigCli.enabled
         value: "false"
       - name: extraVolumeMounts[0].name
         value: config
       - name: extraVolumeMounts[0].mountPath
-        value: /opt/keycloak/data/import
-      #  value: /config
+        value: /config
       - name: extraVolumeMounts[0].readOnly
         value: 'true'
       - name: extraVolumes[0].name
