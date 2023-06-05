@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+# https://github.com/kubeflow/manifests#user-namespace
+# The actual kustomization.yaml file from kubeflow v1.7.0 User Namespace 
+# github.com/kubeflow/manifests/blob/v1.7.0/common/user-namespace/base/kustomization.yaml
+- github.com/kubeflow/manifests/common/user-namespace/base?ref=v1.7.0
