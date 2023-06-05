@@ -287,3 +287,13 @@ argocd login localhost:8888
 argocd account update-password
 ```
 
+---
+## Accessing the Keycloak Admin UI
+
+You can access Keycloak's Admin portal by visiting `https://auth.araneae.io`
+
+The system auto generates a secure password for the admin user. You can retrieve this on a qualified machine with kubectl just like the ArgoCD initial admin password above. The admin password is stored in a secret named `keycloak-secret` in the `auth` namespace with the key `admin-password`. 
+
+```bash
+kubectl get secret -n auth keycloak-secret -o jsonpath="{.data.admin-password}" | base64 -d
+```
