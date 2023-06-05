@@ -6,3 +6,6 @@ resources:
 # The actual kustomization.yaml files from kubeflow v1.7.0 Central Dashboard: 
 # github.com/kubeflow/manifests/blob/v1.7.0/apps/centraldashboard/upstream/overlays/kserve/kustomization.yaml
 - github.com/kubeflow/manifests/apps/centraldashboard/upstream/overlays/kserve?ref=v1.7.0
+
+patchesStrategicMerge:
+- enable-registration-flow.yaml
