@@ -39,6 +39,8 @@ spec:
         value: "*"
       - name: extraArgs.insecure-oidc-allow-unverified-email
         value: "true"
+      - name: extraArgs.ssl-insecure-skip-verify
+        value: "true"
       - name: extraArgs.upstream
         value: "static://200"
       - name: extraArgs.skip-provider-button
