@@ -5,4 +5,4 @@ DISTRIBUTION_PATH="./distribution"
 
 # Generate a password
 MYSQL_ROOT_PASSWORD=$(python3 -c 'import secrets; print(secrets.token_hex(16))')
-kubectl create secret generic -n kubeflow katib-mysql-secrets --from-literal=MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} --dry-run=client -o yaml | kubeseal | yq eval -P > ${DISTRIBUTION_PATH}/kubeflow/katib/overlays/rook-ceph/katib-mysql-sealedsecrets.yaml
+kubectl create secret generic -n kubeflow katib-mysql-sealedsecrets --from-literal=MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD} --dry-run=client -o yaml | kubeseal | yq eval -P > ${DISTRIBUTION_PATH}/kubeflow/katib/overlays/rook-ceph/katib-mysql-sealedsecrets.yaml
