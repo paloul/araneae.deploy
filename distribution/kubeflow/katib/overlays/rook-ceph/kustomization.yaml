@@ -11,3 +11,4 @@ resources:
 patchesStrategicMerge:
 - patches/mysql-pvc.yaml
 - patches/mysql.yaml
+- patches/db-manager.yaml
