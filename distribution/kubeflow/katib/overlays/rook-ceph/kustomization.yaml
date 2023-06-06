@@ -6,7 +6,8 @@ resources:
 # The actual kustomization.yaml files from kubeflow v1.7.0 katib: 
 # github.com/kubeflow/manifests/blob/v1.7.0/apps/katib/upstream/installs/katib-with-kubeflow/kustomization.yaml
 - github.com/kubeflow/manifests/apps/katib/upstream/installs/katib-with-kubeflow?ref=v1.7.0
+- katib-mysql-sealedsecrets.yaml
 
 patchesStrategicMerge:
 - patches/mysql-pvc.yaml
-- patches/katib-mysql-secrets.yaml
+- pathces/mysql.yaml
