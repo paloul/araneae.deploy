@@ -10,4 +10,4 @@ resources:
 
 patchesStrategicMerge:
 - patches/mysql-pvc.yaml
-- pathces/mysql.yaml
+- patches/mysql.yaml
