@@ -60,20 +60,20 @@ resources:
   # #- argocd-applications/jaeger.yaml
 
   # ## Kubeflow
-  # - argocd-applications/kubeflow-namespace.yaml # Done
-  # - argocd-applications/kubeflow-roles.yaml # Done
-  # - argocd-applications/kubeflow-pipelines.yaml # Done
-  # - argocd-applications/kubeflow-kserve.yaml # Done
-  # - argocd-applications/kubeflow-katib.yaml # Done
-  # - argocd-applications/kubeflow-central-dashboard.yaml # Done
-  # - argocd-applications/kubeflow-admission-webhook.yaml # Done
-  # - argocd-applications/kubeflow-notebook-controller.yaml # Done
-  # - argocd-applications/kubeflow-jupyter-web-app.yaml # Done
-  # - argocd-applications/kubeflow-profile-controller-kfam.yaml # Done
-  # - argocd-applications/kubeflow-volumes-web-app.yaml # Done
-  # - argocd-applications/kubeflow-tensorboards-web-app.yaml # Done
-  # - argocd-applications/kubeflow-tensorboard-controller.yaml # Done
-  # - argocd-applications/kubeflow-training-operator.yaml # Done
+  - argocd-applications/kubeflow-namespace.yaml # Done
+  - argocd-applications/kubeflow-roles.yaml # Done
+  - argocd-applications/kubeflow-pipelines.yaml # Done
+  - argocd-applications/kubeflow-kserve.yaml # Done
+  - argocd-applications/kubeflow-katib.yaml # Done
+  - argocd-applications/kubeflow-central-dashboard.yaml # Done
+  - argocd-applications/kubeflow-admission-webhook.yaml # Done
+  - argocd-applications/kubeflow-notebook-controller.yaml # Done
+  - argocd-applications/kubeflow-jupyter-web-app.yaml # Done
+  - argocd-applications/kubeflow-profile-controller-kfam.yaml # Done
+  - argocd-applications/kubeflow-volumes-web-app.yaml # Done
+  - argocd-applications/kubeflow-tensorboards-web-app.yaml # Done
+  - argocd-applications/kubeflow-tensorboard-controller.yaml # Done
+  - argocd-applications/kubeflow-training-operator.yaml # Done
   
   ## Araneae
   # - argocd-applications/araneae-dashboard.yaml
