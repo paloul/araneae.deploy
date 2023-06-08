@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: <<__git_repo.url__>>
     targetRevision: <<__git_repo.target_revision__>>
-    path: distribution/kubeflow/pipelines/overlays/rook-ceph
+    path: distribution/kubeflow/pipelines/overlays/longhorn
   destination:
     namespace: kubeflow
     server: https://kubernetes.default.svc
