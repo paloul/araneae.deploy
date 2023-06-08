@@ -8,7 +8,10 @@ resources:
 - github.com/kubeflow/manifests/apps/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user?ref=v1.7.0
 
 patchesStrategicMerge:
-- patches/minio-pvc.yaml
-- patches/mysql-pv-claim.yaml
-- patches/mysql-secret.yaml
-- patches/mysql-deployment.yaml
+- patches/minio/removals/mlpipeline-minio-artifact-secret.yaml
+- patches/minio/minio-pvc.yaml
+- patches/minio/minio-deployment.yaml
+- patches/minio/mlpipeline-minio-secret.yaml
+- patches/mysql/mlpipeline-mysql-secret.yaml
+- patches/mysql/mysql-pv-claim.yaml
+- patches/mysql/mysql-deployment.yaml

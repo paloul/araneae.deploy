@@ -12,8 +12,10 @@ spec:
       containers:
       - name: mysql
         env:
+          - name: MYSQL_ALLOW_EMPTY_PASSWORD
+            value: "false"
           - name: MYSQL_ROOT_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: mysql-secret
+                name: mlpipeline-mysql-secret # Use our own Sealed Secret
                 key: password

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  namespace: kubeflow
+  labels:
+    app: minio
+spec:
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    spec:
+      containers:
+      - name: minio
+        env:
+          - name: MINIO_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: mlpipeline-minio-secret # Use the Sealed Secret version
+                key: accesskey
+          - name: MINIO_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: mlpipeline-minio-secret # Use the Sealed Secret version
+                key: secretkey
