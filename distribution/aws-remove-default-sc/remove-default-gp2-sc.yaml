@@ -5,31 +5,16 @@ metadata:
   namespace: kube-system
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRoleBinding
 metadata:
-  name: modify-sc
-  namespace: kube-system
-rules:
-  - apiGroups: [""]
-    resources:
-      - storageclass
-    verbs:
-      - get
-      - list
-      - delete      
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: modify-default-sc-to-sa
-  namespace: kube-system
-subjects:
-  - kind: ServiceAccount
-    name: internal-kubectl
+  name: remove-default-gp2-sc-to-sa
 roleRef:
-  kind: Role
-  name: modify-sc
-  apiGroup: rbac.authorization.k8s.io      
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: internal-kubectl    
 ---
 apiVersion: batch/v1
 kind: Job
