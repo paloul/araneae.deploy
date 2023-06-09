@@ -17,5 +17,5 @@ spec:
           - name: MYSQL_ROOT_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: mlpipeline-mysql-secret # Use our own Sealed Secret
+                name: mysql-secret # Use password stored in our own Sealed Secret
                 key: password

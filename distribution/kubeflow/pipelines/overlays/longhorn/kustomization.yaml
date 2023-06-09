@@ -10,8 +10,8 @@ resources:
 patchesStrategicMerge:
 - patches/minio/removals/mlpipeline-minio-artifact-secret.yaml
 - patches/minio/minio-pvc.yaml
-- patches/minio/minio-deployment.yaml
-- patches/minio/mlpipeline-minio-secret.yaml
-- patches/mysql/mlpipeline-mysql-secret.yaml
+- patches/minio/mlpipeline-minio-artifact-sealedsecret.yaml
+- patches/mysql/removals/mysql-secret.yaml
+- patches/mysql/mysql-sealedsecret.yaml
 - patches/mysql/mysql-pv-claim.yaml
 - patches/mysql/mysql-deployment.yaml
