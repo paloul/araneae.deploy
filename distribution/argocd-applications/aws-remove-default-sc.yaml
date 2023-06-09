@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aws-remove-default-sc
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: <<__git_repo.url__>>
+    targetRevision: <<__git_repo.target_revision__>>
+    path: distribution/aws-remove-default-sc
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false
