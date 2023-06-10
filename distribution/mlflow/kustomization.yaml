@@ -8,6 +8,7 @@ resources:
 - service.yaml
 - mysql/mysql-sealedsecret.yaml
 - mysql/mysql-pv-claim.yaml
+- mysql/mysql-serviceaccount.yaml
 - mysql/mysql-deployment.yaml
 - mysql/istio-authorization-policy.yaml
 - mysql/database-creation-job.yaml
