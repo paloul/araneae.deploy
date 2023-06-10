@@ -1,0 +1,22 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: minio-service
+  namespace: mlflow
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app: minio
+  rules:
+  - {}
+---
+apiVersion: "networking.istio.io/v1alpha3"
+kind: DestinationRule
+metadata:
+  name: ml-pipeline-minio
+spec:
+  host: minio-service.mlflow.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
