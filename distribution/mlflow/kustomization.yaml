@@ -3,3 +3,10 @@ kind: Kustomization
 
 resources:
 - namespace.yaml
+- configmap.yaml
+- deployment.yaml
+- service.yaml
+- mysql/mysql-sealedsecret.yaml
+- mysql/mysql-pv-claim.yaml
+- mysql/mysql-deployment.yaml
+- mysql/database-creation-job.yaml

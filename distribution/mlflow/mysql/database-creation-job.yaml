@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-mlflow-database
+  namespace: mlflow
+spec:
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: 'false'
+    spec:
+      containers:
+      - name: create-mlflow-database
+        image: public.ecr.aws/atcommons/utils/mysql-db-creator:latest
+        env:
+        - name: HOST
+          valueFrom:
+            configMapKeyRef:
+              name: mlflow-config
+              key: MYSQL_HOST
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: mlflow-config
+              key: MYSQL_PORT
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mlflow-mysql-secret
+              key: username
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mlflow-mysql-secret
+              key: password
+        - name: DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: mlflow-config
+              key: DB_NAME
+      restartPolicy: Never
+  backoffLimit: 5

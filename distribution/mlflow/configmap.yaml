@@ -1,0 +1,10 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: mlflow-config
+data:
+  DB_NAME: mlflow
+  MYSQL_HOST: mysql.mlflow.svc.cluster.local
+  MYSQL_PORT: "3306"
+  ARTIFACT_S3_BUCKET: mlflow
+  ARTIFACT_S3_KEY_PREFIX: experiments
