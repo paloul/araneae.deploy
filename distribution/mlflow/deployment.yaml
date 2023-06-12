@@ -20,7 +20,7 @@ spec:
       containers:
       - name: mlflow
         securityContext: {}
-        image: public.ecr.aws/atcommons/mlflow-server:latest
+        image: ghcr.io/mlflow/mlflow:v2.4.1
         imagePullPolicy: Always
         args:
         - --host=0.0.0.0
