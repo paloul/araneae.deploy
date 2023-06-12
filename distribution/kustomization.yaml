@@ -62,6 +62,9 @@ resources:
   # #- argocd-applications/kiali.yaml
   # #- argocd-applications/jaeger.yaml
 
+  # ## MLFlow
+  - argocd-applications/mlflow.yaml # Done
+
   # ## Kubeflow
   - argocd-applications/kubeflow-namespace.yaml # Done
   - argocd-applications/kubeflow-roles.yaml # Done
