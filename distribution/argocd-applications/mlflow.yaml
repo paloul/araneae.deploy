@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mlflow-all
+  name: mlflow
   namespace: argocd
 spec:
   project: default

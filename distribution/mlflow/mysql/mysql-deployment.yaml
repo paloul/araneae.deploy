@@ -53,7 +53,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: mlflow-mysql-secret # Use password stored in our own Sealed Secret
-                key: password
+                key: MYSQL_PWD
         image: gcr.io/ml-pipeline/mysql:8.0.26
         name: mysql
         ports:

@@ -27,12 +27,12 @@ spec:
           valueFrom:
             secretKeyRef:
               name: mlflow-mysql-secret
-              key: username
+              key: MYSQL_USERNAME
         - name: PASSWORD
           valueFrom:
             secretKeyRef:
               name: mlflow-mysql-secret
-              key: password
+              key: MYSQL_PWD
         - name: DATABASE
           valueFrom:
             configMapKeyRef:
