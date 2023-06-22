@@ -1,0 +1,72 @@
+# MLflow is an open source platform to manage the ML lifecycle, 
+# including experimentation, reproducibility, deployment, 
+# and a central model registry..
+
+# https://www.mlflow.org/
+# https://artifacthub.io/packages/helm/community-charts/mlflow
+
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mlflow
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://community-charts.github.io/helm-charts
+    targetRevision: 0.7.19 # Chart version 0.7.19, App version 2.1.1
+    chart: mlflow
+    helm:
+      parameters: 
+      # Node labels for pod assignment
+      - name: nodeSelector.node-class
+        value: "core"
+
+      # https://artifacthub.io/packages/helm/community-charts/mlflow#s3-minio-and-mysql-db-configuration-on-helm-upgrade-command-example
+      - name: backendStore.databaseMigration
+        value: 'true' 
+      - name: backendStore.mysql.enabled
+        value: 'true'
+      - name: backendStore.mysql.host
+        value: 'mysql.mlflow.svc.cluster.local'
+      - name: backendStore.mysql.port
+        value: '3306'
+      - name: backendStore.mysql.database
+        value: 'mlflow'
+      - name: backendStore.mysql.user
+        valueFrom:
+          secretKeyRef:
+            name: mlflow-mysql-secret # Use username stored in our own Sealed Secret
+            key: username
+      - name: backendStore.mysql.password
+        valueFrom:
+          secretKeyRef:
+            name: mlflow-mysql-secret # Use password stored in our own Sealed Secret
+            key: password
+      - name: artifactRoot.s3.enabled
+        value: 'true'
+      - name: artifactRoot.s3.bucket
+        value: 'mlflow'
+      - name: artifactRoot.s3.awsAccessKeyId
+        valueFrom:
+          secretKeyRef:
+            name: mlflow-minio-secret
+            key: accesskey
+      - name: artifactRoot.s3.awsSecretAccessKey
+        valueFrom:
+          secretKeyRef:
+            name: mlflow-minio-secret
+            key: secretkey
+      - name: extraEnvVars.MLFLOW_S3_ENDPOINT_URL
+        value: 'http://minio-service:9000'
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: mlflow
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=false
