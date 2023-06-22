@@ -225,6 +225,12 @@ To initialise your repository, do the following:
   # password during runtime and creates the Sealed Secret from it.
   ./setup_credentials_katib.sh
   ```
+- Run `setup_credentials_mlflow.sh` script
+  ```bash
+  # MLFLow does not need any configuration parameters. It generates a secure
+  # password during runtime and creates the Sealed Secret from it.
+  ./setup_credentials_mlflow.sh
+  ```
 - Commit and push your changes
 
 **Start up argocd**
