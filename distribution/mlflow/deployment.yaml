@@ -4,6 +4,9 @@
 # https://hub.docker.com/r/burakince/mlflow
 # https://artifacthub.io/packages/container/mlflow/mlflow
 # https://github.com/burakince/mlflow
+# The documentation on this page refers to the use of the artifact service proxy, 
+# where a client does not need to know about the S3/objectstore endpoints
+# https://mlflow.org/docs/latest/tracking.html#scenario-5-mlflow-tracking-server-enabled-with-proxied-artifact-storage-access
 
 apiVersion: apps/v1
 kind: Deployment
@@ -36,7 +39,7 @@ spec:
         - --host=0.0.0.0
         - --port=5000
         - --backend-store-uri="mysql://$(MYSQL_USERNAME):$(MYSQL_PWD)@$(MYSQL_HOST):3306/$(DB_NAME)"
-        - --default-artifact-root=minio://$(ARTIFACT_S3_BUCKET)/$(ARTIFACT_S3_KEY_PREFIX)
+        - --default-artifact-root=http://minio-service.mlflow:9000/$(ARTIFACT_S3_BUCKET)/$(ARTIFACT_S3_KEY_PREFIX)
         envFrom:
         - secretRef:
             name: mlflow-mysql-secret
