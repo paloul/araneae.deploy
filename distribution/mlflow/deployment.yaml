@@ -1,3 +1,10 @@
+## ML Flow Deployment
+# Some Resources based on:
+# https://artifacthub.io/packages/helm/community-charts/mlflow
+# https://hub.docker.com/r/burakince/mlflow
+# https://artifacthub.io/packages/container/mlflow/mlflow
+# https://github.com/burakince/mlflow
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,6 +32,7 @@ spec:
         command: ["mlflow"]
         args:
         - server
+        - --serve-artifacts
         - --host=0.0.0.0
         - --port=5000
         - --backend-store-uri="mysql://$(MYSQL_USERNAME):$(MYSQL_PWD)@$(MYSQL_HOST):3306/$(DB_NAME)"
