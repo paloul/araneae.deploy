@@ -13,7 +13,7 @@ resources:
 - mysql/mysql-serviceaccount.yaml
 - mysql/mysql-deployment.yaml
 - mysql/istio-authorization-policy.yaml
-- mysql/database-creation-job.yaml
+# - mysql/database-creation-job.yaml
 - minio/minio-sealedsecret.yaml
 - minio/minio-pv-claim.yaml
 - minio/minio-service.yaml

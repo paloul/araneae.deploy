@@ -19,6 +19,8 @@ spec:
       serviceAccountName: mysql
       containers:
       - args:
+        # https://hub.docker.com/_/mysql
+        #
         # https://dev.mysql.com/doc/refman/5.7/en/server-options.html#option_mysqld_ignore-db-dir
         # Ext4, Btrfs etc. volumes root directories have a lost+found directory that should not be treated as a database.
         # ignore-db-dir option has been deprecated in mysql v5.7.16.
@@ -54,6 +56,11 @@ spec:
               secretKeyRef:
                 name: mlflow-mysql-secret # Use password stored in our own Sealed Secret
                 key: MYSQL_PWD
+          - name: MYSQL_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: mlflow-config
+                key: DB_NAME
         image: gcr.io/ml-pipeline/mysql:8.0.26
         name: mysql
         ports:
