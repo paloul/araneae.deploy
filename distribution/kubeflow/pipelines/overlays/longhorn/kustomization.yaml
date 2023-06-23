@@ -2,6 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
+# These are Sealed Secrets that need to "first" to deploy. 
+- patches/minio/mlpipeline-minio-artifact-sealedsecret.yaml
+- patches/mysql/mysql-sealedsecret.yaml
+
 # https://github.com/kubeflow/manifests#kubeflow-pipelines
 # The actual kustomization.yaml file from kubeflow v1.7.0 pipelines: 
 # github.com/kubeflow/manifests/blob/v1.7.0/apps/pipeline/upstream/env/cert-manager/platform-agnostic-multi-user/kustomization.yaml
@@ -10,8 +14,6 @@ resources:
 patchesStrategicMerge:
 - patches/minio/removals/mlpipeline-minio-artifact-secret.yaml
 - patches/minio/minio-pvc.yaml
-- patches/minio/mlpipeline-minio-artifact-sealedsecret.yaml
 - patches/mysql/removals/mysql-secret.yaml
-- patches/mysql/mysql-sealedsecret.yaml
 - patches/mysql/mysql-pv-claim.yaml
 - patches/mysql/mysql-deployment.yaml
