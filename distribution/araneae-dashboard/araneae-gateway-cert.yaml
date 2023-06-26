@@ -8,6 +8,6 @@ spec:
   issuerRef:
     name: gateways-issuer
     kind: ClusterIssuer
-  commonName: <<__subdomain_araneae_dashboard__>>.<<__domain__>>
+  commonName: <<__subdomain_araneae_dashboard__>>.araneae.io
   dnsNames:
-    - <<__subdomain_araneae_dashboard__>>.<<__domain__>>
+    - <<__subdomain_araneae_dashboard__>>.araneae.io

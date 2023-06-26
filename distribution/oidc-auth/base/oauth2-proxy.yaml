@@ -44,15 +44,15 @@ spec:
       - name: extraArgs.skip-provider-button
         value: "true"
       - name: extraArgs.cookie-domain
-        value: .<<__domain__>>
+        value: .araneae.io
       - name: extraArgs.whitelist-domain
-        value: .<<__domain__>>
+        value: .araneae.io
       - name: extraArgs.oidc-issuer-url
-        value: <<__oidc.issuer__>>
+        value: https://some.domain.com/auth/realms/realm-name
       - name: extraArgs.scope
-        value: <<__oidc.scope__>>
+        value: openid profile email
       - name: extraArgs.user-id-claim
-        value: <<__oidc.user_id_claim__>>
+        value: email
       - name: serviceAccount.enabled
         value: "true"   # False if we need to create service account manually to attach ARN Roles
       - name: serviceAccount.name

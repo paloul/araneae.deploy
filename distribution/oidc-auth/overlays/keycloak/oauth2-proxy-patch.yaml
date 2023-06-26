@@ -40,19 +40,19 @@ spec:
       - name: extraArgs.skip-provider-button
         value: 'true'
       - name: extraArgs.cookie-domain
-        value: .<<__domain__>>
+        value: .araneae.io
       - name: extraArgs.whitelist-domain
-        value: .<<__domain__>>
+        value: .araneae.io
       - name: extraArgs.oidc-issuer-url
-        value: https://<<__subdomain_auth__>>.<<__domain__>>/realms/araneae
+        value: https://auth.araneae.io/realms/araneae
       - name: extraArgs.login-url
-        value: https://<<__subdomain_auth__>>.<<__domain__>>/realms/araneae/protocol/openid-connect/auth
+        value: https://auth.araneae.io/realms/araneae/protocol/openid-connect/auth
       - name: extraArgs.redeem-url
-        value: https://<<__subdomain_auth__>>.<<__domain__>>/realms/araneae/protocol/openid-connect/token
+        value: https://auth.araneae.io/realms/araneae/protocol/openid-connect/token
       - name: extraArgs.profile-url
-        value: https://<<__subdomain_auth__>>.<<__domain__>>/realms/araneae/protocol/openid-connect/userinfo
+        value: https://auth.araneae.io/realms/araneae/protocol/openid-connect/userinfo
       - name: extraArgs.validate-url
-        value: https://<<__subdomain_auth__>>.<<__domain__>>/realms/araneae/protocol/openid-connect/userinfo
+        value: https://auth.araneae.io/realms/araneae/protocol/openid-connect/userinfo
       - name: extraArgs.scope
         value: email
       - name: extraArgs.scope

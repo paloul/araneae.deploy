@@ -18,13 +18,13 @@ spec:
         - name: serviceAccount.name
           value: aws-load-balancer-controller
         - name: serviceAccount.annotations.eks\.amazonaws\.com/role-arn
-          value: <<__role_arn.loadbalancer_controller__>>
+          value: arn:aws:iam::654383687924:role/eksctl-araneae-addon-iamserviceaccount-kube-Role1-11CQK7WAJ5UGR
         - name: clusterName
-          value: <<__cluster_name__>>
+          value: araneae
         - name: vpcId
-          value: <<__vpc_id__>>
+          value: vpc-0f766b79de5e662a4
         - name: region
-          value: <<__aws_region__>>
+          value: us-west-2
         - name: serviceAccount.create
           value: "true"
         - name: rbac.create
@@ -43,7 +43,7 @@ spec:
         - name: enableCertManager
           value: "true"
         - name: cluster.dnsDomain
-          value: <<__domain__>>
+          value: araneae.io
         - name: clusterSecretsPermissions.allowAllSecrets
           value: "true"
   destination:

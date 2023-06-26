@@ -13,10 +13,10 @@ spec:
   - to:
     - operation:
         hosts:
-        - <<__subdomain_auth__>>.<<__domain__>>
-        - <<__subdomain_kubeflow_dashboard__>>.<<__domain__>> # needed for redirect after authentication
-        - <<__subdomain_kubeflow_serving__>>.<<__domain__>>   # needed for redirect after authentication
-        - '*.<<__subdomain_kubeflow_serving__>>.<<__domain__>>' # needed for redirect after authentication
+        - auth.araneae.io
+        - kubeflow-dashboard.araneae.io # needed for redirect after authentication
+        - kubeflow-serving.araneae.io   # needed for redirect after authentication
+        - '*.kubeflow-serving.araneae.io' # needed for redirect after authentication
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy

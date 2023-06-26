@@ -7,7 +7,7 @@ spec:
   gateways:
   - kubeflow/kubeflow-gateway # This points to the main gateway created in istio-resources that allows for ingress traffic from outside
   hosts:
-  - <<__subdomain_kubeflow_dashboard__>>.<<__domain__>>
+  - kubeflow-dashboard.araneae.io
   http:
   - match:
     - uri:
@@ -22,4 +22,4 @@ spec:
     headers:
       request:
         set:
-          X-Auth-Request-Redirect: https://<<__subdomain_auth__>>.<<__domain__>>/auth/realms/araneae/protocol/openid-connect/logout?redirect_uri=https%%3A%%2F%%2F<<__subdomain_kubeflow_dashboard__>>.<<__domain__>>
+          X-Auth-Request-Redirect: https://auth.araneae.io/auth/realms/araneae/protocol/openid-connect/logout?redirect_uri=https%%3A%%2F%%2Fkubeflow-dashboard.araneae.io

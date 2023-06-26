@@ -7,7 +7,7 @@ spec:
   gateways:
   - araneae-gateway
   hosts:
-  - <<__subdomain_araneae_dashboard__>>.<<__domain__>>
+  - <<__subdomain_araneae_dashboard__>>.araneae.io
   http:
   - name: "reasoner-route"
     match:
