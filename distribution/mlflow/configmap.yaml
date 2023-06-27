@@ -8,3 +8,5 @@ data:
   MYSQL_PORT: "3306"
   ARTIFACT_S3_BUCKET: mlflow
   ARTIFACT_S3_KEY_PREFIX: experiments
+  MLFLOW_S3_ENDPOINT_URL: http://minio-service.mlflow:9000
+  MLFLOW_S3_IGNORE_TLS: "true"
