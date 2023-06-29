@@ -292,6 +292,14 @@ kubectl -n argocd patch secret argocd-secret \
 argocd login localhost:8888
 argocd account update-password
 ```
+---
+## Accessing the Longhorn Admin UI
+By default the Longhorn UI is rolled out behind a ClusterIP. This can be access for development purposes with port forwarding, for example:
+
+```bash
+kubectl port-forward svc/longhorn-frontend -n longhorn-system 9999:80
+```
+The UI will now be accessible at `localhost:9999` via a browser from the host machine. Currently, there is no access control around the Longhorn UI. This is acceptable as the only means to access the UI is via kubectl port-fowarding from the authorized host machine.
 
 ---
 ## Accessing the Keycloak Admin UI
