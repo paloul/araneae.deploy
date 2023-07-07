@@ -31,15 +31,17 @@ spec:
             secretKeyRef:
               name: mlflow-minio-secret
               key: AWS_SECRET_ACCESS_KEY
-        - name: MINIO_DEFAULT_BUCKETS
-          valueFrom:
-            configMapKeyRef:
-              name: mlflow-config
-              key: ARTIFACT_S3_BUCKET
+        envFrom:
+        - configMapRef:
+            name: mlflow-config
         image: gcr.io/ml-pipeline/minio:RELEASE.2019-08-14T20-37-41Z-license-compliance
         name: minio
         ports:
         - containerPort: 9000
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "mkdir -p /data/$ARTIFACT_S3_BUCKET"]
         volumeMounts:
         - mountPath: /data
           name: data
