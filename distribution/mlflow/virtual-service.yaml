@@ -1,0 +1,16 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: mlflow
+  namespace: mlflow
+spec:
+  gateways:
+  - mlflow-gateway
+  hosts:
+  - <<__subdomain_mlflow__>>.<<__domain__>>
+  http:
+  - route:
+    - destination:
+        host: mlflow.mlflow.svc.cluster.local
+        port:
+          number: 80

@@ -18,6 +18,7 @@ spec:
   - to:
     - operation:
         hosts: # These are all the hosts that Load Balancer serves
+        - <<__subdomain_mlflow__>>.<<__domain__>>
         - <<__subdomain_kubeflow_dashboard__>>.<<__domain__>>
         - <<__subdomain_kubeflow_serving__>>.<<__domain__>>
         - '*.<<__subdomain_kubeflow_serving__>>.<<__domain__>>'
