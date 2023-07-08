@@ -14,6 +14,7 @@ spec:
     - operation:
         hosts:
         - <<__subdomain_auth__>>.<<__domain__>>
+        - <<__subdomain_mlflow__>>.<<__domain__>>
         - <<__subdomain_kubeflow_dashboard__>>.<<__domain__>> # needed for redirect after authentication
         - <<__subdomain_kubeflow_serving__>>.<<__domain__>>   # needed for redirect after authentication
         - '*.<<__subdomain_kubeflow_serving__>>.<<__domain__>>' # needed for redirect after authentication
