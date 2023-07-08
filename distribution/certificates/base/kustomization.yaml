@@ -5,3 +5,4 @@ resources:
 - cluster-issuer.yaml
 - kubeflow-certificate.yaml
 - auth-certificate.yaml
+- mlflow-certificate.yaml
